@@ -30,5 +30,7 @@ Updates:
   - fix joining queue when profile not complete [Done]
   - Age filter
   - async await for increased speed?
+  - Feedback button
+  - Payment button for donations
 
 

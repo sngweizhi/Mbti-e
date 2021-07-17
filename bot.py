@@ -3,7 +3,6 @@ import telebot
 import random
 from telebot import types
 from database import Database
-  
 import os
 
 from flask import Flask, request
@@ -22,7 +21,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://your_heroku_project.com/' + TOKEN)
+    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + TOKEN)
     return "!", 200
 
 
@@ -655,4 +654,4 @@ def echo(call):
       # bot.send_message(call.message.chat.id, '❌ Search stopped.', reply_markup = main_menu())
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❌ Search stopped.', reply_markup = main_menu())
 
-bot.polling(none_stop = True)
+##bot.polling(none_stop = True)

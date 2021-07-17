@@ -8,7 +8,8 @@ import os
 from flask import Flask, request
 
 bot = telebot.TeleBot(config.TOKEN)
-server = Flask(__name__)
+
+##server = Flask(__name__)
 
 db = Database('db.db')
 
@@ -177,10 +178,10 @@ def stop(message):
     chat_info = db.get_active_chat(message.chat.id)
     if chat_info != False:
         db.delete_chat(chat_info[0])
-        bot.send_message(chat_info[1], '❌ Your match has ended the chat. Input /start to start searching for another match!')
-        bot.send_message(message.chat.id, '❌ You have ended the chat. Input /start to start searching for another match!')
+        bot.send_message(chat_info[1], 'Your match has ended the chat. Input /start to start searching for another match!')
+        bot.send_message(message.chat.id, 'You have ended the chat. Input /start to start searching for another match!')
     else:
-        bot.send_message(message.chat.id, '❌ You have not started a chat!')
+        bot.send_message(message.chat.id, 'You have not started a chat!')
 
 
 @bot.message_handler(commands=['setup'])
@@ -191,10 +192,12 @@ def echo(message):
     :return:
     """
     if db.get_active_chat(message.chat.id) != False:
-       bot.send_message(message.chat.id, '❌ You are still in a chat!')
+       bot.send_message(message.chat.id, 'You are still in a chat!')
        return
+    
     if db.get_gender(message.chat.id) == False:
       bot.send_message(message.chat.id, 'Welcome to MBTInder! Please select your gender!', reply_markup=gender_menu())
+      
     else:
       mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
       gender = db.get_gender(message.chat.id)
@@ -237,8 +240,25 @@ def echo(message):
     """
     delete database
     """
-    db.clear_database()
-    bot.send_message(message.chat.id,'Deleting database...')
+    if message.chat.id in config.admins:
+        db.clear_database()
+        bot.send_message(message.chat.id,'Deleting database...')
+    else:
+        return
+
+@bot.message_handler(commands=['stats'])
+def echo(message):
+    """
+    Generate stats of users
+    """
+    if message.chat.id in config.admins:
+        user = db.admin_user_count()
+        active = db.admin_active_chat()
+        queue = db.admin_queue()
+        msg = '*MBTInder Bot stats*\n\nTotal Users: *{}*\nActive chats: *{}*\nIn queue: *{}*'.format(user,active,queue)
+        bot.send_message(message.chat.id, msg,parse_mode='MarkdownV2')
+    else:
+        return
 
 def get_user_step(uid):
     if uid in userStep:
@@ -373,9 +393,9 @@ def echo(message):
                       text,
                       reply_to_message_id=message.reply_to_message.message_id -1)
               else:
-                  bot.send_message(message.chat.id, '❌ You cannot forward your own message!')
+                  bot.send_message(message.chat.id, 'You cannot forward your own message!')
             else:
-              bot.send_message(message.chat.id, '❌ You are not currently in a chat with anyone!')
+              bot.send_message(message.chat.id, 'You are not currently in a chat with anyone!')
   
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -615,7 +635,7 @@ def echo(call):
                   sent = bot.send_message(call.message.chat.id, 'Searching for a suitable match...', reply_markup = stop_search())
                   db.add_queue(call.message.chat.id, gender, gendermatch, seeking, mbti, sent.message_id)
         else:
-                  mess = 'A match is found!\n\nGender: {}\nPurpose: {}\nMBTI: {}\n\nInput /stop to end the chat.'
+                  mess = 'Gender: {}\nPurpose: {}\nMBTI: {}\n\nInput /stop to end the chat.'
                   bot.delete_message(chat_two, msg)
                   bot.delete_message(chat_two, int(msg)-1)
                   bot.send_sticker(call.message.chat.id, config.match_sticker)
@@ -631,24 +651,25 @@ def echo(call):
       bot.answer_callback_query(call.id)
       bot.delete_message(call.message.chat.id, call.message.message_id -1)
       db.delete_queue(call.message.chat.id)
-      # bot.send_message(call.message.chat.id, '❌ Search stopped.', reply_markup = main_menu())
-      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❌ Search stopped.', reply_markup = main_menu())
+      # bot.send_message(call.message.chat.id, 'Search stopped.', reply_markup = main_menu())
+      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Search stopped.', reply_markup = main_menu())
 
-##bot.polling(none_stop = True)
-@server.route('/' + config.TOKEN, methods=['POST'])
-def getMessage():
-    json_string = request.get_data().decode('utf-8')
-    update = telebot.types.Update.de_json(json_string)
-    bot.process_new_updates([update])
-    return "!", 200
+bot.polling(none_stop = True)
 
-
-@server.route("/")
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + config.TOKEN)
-    return "!", 200
-
-
-if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+##@server.route('/' + config.TOKEN, methods=['POST'])
+##def getMessage():
+##    json_string = request.get_data().decode('utf-8')
+##    update = telebot.types.Update.de_json(json_string)
+##    bot.process_new_updates([update])
+##    return "!", 200
+##
+##
+##@server.route("/")
+##def webhook():
+##    bot.remove_webhook()
+##    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + config.TOKEN)
+##    return "!", 200
+##
+##
+##if __name__ == "__main__":
+##    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))

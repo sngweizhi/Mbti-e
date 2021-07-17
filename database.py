@@ -181,12 +181,15 @@ class Database:
 
     def get_gender(self, chat_id):
         with self.connection:
-            user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-            if bool(len(user)):
-                for row in user:
-                    return row[2]
+            user = self.cursor.execute("SELECT `gender` FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchone()
+##            user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
+##            if bool(len(user)):
+##                for row in user:
+##                    return row[2]
+            if user[0] != None:
+              return user[0]
             else:
-                return False
+              return False
 
     def get_queue(self,chat_id):
       with self.connection:
@@ -262,8 +265,26 @@ class Database:
             else:
                 return chat_info
 
+    # Admin level functions
+
     def clear_database(self):
       with self.connection:
         self.cursor.execute("DELETE FROM `users`")
         self.cursor.execute("DELETE FROM `queue`")
         self.cursor.execute("DELETE FROM `chats`")
+
+    def admin_user_count(self):
+        with self.connection:
+            count = self.cursor.execute("SELECT DISTINCT COUNT(`chat_id`) FROM `users`").fetchone()
+            return count[0]
+        
+    def admin_active_chat(self):
+        with self.connection:
+            count = self.cursor.execute("SELECT DISTINCT COUNT(`chat_one`) FROM `chats`").fetchone()
+            return count[0]
+        
+    def admin_queue(self):
+         with self.connection:
+            count = self.cursor.execute("SELECT DISTINCT COUNT(`chat_id`) FROM `queue`").fetchone()
+            return count[0]
+        

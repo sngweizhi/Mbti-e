@@ -12,12 +12,12 @@ Updates:
   - Add icebreaker function [Done]
   - Add skip for MBTI [Done]
   - Matched animation (positive reinforcement) [Done]
-  - Webhook
+  - Webhook [Done]
   - MBTI matching algo 
-  - MBTI quiz
+  - MBTI quiz 
   - Roll dice for game?
   - Liking algorithm w/ NN
-  - Admin options to check online users stats etc and send message to all users.
+  - Admin options to check online users stats etc and send message to all users [Done]
   - Error logging
   - report function
   - help command 
@@ -30,4 +30,5 @@ Updates:
   - fix joining queue when profile not complete [Done]
   - Age filter
   - async await for increased speed?
+
 

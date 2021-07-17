@@ -12,12 +12,6 @@ server = Flask(__name__)
 
 db = Database('db.db')
 
-
-
-
-
-
-
 userStep = {}
 userPoll = {}
 
@@ -652,7 +646,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + TOKEN)
+    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + config.TOKEN)
     return "!", 200
 
 

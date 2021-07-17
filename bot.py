@@ -7,28 +7,13 @@ import os
 
 from flask import Flask, request
 
+bot = telebot.TeleBot(config.TOKEN)
 server = Flask(__name__)
 
 db = Database('db.db')
-bot = telebot.TeleBot(config.TOKEN)
-
-@server.route('/' + config.TOKEN, methods=['POST'])
-def getMessage():
-    json_string = request.get_data().decode('utf-8')
-    update = telebot.types.Update.de_json(json_string)
-    bot.process_new_updates([update])
-    return "!", 200
 
 
-@server.route("/")
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + TOKEN)
-    return "!", 200
 
-
-if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
 
 
 
@@ -656,3 +641,20 @@ def echo(call):
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❌ Search stopped.', reply_markup = main_menu())
 
 ##bot.polling(none_stop = True)
+@server.route('/' + config.TOKEN, methods=['POST'])
+def getMessage():
+    json_string = request.get_data().decode('utf-8')
+    update = telebot.types.Update.de_json(json_string)
+    bot.process_new_updates([update])
+    return "!", 200
+
+
+@server.route("/")
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + TOKEN)
+    return "!", 200
+
+
+if __name__ == "__main__":
+    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))

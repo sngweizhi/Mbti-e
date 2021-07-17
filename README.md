@@ -1,4 +1,4 @@
-# MBTInder Telegr
+# MBTInder Telegram Bot
 
 
 

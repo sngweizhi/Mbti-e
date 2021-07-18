@@ -32,5 +32,6 @@ Updates:
   - async await for increased speed?
   - Feedback button
   - Payment button for donations
+  - Fix database restarting on heroku 
 
 

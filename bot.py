@@ -23,6 +23,7 @@ server = Flask(__name__)
 
 db = Database('db.db')
 
+admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
 userStep = {}
 userPoll = {}
 
@@ -250,7 +251,7 @@ def echo(message):
     """
     delete database
     """
-    if message.chat.id in messages.admins:
+    if message.chat.id in admins:
         db.clear_database()
         bot.send_message(message.chat.id,'Deleting database...')
     else:
@@ -261,7 +262,7 @@ def echo(message):
     """
     broadcast message to all users
     """
-    if message.chat.id in messages.admins:
+    if message.chat.id in admins:
         bot.send_message(message.chat.id,'Send message to broadcast:')
         userStep[message.chat.id] = 99
     else:
@@ -272,7 +273,7 @@ def echo(message):
     """
     Generate stats of users
     """
-    if message.chat.id in messages.admins:
+    if message.chat.id in admins:
         user = db.admin_user_count()
         active = db.admin_active_chat()
         queue = db.admin_queue()

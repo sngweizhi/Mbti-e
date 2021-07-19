@@ -1,4 +1,4 @@
-admins = [280031516, 1709352790] #chat_id of admins
+
 
 welcome = "Welcome to *MBTInder Bot SG*, an anonymous chatbot for dating and making friends based on an MBTI matching algorithm\. \
 While MBTInder is a portmanteau of MBTI and Tinder, it seeks to address what tinder fails to do \

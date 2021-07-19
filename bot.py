@@ -1,4 +1,4 @@
-import config
+import messages
 import telebot
 import random
 from telebot import types
@@ -8,6 +8,8 @@ import os
 import logging
 import time
 
+from decouple import config
+
 from flask import Flask, request
 
 logger = telebot.logger
@@ -15,7 +17,7 @@ telebot.logger.setLevel(logging.DEBUG)
 telebot.logging.basicConfig(filename='filename.log', level=logging.DEBUG,
                     format=' %(asctime)s - %(levelname)s - %(message)s')
 
-bot = telebot.TeleBot(config.TOKEN)
+bot = telebot.TeleBot(config('TOKEN'))
 
 #server = Flask(__name__)
 
@@ -159,7 +161,7 @@ def stop_search():
 @bot.message_handler(commands = ['start'])
 def start(message):
     if db.set_user(message.chat.id) != False:
-      bot.send_message(message.chat.id, config.welcome, parse_mode = 'MarkdownV2')
+      bot.send_message(message.chat.id, messages.welcome, parse_mode = 'MarkdownV2')
       return
       
     if db.get_active_chat(message.chat.id) != False:
@@ -248,7 +250,7 @@ def echo(message):
     """
     delete database
     """
-    if message.chat.id in config.admins:
+    if message.chat.id in messages.admins:
         db.clear_database()
         bot.send_message(message.chat.id,'Deleting database...')
     else:
@@ -259,7 +261,7 @@ def echo(message):
     """
     broadcast message to all users
     """
-    if message.chat.id in config.admins:
+    if message.chat.id in messages.admins:
         bot.send_message(message.chat.id,'Send message to broadcast:')
         userStep[message.chat.id] = 99
     else:
@@ -270,7 +272,7 @@ def echo(message):
     """
     Generate stats of users
     """
-    if message.chat.id in config.admins:
+    if message.chat.id in messages.admins:
         user = db.admin_user_count()
         active = db.admin_active_chat()
         queue = db.admin_queue()
@@ -654,16 +656,16 @@ def echo(call):
         mbti2 = user_info[4]
         msg = db.get_message_id(chat_two)
         if db.create_chat(call.message.chat.id, chat_two) == False:
-                  bot.send_sticker(call.message.chat.id, config.search_sticker)
+                  bot.send_sticker(call.message.chat.id, messages.search_sticker)
                   sent = bot.send_message(call.message.chat.id, 'Searching for a suitable match...', reply_markup = stop_search())
                   db.add_queue(call.message.chat.id, gender, gendermatch, seeking, mbti, sent.message_id)
         else:
                   mess = 'Gender: {}\nPurpose: {}\nMBTI: {}\n\nInput /stop to end the chat.'
                   bot.delete_message(chat_two, msg)
                   bot.delete_message(chat_two, int(msg)-1)
-                  bot.send_sticker(call.message.chat.id, config.match_sticker)
+                  bot.send_sticker(call.message.chat.id, messages.match_sticker)
                   bot.send_message(call.message.chat.id, mess.format(gender2,seeking2,mbti2))
-                  bot.send_sticker(chat_two, config.match_sticker)
+                  bot.send_sticker(chat_two, messages.match_sticker)
                   bot.send_message(chat_two, mess.format(gender,seeking,mbti))
       else:
         print('error')
@@ -679,7 +681,7 @@ def echo(call):
 
 bot.polling(none_stop = True)
 
-##@server.route('/' + config.TOKEN, methods=['POST'])
+##@server.route('/' + config('TOKEN'), methods=['POST'])
 ##def getMessage():
 ##    json_string = request.get_data().decode('utf-8')
 ##    update = telebot.types.Update.de_json(json_string)
@@ -690,7 +692,7 @@ bot.polling(none_stop = True)
 ##@server.route("/")
 ##def webhook():
 ##    bot.remove_webhook()
-##    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + config.TOKEN)
+##    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + config('TOKEN'))
 ##    return "!", 200
 ##
 ##

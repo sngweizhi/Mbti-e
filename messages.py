@@ -1,8 +1,4 @@
-
-TOKEN = '1835373903:AAEydgfpq5YirraR4QO6zIFGiEMu-zOt-w4'
 admins = [280031516, 1709352790] #chat_id of admins
-#TOKEN = '1881857149:AAH52Aj67gaQHirysCXIk9s8CqdIwGNpfyw' #Test Bot
-
 
 welcome = "Welcome to *MBTInder Bot SG*, an anonymous chatbot for dating and making friends based on an MBTI matching algorithm\. \
 While MBTInder is a portmanteau of MBTI and Tinder, it seeks to address what tinder fails to do \

@@ -5,12 +5,19 @@ from telebot import types
 from database import Database
 import os
 
+import logging
+import time
 
 from flask import Flask, request
 
+logger = telebot.logger
+telebot.logger.setLevel(logging.INFO)
+telebot.logging.basicConfig(filename='filename.log', level=logging.INFO,
+                    format=' %(asctime)s - %(levelname)s - %(message)s')
+
 bot = telebot.TeleBot(config.TOKEN)
 
-server = Flask(__name__)
+#server = Flask(__name__)
 
 db = Database('db.db')
 
@@ -216,8 +223,8 @@ def echo(message):
       random.shuffle(statements)
       ans = statements.index(db.get_lie(message.chat.id))
       userPoll[chat_info[1]] = [ans,statements]
-      bot.send_poll(chat_info[1], '2Truths1Lie. Select the Lie.', options = statements, correct_option_id=ans, type = 'quiz', is_anonymous= False)
-      bot.send_message(message.chat.id, '2Truths1Lie sent!')
+      bot.send_poll(chat_info[1], '2 Truths 1 Lie. Select the Lie!', options = statements, correct_option_id=ans, type = 'quiz', is_anonymous= False)
+      bot.send_message(message.chat.id, '2 Truths 1 Lie sent!')
     else:
       bot.send_message(message.chat.id, 'You have not started a chat!')
 
@@ -244,6 +251,17 @@ def echo(message):
     if message.chat.id in config.admins:
         db.clear_database()
         bot.send_message(message.chat.id,'Deleting database...')
+    else:
+        return
+
+@bot.message_handler(commands=['broadcast'])
+def echo(message):
+    """
+    broadcast message to all users
+    """
+    if message.chat.id in config.admins:
+        bot.send_message(message.chat.id,'Send message to broadcast:')
+        userStep[message.chat.id] = 99
     else:
         return
 
@@ -308,9 +326,15 @@ def icebreakerset(message):
     lie = db.get_lie(message.chat.id)
     bot.send_message(message.chat.id, mess.format(truth1, truth2, lie),reply_markup=icebreaker_first(), parse_mode = 'MarkdownV2')
     userStep.pop(message.chat.id,None)
+    
+  elif step == 99:
+      alluser = db.get_all_users()
+      for user in alluser:
+          bot.send_message(user, 'Admin: ' + message.text)
+      userStep.pop(message.chat.id,None)
   else:
     userStep[message.chat.id]=0
-    
+
 
 @bot.message_handler(content_types=['text', 'sticker', 'video', 'photo', 'audio', 'voice','video_note'])
 def echo(message):
@@ -319,7 +343,6 @@ def echo(message):
         if db.get_active_chat(message.chat.id) != False:
           chat_info = db.get_active_chat(message.chat.id)          
           bot.send_sticker(chat_info[1], message.sticker.file_id)
-          print(message.sticker.file_id)
 
         else:
           return
@@ -654,22 +677,22 @@ def echo(call):
       # bot.send_message(call.message.chat.id, 'Search stopped.', reply_markup = main_menu())
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Search stopped.', reply_markup = main_menu())
 
-##bot.polling(none_stop = True)
+bot.polling(none_stop = True)
 
-@server.route('/' + config.TOKEN, methods=['POST'])
-def getMessage():
-    json_string = request.get_data().decode('utf-8')
-    update = telebot.types.Update.de_json(json_string)
-    bot.process_new_updates([update])
-    return "!", 200
-
-
-@server.route("/")
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + config.TOKEN)
-    return "!", 200
-
-
-if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+##@server.route('/' + config.TOKEN, methods=['POST'])
+##def getMessage():
+##    json_string = request.get_data().decode('utf-8')
+##    update = telebot.types.Update.de_json(json_string)
+##    bot.process_new_updates([update])
+##    return "!", 200
+##
+##
+##@server.route("/")
+##def webhook():
+##    bot.remove_webhook()
+##    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + config.TOKEN)
+##    return "!", 200
+##
+##
+##if __name__ == "__main__":
+##    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))

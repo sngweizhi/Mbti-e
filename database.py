@@ -288,3 +288,11 @@ class Database:
             count = self.cursor.execute("SELECT DISTINCT COUNT(`chat_id`) FROM `queue`").fetchone()
             return count[0]
         
+    def get_all_users(self):
+        with self.connection:
+            alluser = []
+            user = self.cursor.execute("SELECT `chat_id` FROM `users`").fetchall()
+            for row in user:
+                alluser.append(row[0])
+            return alluser
+    

@@ -33,5 +33,8 @@ Updates:
   - Feedback button
   - Payment button for donations
   - Fix database restarting on heroku 
+  - Fix 2truth1Lie max char [Done]
+  - Add guidelines and terms of use
+  - Add gif to help?
 
 

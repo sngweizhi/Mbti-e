@@ -11,8 +11,8 @@ import time
 from flask import Flask, request
 
 logger = telebot.logger
-telebot.logger.setLevel(logging.INFO)
-telebot.logging.basicConfig(filename='filename.log', level=logging.INFO,
+telebot.logger.setLevel(logging.DEBUG)
+telebot.logging.basicConfig(filename='filename.log', level=logging.DEBUG,
                     format=' %(asctime)s - %(levelname)s - %(message)s')
 
 bot = telebot.TeleBot(config.TOKEN)
@@ -330,7 +330,7 @@ def icebreakerset(message):
   elif step == 99:
       alluser = db.get_all_users()
       for user in alluser:
-          bot.send_message(user, 'Admin: ' + message.text)
+          bot.send_message(user, '*Admin: ' + message.text+'*', parse_mode = 'MarkdownV2')
       userStep.pop(message.chat.id,None)
   else:
     userStep[message.chat.id]=0

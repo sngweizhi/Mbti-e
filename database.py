@@ -275,17 +275,17 @@ class Database:
 
     def admin_user_count(self):
         with self.connection:
-            count = self.cursor.execute("SELECT DISTINCT COUNT(`chat_id`) FROM `users`").fetchone()
+            count = self.cursor.execute("SELECT COUNT(DISTINCT`chat_id`) FROM `users`").fetchone()
             return count[0]
         
     def admin_active_chat(self):
         with self.connection:
-            count = self.cursor.execute("SELECT DISTINCT COUNT(`chat_one`) FROM `chats`").fetchone()
+            count = self.cursor.execute("SELECT COUNT(DISTINCT `chat_one`) FROM `chats`").fetchone()
             return count[0]
         
     def admin_queue(self):
          with self.connection:
-            count = self.cursor.execute("SELECT DISTINCT COUNT(`chat_id`) FROM `queue`").fetchone()
+            count = self.cursor.execute("SELECT COUNT(DISTINCT `chat_id`) FROM `queue`").fetchone()
             return count[0]
         
     def get_all_users(self):

@@ -1,6 +1,7 @@
 from bot2 import server
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from sqlalchemy import or_
 
 db = SQLAlchemy(server)
 
@@ -301,7 +302,7 @@ def get_gender_chat(gender, gendermatch, seeking):
         else:
             return [0,0,0,0,0]
     elif gendermatch == 'Any':
-        user = Queue.query.filter((Queue.seeking==seeking) & ((Queue.gendermatch==gender | Queue.gendermatch==gendermatch))).first()
+        user = Queue.query.filter(Queue.seeking==seeking).filter(or_(Queue.gendermatch==gender, Queue.gendermatch==gendermatch)).first()
         if user != None:
             user_info = [user.chat_id,user.gender,user.gendermatch,user.seeking,user.mbti]
             return user_info

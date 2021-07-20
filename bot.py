@@ -144,14 +144,14 @@ def icebreaker_setup_menu():
 
   return markup
 
-def setup_settings():
-  markup = types.InlineKeyboardMarkup()
-  button1 = types.InlineKeyboardButton(text='« Back to profile setup',
-                                          callback_data='setupback')
-  button2 = types.InlineKeyboardButton(text='« Back to Bot',
-                                          callback_data='Bot')
-  markup.add(button1, button2)
-  return markup
+#def setup_settings():
+#  markup = types.InlineKeyboardMarkup()
+#  button1 = types.InlineKeyboardButton(text='« Back to profile setup',
+#                                          callback_data='setupback')
+#  button2 = types.InlineKeyboardButton(text='« Back to Bot',
+#                                          callback_data='Bot')
+#  markup.add(button1, button2)
+#  return markup
 
 def stop_search():
   markup = types.InlineKeyboardMarkup()
@@ -433,7 +433,7 @@ def echo(call):
       bot.answer_callback_query(call.id)
       if bool(db.get_gender(call.message.chat.id)):
         if db.set_gender(call.message.chat.id, 'Male'):
-            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your gender to *Male*\.', reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
+            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your gender to *Male*\.',  parse_mode = 'MarkdownV2')
             mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
             gender = db.get_gender(call.message.chat.id)
             gendermatch = db.get_gender_match(call.message.chat.id)
@@ -452,7 +452,7 @@ def echo(call):
       bot.answer_callback_query(call.id)
       if bool(db.get_gender(call.message.chat.id)):
         if db.set_gender(call.message.chat.id, 'Female'):
-            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your gender to *Female*\.', reply_markup = setup_settings(), parse_mode = 'MarkdownV2')
+            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your gender to *Female*\.', parse_mode = 'MarkdownV2')
             mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
             gender = db.get_gender(call.message.chat.id)
             gendermatch = db.get_gender_match(call.message.chat.id)
@@ -471,7 +471,7 @@ def echo(call):
       bot.answer_callback_query(call.id)
       if bool(db.get_gender_match(call.message.chat.id)):
         if db.set_gender_match(call.message.chat.id, 'Male'):
-            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Males*\.', reply_markup=setup_settings(),  parse_mode = 'MarkdownV2')
+            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Males*\.',  parse_mode = 'MarkdownV2')
             mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
             gender = db.get_gender(call.message.chat.id)
             gendermatch = db.get_gender_match(call.message.chat.id)
@@ -490,7 +490,7 @@ def echo(call):
       bot.answer_callback_query(call.id)
       if bool(db.get_gender_match(call.message.chat.id)):
         if db.set_gender_match(call.message.chat.id, 'Female'):
-            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Females*\.',reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
+            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Females*\.',  parse_mode = 'MarkdownV2')
             mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
             gender = db.get_gender(call.message.chat.id)
             gendermatch = db.get_gender_match(call.message.chat.id)
@@ -509,7 +509,7 @@ def echo(call):
       bot.answer_callback_query(call.id)
       if bool(db.get_gender_match(call.message.chat.id)):
         if db.set_gender_match(call.message.chat.id, 'Any'):
-            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Everyone*\.', reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
+            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Everyone*\.',  parse_mode = 'MarkdownV2')
             mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
             gender = db.get_gender(call.message.chat.id)
             gendermatch = db.get_gender_match(call.message.chat.id)
@@ -528,7 +528,7 @@ def echo(call):
       bot.answer_callback_query(call.id)
       if bool(db.get_seeking(call.message.chat.id)):
         if db.set_seeking(call.message.chat.id, 'Dating'):
-          bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your purpose to *Dating*\.', reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
+          bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your purpose to *Dating*\.',  parse_mode = 'MarkdownV2')
           mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
           gender = db.get_gender(call.message.chat.id)
           gendermatch = db.get_gender_match(call.message.chat.id)
@@ -547,7 +547,7 @@ def echo(call):
       bot.answer_callback_query(call.id)
       if bool(db.get_seeking(call.message.chat.id)):
         if db.set_seeking(call.message.chat.id, 'Friendship'):
-            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your purpose to *Friendship*\.',reply_markup=setup_settings(),  parse_mode = 'MarkdownV2')
+            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your purpose to *Friendship*\.',  parse_mode = 'MarkdownV2')
             mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
             gender = db.get_gender(call.message.chat.id)
             gendermatch = db.get_gender_match(call.message.chat.id)
@@ -629,7 +629,14 @@ def echo(call):
       bot.answer_callback_query(call.id)
       if bool(db.get_mbti(call.message.chat.id)):
         if db.set_mbti(call.message.chat.id, call.data):
-            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your MBTI type to *{}*\.'.format(call.data), reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
+            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your MBTI type to *{}*\.'.format(call.data),  parse_mode = 'MarkdownV2')
+            mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
+            gender = db.get_gender(call.message.chat.id)
+            gendermatch = db.get_gender_match(call.message.chat.id)
+            seeking = db.get_seeking(call.message.chat.id)
+            mbti = db.get_mbti(call.message.chat.id)
+            iceb = db.get_icebreaker(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if db.set_mbti(call.message.chat.id, call.data):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *{}* as your MBTI type\.'.format(call.data),  parse_mode = 'MarkdownV2')

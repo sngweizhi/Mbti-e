@@ -364,12 +364,12 @@ def get_active_chat(chat_id):
 
     if id_chat == None:
         user2 = Chats.query.filter_by(chat_two=chat_id).first()
-        id_chat = user2.id
-        chat_info = [id_chat, user2.chat_one]
-        if id_chat == None:
-            return None
-        else:
+        try:
+            id_chat = user2.id
+            chat_info = [id_chat, user2.chat_one]
             return chat_info
+        except:
+            return None
     else:
         return chat_info
 

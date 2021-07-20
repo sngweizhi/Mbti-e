@@ -540,7 +540,7 @@ def echo(call):
       # bot.delete_message(call.message.chat.id, call.message.message_id)
       if bool(db.get_seeking(call.message.chat.id)):
         if db.set_seeking(call.message.chat.id, 'Dating'):
-          bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your purpose to *Dating*\.', reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')\
+          bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your purpose to *Dating*\.', reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
           mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
           gender = db.get_gender(message.chat.id)
           gendermatch = db.get_gender_match(message.chat.id)

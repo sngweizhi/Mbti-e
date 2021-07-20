@@ -166,11 +166,11 @@ def start(message):
       return
       
     if db.get_active_chat(message.chat.id) != False:
-       bot.send_message(message.chat.id, '❌ You are still in a chat!')
+       bot.send_message(message.chat.id, 'You are still in a chat!')
        return
 
     elif db.get_queue(message.chat.id) != False:
-      bot.send_message(message.chat.id, '❌ You are already in the queue!')
+      bot.send_message(message.chat.id, 'You are already in the queue!')
       return
 
     elif db.setup_complete(message.chat.id) == False:
@@ -184,7 +184,7 @@ def stop(message):
     if db.get_queue(message.chat.id) != False:
       bot.delete_message(call.message.chat.id, call.message.message_id -1)
       db.delete_queue(call.message.chat.id)
-      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❌ Search stopped.', reply_markup = main_menu())
+      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Search stopped.', reply_markup = main_menu())
       return
     chat_info = db.get_active_chat(message.chat.id)
     if chat_info != False:
@@ -239,10 +239,10 @@ def poll_answer(message):
   statement = userPoll[str(message.user.id)][1]
   if user_ans == ans:
     bot.send_message(message.user.id, 'Hooray! You selected the right answer!')
-    bot.send_message(chat_info[1], "User selected the right answer\! '*{}*'".format(statement[user_ans]), parse_mode = 'MarkdownV2')
+    bot.send_message(chat_info[1], "User selected the right answer! '{}'".format(statement[user_ans]))
   else:
     bot.send_message(message.user.id, 'You selected the wrong answer!')
-    bot.send_message(chat_info[1], "User selected the wrong answer\! '*{}*'".format(statement[user_ans]), parse_mode = 'MarkdownV2')
+    bot.send_message(chat_info[1], "User selected the wrong answer! '{}'".format(statement[user_ans]))
   userPoll.pop(message.user.id, None) #reset
 
 
@@ -301,33 +301,33 @@ def icebreakerset(message):
     elif step == 3:
       if db.set_lie(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Lie set!')
-    mess = "Edit your 2Truth1Lie\.\n \n*Truth 1*: {}\n*Truth 2*: {}\n*Lie*: {}"
+    mess = "Edit your 2 Truth 1 Lie.\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
     truth1 = db.get_truth1(message.chat.id)
     truth2 = db.get_truth2(message.chat.id)
     lie = db.get_lie(message.chat.id)
-    bot.send_message(message.chat.id, mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu(), parse_mode = 'MarkdownV2')
+    bot.send_message(message.chat.id, mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu())
     userStep.pop(message.chat.id,None)
 
   elif step == 4:
     if db.set_truth1(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Truth 1 set!')
-    bot.send_message(message.chat.id, 'Now send me your *Truth 2* statement', parse_mode ='MarkdownV2')
+    bot.send_message(message.chat.id, 'Now send me your *Truth 2* statement\.', parse_mode ='MarkdownV2')
     userStep[message.chat.id] = 5
 
   elif step == 5:
     if db.set_truth2(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Truth 2 set!')
-    bot.send_message(message.chat.id, 'Now send me your *Lie* statement', parse_mode ='MarkdownV2')
+    bot.send_message(message.chat.id, 'Now send me your *Lie* statement\.', parse_mode ='MarkdownV2')
     userStep[message.chat.id] = 6
 
   elif step == 6:
     if db.set_lie(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Lie set!')
-    mess = "Your 2Truth1Lie is set\!\n \n*Truth 1*: {}\n*Truth 2*: {}\n*Lie*: {}"
+    mess = "Your 2 Truth 1 Lie is set!\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
     truth1 = db.get_truth1(message.chat.id)
     truth2 = db.get_truth2(message.chat.id)
     lie = db.get_lie(message.chat.id)
-    bot.send_message(message.chat.id, mess.format(truth1, truth2, lie),reply_markup=icebreaker_first(), parse_mode = 'MarkdownV2')
+    bot.send_message(message.chat.id, mess.format(truth1, truth2, lie),reply_markup=icebreaker_first())
     userStep.pop(message.chat.id,None)
     
   elif step == 99:
@@ -558,13 +558,13 @@ def echo(call):
     elif call.data == 'icebreaker':
       bot.answer_callback_query(call.id)
       # bot.delete_message(call.message.chat.id, call.message.message_id)
-      mess = "Edit your 2Truth1Lie\.\n \n*Truth 1*: {}\n*Truth 2*: {}\n*Lie*: {}"
+      mess = "Edit your 2 Truth 1 Lie.\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
       truth1 = db.get_truth1(call.message.chat.id)
       truth2 = db.get_truth2(call.message.chat.id)
       lie = db.get_lie(call.message.chat.id)
       if bool(db.get_truth1(call.message.chat.id)):
         # bot.send_message(call.message.chat.id, mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu(), parse_mode = 'MarkdownV2')
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu(), parse_mode = 'MarkdownV2')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu())
       else:
         # bot.send_message(call.message.chat.id, 'Setup your 2 Truths and 1 Lie!', reply_markup=icebreaker_setup_menu())
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Setup your 2 Truths and 1 Lie!', reply_markup=icebreaker_setup_menu())
@@ -582,13 +582,13 @@ def echo(call):
           statement = 'Lie'
           userStep[call.message.chat.id] = 3
         # bot.send_message(call.message.chat.id, 'Send me your *{}* statement'.format(statement), parse_mode ='MarkdownV2')
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *{}* statement'.format(statement), parse_mode ='MarkdownV2')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *{}* statement\.'.format(statement), parse_mode ='MarkdownV2')
 
     elif call.data == 'icebreaker_setup':
         bot.answer_callback_query(call.id)
         # bot.delete_message(call.message.chat.id, call.message.message_id)
         # bot.send_message(call.message.chat.id, 'Send me your *Truth 1* statement', parse_mode ='MarkdownV2')
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *Truth 1* statement', parse_mode ='MarkdownV2')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *Truth 1* statement\.', parse_mode ='MarkdownV2')
         userStep[call.message.chat.id] = 4
 
     elif call.data == 'complete':
@@ -635,7 +635,7 @@ def echo(call):
         bot.answer_callback_query(call.id)
         # bot.send_message(call.message.chat.id, '❌ You are already in the queue!')
         # bot.delete_message(call.message.chat.id, call.message.message_id)
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❌ You are already in the queue!')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You are already in the queue!')
       
       elif db.setup_complete(call.message.chat.id) == False:
         bot.answer_callback_query(call.id)

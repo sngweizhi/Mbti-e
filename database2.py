@@ -300,7 +300,7 @@ def get_all_users(self):
 #Create a model
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    chat_id = db.Column(db.String(255), unique=True) 
+    chat_id = db.Column(db.Integer, unique=True) 
     gender = db.Column(db.String(60))
     gendermatch = db.Column(db.String(60))
     seeking = db.Column(db.String(60))
@@ -314,12 +314,12 @@ class Users(db.Model):
 
 class Chats(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    chat_one = db.Column(db.String(255), unique=True)
-    chat_two = db.Column(db.String(255), unique=True)
+    chat_one = db.Column(db.Integer, unique=True) 
+    chat_two = db.Column(db.Integer, unique=True) 
 
 class Queue(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    chat_id = db.Column(db.String(255), unique=True) 
+    chat_id = db.Column(db.Integer, unique=True)  
     gender = db.Column(db.String(60))
     gendermatch = db.Column(db.String(60))
     seeking = db.Column(db.String(60))

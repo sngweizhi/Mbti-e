@@ -1,2 +1,2 @@
-from bot2 import db
+from database2 import db
 db.create_all()

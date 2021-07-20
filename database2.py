@@ -18,7 +18,7 @@ def setup_complete(self, chat_id):
         if bool(len(user)):
             for row in user:
                 if bool(row[1]) and bool(row[2]) and bool(row[3]):
-                return True
+                    return True
             else:
                 return False
         else:
@@ -210,11 +210,11 @@ def get_gender_chat(self, gender, gendermatch, seeking):
         elif gendermatch == 'any':
             chat = self.cursor.execute("SELECT * FROM `queue` WHERE `gendermatch` = ? AND `seeking` = ?", (gender, seeking)).fetchmany(1)
             if bool(len(chat)):
-            for row in chat:
-                user_info = [row[1], row[2],row[3],row[4],row[6]]
-                return user_info
+                for row in chat:
+                    user_info = [row[1], row[2],row[3],row[4],row[6]]
+                    return user_info
             else:
-            return [0,0,0,0,0]
+                return [0,0,0,0,0]
 
         else:
             return[0,0,0,0,0]
@@ -265,9 +265,9 @@ def get_active_chat(self, chat_id):
 
 def clear_database(self):
     with self.connection:
-    self.cursor.execute("DELETE FROM `users`")
-    self.cursor.execute("DELETE FROM `queue`")
-    self.cursor.execute("DELETE FROM `chats`")
+        self.cursor.execute("DELETE FROM `users`")
+        self.cursor.execute("DELETE FROM `queue`")
+        self.cursor.execute("DELETE FROM `chats`")
 
 def admin_user_count(self):
     with self.connection:
@@ -281,8 +281,8 @@ def admin_active_chat(self):
         
 def admin_queue(self):
         with self.connection:
-        count = self.cursor.execute("SELECT COUNT(DISTINCT `chat_id`) FROM `queue`").fetchone()
-        return count[0]
+            count = self.cursor.execute("SELECT COUNT(DISTINCT `chat_id`) FROM `queue`").fetchone()
+            return count[0]
         
 def get_all_users(self):
     with self.connection:

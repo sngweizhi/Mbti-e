@@ -104,7 +104,7 @@ def set_mbti(chat_id, mbti):
     #    else:
     #        return False
 
-def set_truth1(chat_id):
+def set_truth1(chat_id, truth1):
     user = Users.query.filter_by(chat_id=chat_id).first()
     if user != None:
         user.truth1 = truth1

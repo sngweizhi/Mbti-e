@@ -224,7 +224,7 @@ def echo(message):
 def echo(message):
     if bool(get_active_chat(message.chat.id)):
       chat_info = get_active_chat(message.chat.id)
-      if get_icebreaker == 'Set':
+      if get_icebreaker(message.chat.id) == 'Set':
           statements = [get_truth1(message.chat.id),get_truth2(message.chat.id),get_lie(message.chat.id)]
           random.shuffle(statements)
           ans = statements.index(get_lie(message.chat.id))

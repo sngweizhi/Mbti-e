@@ -21,7 +21,7 @@ def delete_chat(chat_id):
     db.session.commit()
 
 def setup_complete(chat_id):
-    user = Users.query.filter_by(chat_id=chat_id).first()
+    user = Users.query.filter_by(chat_id=chat_id).all()
     print(user)
     if len(user) >= 6:
         return True

@@ -240,8 +240,8 @@ def echo(message):
 def poll_answer(message):
   user_ans = message.option_ids[0]
   chat_info = get_active_chat(message.user.id)
-  ans = userPoll[str(message.user.id)][0]
-  statement = userPoll[str(message.user.id)][1]
+  ans = userPoll[message.user.id][0]
+  statement = userPoll[message.user.id][1]
   if user_ans == ans:
     bot.send_message(message.user.id, 'Hooray! You selected the right answer!')
     bot.send_message(chat_info[1], "User selected the right answer! '{}'".format(statement[user_ans]))

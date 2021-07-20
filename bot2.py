@@ -20,7 +20,7 @@ telebot.logging.basicConfig(filename='filename.log', level=logging.DEBUG,
 bot = telebot.TeleBot(config('TOKEN2'))
 
 server = Flask(__name__)
-server.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
+server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL').split('//')[1]
 
 db = SQLAlchemy(server)
 

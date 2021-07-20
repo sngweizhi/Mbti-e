@@ -359,7 +359,7 @@ def get_active_chat(chat_id):
         id_chat=user.id
         chat_info = user.chat_two
     except:
-        id_chat == None
+        id_chat = None
 
     if id_chat == None:
         user = Chats.query.filter_by(chat_two=chat_id).first()

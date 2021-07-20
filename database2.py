@@ -355,18 +355,22 @@ def create_chat(chat_one, chat_two):
     
 def get_active_chat(chat_id):
     user = Chats.query.filter_by(chat_one=chat_id).first()
-    id_chat=user.id
-    chat_info = user.chat_two
+    try:
+        id_chat=user.id
+        chat_info = user.chat_two
+    except:
+        id_chat == None
 
     if id_chat == None:
         user = Chats.query.filter_by(chat_two=chat_id).first()
-        id_chat = user.id
-        chat_info = user.chat_one
-
-        if id_chat == None:
-            return False
-        else:
-            return chat_info
+        try:
+            id_chat = user.id
+            chat_info = user.chat_one
+        except:
+            if id_chat == None:
+                return False
+            else:
+                return chat_info
     else:
         return chat_info
 

@@ -138,9 +138,9 @@ def icebreaker_setup_menu():
                                           callback_data='lie')
   button4 = types.InlineKeyboardButton(text='« Back to Bot',
                                           callback_data='Bot')
-  button4 = types.InlineKeyboardButton(text='« Back to profile setup',
+  button5 = types.InlineKeyboardButton(text='« Back to profile setup',
                                           callback_data='setupback')
-  markup.add(button1,button2,button3,button4)
+  markup.add(button1,button2,button3,button4,button5)
 
   return markup
 

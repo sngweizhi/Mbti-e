@@ -16,8 +16,8 @@ def delete_queue(chat_id):
     db.session.delete(user)
     db.session.commit()
     
-def delete_chat(chat_id):
-    user = Chats.query.filter_by(chat_id=chat_id).first()
+def delete_chat(id_chat):
+    user = Chats.query.filter_by(id=id_chat).first()
     db.session.delete(user)
     db.session.commit()
 

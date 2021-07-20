@@ -171,10 +171,10 @@ def start(message):
     elif setup_complete(message.chat.id) == False:
       bot.send_message(message.chat.id, 'Please setup your profile first! /setup')
       
-    elif get_active_chat(message.chat.id) != False:
+    elif get_active_chat(message.chat.id) != None:
        bot.send_message(message.chat.id, 'You are still in a chat!')
 
-    elif get_queue(message.chat.id) != False:
+    elif get_queue(message.chat.id) != None:
       bot.send_message(message.chat.id, 'You are already in the queue!')
 
     else:
@@ -182,13 +182,13 @@ def start(message):
 
 @bot.message_handler(commands = ['stop'])
 def stop(message):
-    if get_queue(message.chat.id) != False:
+    if get_queue(message.chat.id) != None:
       bot.delete_message(call.message.chat.id, call.message.message_id -1)
       delete_queue(call.message.chat.id)
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Search stopped.', reply_markup = main_menu())
       return
     chat_info = get_active_chat(message.chat.id)
-    if chat_info != False:
+    if chat_info != None:
         delete_chat(chat_info[0])
         bot.send_message(chat_info[1], 'Your match has ended the chat. Input /start to start searching for another match!')
         bot.send_message(message.chat.id, 'You have ended the chat. Input /start to start searching for another match!')
@@ -203,11 +203,11 @@ def echo(message):
     :param message:
     :return:
     """
-    if get_active_chat(message.chat.id) != False:
+    if get_active_chat(message.chat.id) != None:
        bot.send_message(message.chat.id, 'You are still in a chat!')
        return
     
-    if get_gender(message.chat.id) == False:
+    if get_gender(message.chat.id) == None:
       bot.send_message(message.chat.id, 'Welcome to MBTInder! Please select your gender!', reply_markup=gender_menu())
       
     else:
@@ -223,12 +223,15 @@ def echo(message):
 def echo(message):
     if bool(get_active_chat(message.chat.id)):
       chat_info = get_active_chat(message.chat.id)
-      statements = [get_truth1(message.chat.id),get_truth2(message.chat.id),get_lie(message.chat.id)]
-      random.shuffle(statements)
-      ans = statements.index(get_lie(message.chat.id))
-      userPoll[chat_info[1]] = [ans,statements]
-      bot.send_poll(chat_info[1], '2 Truths 1 Lie. Select the Lie!', options = statements, correct_option_id=ans, type = 'quiz', is_anonymous= False)
-      bot.send_message(message.chat.id, '2 Truths 1 Lie sent!')
+      if get_icebreaker == 'Set':
+          statements = [get_truth1(message.chat.id),get_truth2(message.chat.id),get_lie(message.chat.id)]
+          random.shuffle(statements)
+          ans = statements.index(get_lie(message.chat.id))
+          userPoll[chat_info[1]] = [ans,statements]
+          bot.send_poll(chat_info[1], '2 Truths 1 Lie. Select the Lie!', options = statements, correct_option_id=ans, type = 'quiz', is_anonymous= False)
+          bot.send_message(message.chat.id, '2 Truths 1 Lie sent!')
+      else:
+          bot.send_message(message.chat.id, 'You have not set an ice breaker!')
     else:
       bot.send_message(message.chat.id, 'You have not started a chat!')
 
@@ -344,7 +347,7 @@ def icebreakerset(message):
 def echo(message):
 
     if message.content_type == 'sticker':
-        if get_active_chat(message.chat.id) != False:
+        if get_active_chat(message.chat.id) != None:
           chat_info = get_active_chat(message.chat.id)          
           bot.send_sticker(chat_info[1], message.sticker.file_id)
 
@@ -352,7 +355,7 @@ def echo(message):
           return
 
     elif message.content_type == 'photo':
-      if get_active_chat(message.chat.id) != False:
+      if get_active_chat(message.chat.id) != None:
           chat_info = get_active_chat(message.chat.id)     
           
           file_id = None
@@ -368,7 +371,7 @@ def echo(message):
           return
 
     elif message.content_type == 'audio':
-        if get_active_chat(message.chat.id) != False:
+        if get_active_chat(message.chat.id) != None:
           chat_info = get_active_chat(message.chat.id)          
           bot.send_audio(chat_info[1],
                        message.audio.file_id,
@@ -379,7 +382,7 @@ def echo(message):
 
         
     elif message.content_type == 'video':
-        if get_active_chat(message.chat.id) != False:
+        if get_active_chat(message.chat.id) != None:
           chat_info = get_active_chat(message.chat.id)  
           bot.send_video(chat_info[1],
                         message.video.file_id,
@@ -388,7 +391,7 @@ def echo(message):
           return
 
     elif message.content_type == 'voice':
-        if get_active_chat(message.chat.id) != False:
+        if get_active_chat(message.chat.id) != None:
           chat_info = get_active_chat(message.chat.id)  
           bot.send_voice(chat_info[1],
                         message.voice.file_id)
@@ -397,7 +400,7 @@ def echo(message):
           return
 
     elif message.content_type == 'video_note':
-      if get_active_chat(message.chat.id) != False:
+      if get_active_chat(message.chat.id) != None:
           chat_info = get_active_chat(message.chat.id)  
           bot.send_video_note(chat_info[1],
                         message.video_note.file_id)
@@ -408,7 +411,7 @@ def echo(message):
         if message.text != '/start' and message.text != '/stop' and \
                     message.text != '/setup' and message.text != '/icebreaker' and message.text != '/help':
 
-            if get_active_chat(message.chat.id) != False:
+            if get_active_chat(message.chat.id) != None:
               chat_info = get_active_chat(message.chat.id)
               text = 'User: ' + message.text
               if message.reply_to_message is None:
@@ -644,7 +647,7 @@ def echo(call):
           return
 
     elif call.data == 'NewChat':
-      if get_queue(call.message.chat.id) != False:
+      if get_queue(call.message.chat.id) != None:
         bot.answer_callback_query(call.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You are already in the queue!')
       
@@ -652,7 +655,7 @@ def echo(call):
         bot.answer_callback_query(call.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Your profile is incomplete!')
 
-      elif get_active_chat(call.message.chat.id) == False:
+      elif get_active_chat(call.message.chat.id) == None:
         bot.answer_callback_query(call.id)
         bot.delete_message(call.message.chat.id, call.message.message_id)
         gendermatch = get_gender_match(call.message.chat.id)

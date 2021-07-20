@@ -171,11 +171,11 @@ def start(message):
     elif setup_complete(message.chat.id) == False:
       bot.send_message(message.chat.id, 'Please setup your profile first! /setup')
       
-    #elif db.get_active_chat(message.chat.id) != False:
-    #   bot.send_message(message.chat.id, 'You are still in a chat!')
+    elif db.get_active_chat(message.chat.id) != False:
+       bot.send_message(message.chat.id, 'You are still in a chat!')
 
-    #elif db.get_queue(message.chat.id) != False:
-    #  bot.send_message(message.chat.id, 'You are already in the queue!')
+    elif db.get_queue(message.chat.id) != False:
+      bot.send_message(message.chat.id, 'You are already in the queue!')
 
     else:
       bot.send_message(message.chat.id, 'Click the button below to start matching!',reply_markup=main_menu())

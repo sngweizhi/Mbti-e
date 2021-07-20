@@ -5,29 +5,29 @@ from datetime import datetime
 db = SQLAlchemy(server)
 
 
-def add_queue(self, chat_id, gender, gendermatch, seeking, mbti, message_id): 
-    with self.connection:
-        return self.cursor.execute("INSERT INTO `queue` (`chat_id`, `gender`, `gendermatch`, `seeking`, `mbti`,`message_id` ) VALUES (?,?,?,?,?,?)", (chat_id, gender, gendermatch, seeking, mbti, message_id))
+def add_queue(chat_id, gender, gendermatch, seeking, mbti, message_id):
+    user = Queue(chat_id=chat_id,gender=gender,gendermatch=gendermatch,seeking=seeking,mbti=mbti,message_id=message_id)
+    db.session.add(user)
+    db.session.commit()
     
-def delete_queue(self, chat_id):
-    with self.connection:
-        return self.cursor.execute("DELETE FROM `queue` WHERE `chat_id` = ?", (chat_id,))
+def delete_queue(chat_id):
+    user = Queue.query.filter_by(chat_id=chat_id).first()
+    db.session.delete(user)
+    db.session.commit()
     
-def delete_chat(self, id_chat):
-    with self.connection:
-        return self.cursor.execute("DELETE FROM `chats` WHERE `id` = ?", (id_chat,))
+def delete_chat(chat_id):
+    user = Chats.query.filter_by(chat_id=chat_id).first()
+    db.session.delete(user)
+    db.session.commit()
 
-def setup_complete(self, chat_id):
-    with self.connection:
-        user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-        if bool(len(user)):
-            for row in user:
-                if bool(row[1]) and bool(row[2]) and bool(row[3]):
-                    return True
-            else:
-                return False
-        else:
-            return False
+def setup_complete(chat_id):
+    user = Users.query.filter_by(chat_id=chat_id).first()
+    print(user)
+    if len(user) >= 6:
+        return True
+    else:
+        return False
+        
     
 def set_user(chat_id):
         user = Users.query.filter_by(chat_id=chat_id).first()           

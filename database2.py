@@ -29,7 +29,7 @@ def setup_complete(self, chat_id):
         else:
             return False
     
-def set_user(self, chat_id):
+def set_user(chat_id):
         user = Users.query.filter_by(chat_id=chat_id)           
         if bool(len(user)) == False:
             user = Users(chat_id=chat_id)

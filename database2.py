@@ -295,7 +295,7 @@ def get_queue(chat_id):
     
 def get_gender_chat(gender, gendermatch, seeking):
     if gendermatch != 'Any':
-        user = Queue.query.filter(Queue.gender==gendermatch,Queue.gendermatch==gender,Queue.seeking==seeking).first()
+        user = Queue.query.filter(Queue.seeking==seeking, Queue.gender==gendermatch).filter(or_(Queue.gendermatch==gender, Queue.gendermatch=='Any')).first()
         if user != None:
             user_info = [user.chat_id,user.gender,user.gendermatch,user.seeking,user.mbti]
             return user_info

@@ -31,6 +31,7 @@ def setup_complete(chat_id):
 def set_user(chat_id):
         user = Users.query.filter_by(chat_id=chat_id).first()           
         if user == None:
+        if user == None:
             user = Users(chat_id=chat_id)
             db.session.add(user)
             db.session.commit()
@@ -363,10 +364,10 @@ def get_active_chat(chat_id):
         id_chat = None
 
     if id_chat == None:
-        user = Chats.query.filter_by(chat_two=chat_id).first()
+        user2 = Chats.query.filter_by(chat_two=chat_id).first()
         try:
-            id_chat = user.id
-            chat_info = [id_chat, user.chat_one]
+            id_chat = user2.id
+            chat_info = [id_chat, user2.chat_one]
         except:
             if id_chat == None:
                 return None

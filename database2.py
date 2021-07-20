@@ -1,3 +1,8 @@
+from bot2 import server
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
+db = SQLAlchemy(server)
 
 
 def add_queue(self, chat_id, gender, gendermatch, seeking, mbti, message_id): 

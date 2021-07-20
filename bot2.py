@@ -5,10 +5,10 @@ from telebot import types
 from database import Database
 from database2 import *
 import os
-from flask_sqlalchemy import SQLAlchemy
+
 import logging
 import time
-from datetime import datetime
+
 from decouple import config
 
 from flask import Flask, request
@@ -22,8 +22,6 @@ bot = telebot.TeleBot(config('TOKEN2'))
 
 server = Flask(__name__)
 server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL').split('//')[1]
-
-db = SQLAlchemy(server)
 
 
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])

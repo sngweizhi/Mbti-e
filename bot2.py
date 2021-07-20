@@ -168,7 +168,7 @@ def start(message):
         bot.send_message(message.chat.id, messages.welcome, parse_mode = 'MarkdownV2')
         return
 
-    elif db.setup_complete(message.chat.id) == False:
+    elif setup_complete(message.chat.id) == False:
       bot.send_message(message.chat.id, 'Please setup your profile first! /setup')
       
     #elif db.get_active_chat(message.chat.id) != False:

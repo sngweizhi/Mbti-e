@@ -18,7 +18,7 @@ telebot.logger.setLevel(logging.DEBUG)
 telebot.logging.basicConfig(filename='filename.log', level=logging.DEBUG,
                     format=' %(asctime)s - %(levelname)s - %(message)s')
 
-bot = telebot.TeleBot(config('TOKEN2'))
+bot = telebot.TeleBot(config('TOKEN'))
 
 server = Flask(__name__)
 server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL').split('//')[1]
@@ -694,7 +694,7 @@ def echo(call):
 
 #bot.polling(none_stop = True)
 
-@server.route('/' + config('TOKEN2'), methods=['POST'])
+@server.route('/' + config('TOKEN'), methods=['POST'])
 def getMessage():
     json_string = request.get_data().decode('utf-8')
     update = telebot.types.Update.de_json(json_string)
@@ -705,7 +705,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + config('TOKEN2'))
+    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + config('TOKEN'))
     return "!", 200
 
 

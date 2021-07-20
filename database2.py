@@ -149,7 +149,7 @@ def get_icebreaker(chat_id):
         else:
             return 'Not set'
     else:
-        return False
+        return
 
     #with self.connection:
     #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
@@ -182,7 +182,7 @@ def get_seeking(chat_id):
     if user.seeking != None:
         return user.seeking
     else:
-        return False
+        return 
 
     #with self.connection:
     #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
@@ -197,7 +197,7 @@ def get_truth1(chat_id):
     if user.truth1 != None:
         return user.truth1
     else:
-        return False
+        return 
     #with self.connection:
     #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
     #    if bool(len(user)):
@@ -211,7 +211,7 @@ def get_truth2(chat_id):
     if user.truth2 != None:
         return user.truth2
     else:
-        return False
+        return
 
     #with self.connection:
     #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
@@ -226,7 +226,7 @@ def get_lie(chat_id):
     if user.lie != None:
         return user.lie
     else:
-        return False
+        return
 
     #with self.connection:
     #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
@@ -241,7 +241,7 @@ def get_mbti(chat_id):
     if user.mbti != None:
         return user.mbti
     else:
-        return False
+        return 
     #with self.connection:
     #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
     #    if bool(len(user)):
@@ -255,7 +255,7 @@ def get_gender_match(chat_id):
     if user.gendermatch != None:
         return user.gendermatch
     else:
-        return False
+        return 
     #with self.connection:
     #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
     #    if bool(len(user)):
@@ -269,7 +269,7 @@ def get_gender(chat_id):
     if user.gender != None:
         return user.gender
     else:
-        return False
+        return 
 
     #with self.connection:
     #    user = self.cursor.execute("SELECT `gender` FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchone()
@@ -283,7 +283,7 @@ def get_queue(chat_id):
     if user != None:
         return user.chat_id
     else:
-        return False
+        return
     #with self.connection:
     #    user = self.cursor.execute("SELECT * FROM `queue` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
     #    if bool(len(user)):
@@ -368,7 +368,7 @@ def get_active_chat(chat_id):
             chat_info = user.chat_one
         except:
             if id_chat == None:
-                return False
+                return None
             else:
                 return chat_info
     else:

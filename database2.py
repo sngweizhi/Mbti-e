@@ -344,7 +344,7 @@ def get_gender_chat(gender, gendermatch, seeking):
 
 def create_chat(chat_one, chat_two):
     if chat_two != 0:
-        delete = Queue.query.filter_by(chat_id=chat_id).first()
+        delete = Queue.query.filter_by(chat_two=chat_two).first()
         insert = Chats(chat_one=chat_one, chat_two=chat_two)
         db.session.delete(delete)
         db.session.add(insert)

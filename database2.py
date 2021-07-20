@@ -31,7 +31,6 @@ def setup_complete(chat_id):
 def set_user(chat_id):
         user = Users.query.filter_by(chat_id=chat_id).first()           
         if user == None:
-        if user == None:
             user = Users(chat_id=chat_id)
             db.session.add(user)
             db.session.commit()

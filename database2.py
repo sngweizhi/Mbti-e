@@ -30,7 +30,7 @@ def setup_complete(self, chat_id):
             return False
     
 def set_user(chat_id):
-        user = Users.query.filter_by(chat_id=chat_id)           
+        user = Users.query.filter_by(chat_id=chat_id).first()           
         if bool(len(user)) == False:
             user = Users(chat_id=chat_id)
             db.session.add(user)

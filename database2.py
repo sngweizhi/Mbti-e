@@ -21,7 +21,7 @@ def delete_chat(chat_id):
     db.session.commit()
 
 def setup_complete(chat_id):
-    user = Users.query.filter_by(chat_id=chat_id).all()
+    user = Users.query.filter_by(chat_id=chat_id).first()
     if bool(user.chat_id) and bool(user.gender) and bool(user.gendermatch) and bool(user.seeking) and bool(user.mbti):
         return True
     else:

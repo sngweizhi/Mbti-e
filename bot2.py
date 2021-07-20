@@ -172,7 +172,8 @@ def start(message):
       bot.send_message(message.chat.id, 'Please setup your profile first! /setup')
       
     elif get_active_chat(message.chat.id) != None:
-       bot.send_message(message.chat.id, 'You are still in a chat!')
+        print(get_active_chat(message.chat.id))
+        bot.send_message(message.chat.id, 'You are still in a chat!')
 
     elif get_queue(message.chat.id) != None:
       bot.send_message(message.chat.id, 'You are already in the queue!')

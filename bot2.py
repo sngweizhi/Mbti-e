@@ -3,6 +3,7 @@ import telebot
 import random
 from telebot import types
 from database import Database
+from database2 import *
 import os
 from flask_sqlalchemy import SQLAlchemy
 import logging
@@ -24,36 +25,6 @@ server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL'
 
 db = SQLAlchemy(server)
 
-#Create a model
-class Users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    chat_id = db.Column(db.String(255), unique=True) 
-    gender = db.Column(db.String(60))
-    gendermatch = db.Column(db.String(60))
-    seeking = db.Column(db.String(60))
-    mbti = db.Column(db.String(60))
-    truth1 = db.Column(db.String(300))
-    truth2 = db.Column(db.String(300))
-    lie = db.Column(db.String(300))
-    age = db.Column(db.Integer)
-    agefilter = db.Column(db.String(60))
-    date_added = db.Column(db.DateTime, default=datetime.utcnow)
-
-class Chats(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    chat_one = db.Column(db.String(255), unique=True)
-    chat_two = db.Column(db.String(255), unique=True)
-
-class Queue(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    chat_id = db.Column(db.String(255), unique=True) 
-    gender = db.Column(db.String(60))
-    gendermatch = db.Column(db.String(60))
-    seeking = db.Column(db.String(60))
-    message_id = db.Column(db.String(255))
-    mbti = db.Column(db.String(60))
-    age = db.Column(db.Integer)
-    agefilter = db.Column(db.String(60))
 
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
 userStep = {}
@@ -195,9 +166,9 @@ def stop_search():
 
 @bot.message_handler(commands = ['start'])
 def start(message):
-    if db.set_user(message.chat.id) != False:
-      bot.send_message(message.chat.id, messages.welcome, parse_mode = 'MarkdownV2')
-      return
+    if set_user(message.chat.id) != False:
+        bot.send_message(message.chat.id, messages.welcome, parse_mode = 'MarkdownV2')
+        return
       
     if db.get_active_chat(message.chat.id) != False:
        bot.send_message(message.chat.id, 'You are still in a chat!')

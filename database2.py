@@ -17,7 +17,7 @@ def setup_complete(self, chat_id):
         user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
         if bool(len(user)):
             for row in user:
-            if bool(row[1]) and bool(row[2]) and bool(row[3]):
+                if bool(row[1]) and bool(row[2]) and bool(row[3]):
                 return True
             else:
                 return False

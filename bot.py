@@ -431,21 +431,18 @@ def echo(call):
 
     if call.data == 'Male':
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
       if bool(db.get_gender(call.message.chat.id)):
         if db.set_gender(call.message.chat.id, 'Male'):
-            # bot.send_message(call.message.chat.id, 'You updated your gender to *Male*\.', reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your gender to *Male*\.', reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
             mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
-            gender = db.get_gender(message.chat.id)
-            gendermatch = db.get_gender_match(message.chat.id)
-            seeking = db.get_seeking(message.chat.id)
-            mbti = db.get_mbti(message.chat.id)
-            iceb = db.get_icebreaker(message.chat.id)
-            bot.send_message(message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            gender = db.get_gender(call.message.chat.id)
+            gendermatch = db.get_gender_match(call.message.chat.id)
+            seeking = db.get_seeking(call.message.chat.id)
+            mbti = db.get_mbti(call.message.chat.id)
+            iceb = db.get_icebreaker(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if db.set_gender(call.message.chat.id, 'Male'):
-          # bot.send_message(call.message.chat.id, 'You selected *Male* as your gender\.',  parse_mode = 'MarkdownV2')
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Male* as your gender\.', parse_mode = 'MarkdownV2')
           bot.send_message(call.message.chat.id, 'Who would you like to match with?', reply_markup = match_gender_menu())
         else:
@@ -453,20 +450,18 @@ def echo(call):
         
     elif call.data == 'Female':
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
       if bool(db.get_gender(call.message.chat.id)):
         if db.set_gender(call.message.chat.id, 'Female'):
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your gender to *Female*\.', reply_markup = setup_settings(), parse_mode = 'MarkdownV2')
             mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
-            gender = db.get_gender(message.chat.id)
-            gendermatch = db.get_gender_match(message.chat.id)
-            seeking = db.get_seeking(message.chat.id)
-            mbti = db.get_mbti(message.chat.id)
-            iceb = db.get_icebreaker(message.chat.id)
-            bot.send_message(message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            gender = db.get_gender(call.message.chat.id)
+            gendermatch = db.get_gender_match(call.message.chat.id)
+            seeking = db.get_seeking(call.message.chat.id)
+            mbti = db.get_mbti(call.message.chat.id)
+            iceb = db.get_icebreaker(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if db.set_gender(call.message.chat.id, 'Female'):
-          # bot.send_message(call.message.chat.id, 'You selected *Female* as your gender\.',  parse_mode = 'MarkdownV2')
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Female* as your gender\.', parse_mode = 'MarkdownV2')
           bot.send_message(call.message.chat.id, 'Who would you like to match with?', reply_markup =match_gender_menu())
         else:
@@ -474,62 +469,56 @@ def echo(call):
 
     elif call.data == 'Malematch': 
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
       if bool(db.get_gender_match(call.message.chat.id)):
         if db.set_gender_match(call.message.chat.id, 'Male'):
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Males*\.', reply_markup=setup_settings(),  parse_mode = 'MarkdownV2')
             mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
-            gender = db.get_gender(message.chat.id)
-            gendermatch = db.get_gender_match(message.chat.id)
-            seeking = db.get_seeking(message.chat.id)
-            mbti = db.get_mbti(message.chat.id)
-            iceb = db.get_icebreaker(message.chat.id)
-            bot.send_message(message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            gender = db.get_gender(call.message.chat.id)
+            gendermatch = db.get_gender_match(call.message.chat.id)
+            seeking = db.get_seeking(call.message.chat.id)
+            mbti = db.get_mbti(call.message.chat.id)
+            iceb = db.get_icebreaker(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if db.set_gender_match(call.message.chat.id, 'Male'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Males*\.', parse_mode = 'MarkdownV2')
-          # bot.send_message(call.message.chat.id, 'You chose to match with *Males*\.',  parse_mode = 'MarkdownV2')
           bot.send_message(call.message.chat.id, 'What are you seeking?', reply_markup = seeking_menu())
         else:
           return
 
     elif call.data == 'Femalematch': 
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
       if bool(db.get_gender_match(call.message.chat.id)):
         if db.set_gender_match(call.message.chat.id, 'Female'):
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Females*\.',reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
             mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
-            gender = db.get_gender(message.chat.id)
-            gendermatch = db.get_gender_match(message.chat.id)
-            seeking = db.get_seeking(message.chat.id)
-            mbti = db.get_mbti(message.chat.id)
-            iceb = db.get_icebreaker(message.chat.id)
-            bot.send_message(message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            gender = db.get_gender(call.message.chat.id)
+            gendermatch = db.get_gender_match(call.message.chat.id)
+            seeking = db.get_seeking(call.message.chat.id)
+            mbti = db.get_mbti(call.message.chat.id)
+            iceb = db.get_icebreaker(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if db.set_gender_match(call.message.chat.id, 'Female'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Females*\.', parse_mode = 'MarkdownV2')
-          # bot.send_message(call.message.chat.id, 'You chose to match with *Females*\.',  parse_mode = 'MarkdownV2')
           bot.send_message(call.message.chat.id, 'What are you seeking?', reply_markup = seeking_menu())
         else:
           return
 
     elif call.data == 'Anymatch': 
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
       if bool(db.get_gender_match(call.message.chat.id)):
         if db.set_gender_match(call.message.chat.id, 'Any'):
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Everyone*\.', reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
             mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
-            gender = db.get_gender(message.chat.id)
-            gendermatch = db.get_gender_match(message.chat.id)
-            seeking = db.get_seeking(message.chat.id)
-            mbti = db.get_mbti(message.chat.id)
-            iceb = db.get_icebreaker(message.chat.id)
-            bot.send_message(message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            gender = db.get_gender(call.message.chat.id)
+            gendermatch = db.get_gender_match(call.message.chat.id)
+            seeking = db.get_seeking(call.message.chat.id)
+            mbti = db.get_mbti(call.message.chat.id)
+            iceb = db.get_icebreaker(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if db.set_gender_match(call.message.chat.id, 'Any'):
-          # bot.send_message(call.message.chat.id, 'You chose to match with *Everyone*\.',  parse_mode = 'MarkdownV2')
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Everyone*\.',  parse_mode = 'MarkdownV2')
           bot.send_message(call.message.chat.id, 'What are you seeking?', reply_markup = seeking_menu())
         else:
@@ -537,20 +526,18 @@ def echo(call):
 
     elif call.data == 'Dating': 
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
       if bool(db.get_seeking(call.message.chat.id)):
         if db.set_seeking(call.message.chat.id, 'Dating'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your purpose to *Dating*\.', reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
           mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
-          gender = db.get_gender(message.chat.id)
-          gendermatch = db.get_gender_match(message.chat.id)
-          seeking = db.get_seeking(message.chat.id)
-          mbti = db.get_mbti(message.chat.id)
-          iceb = db.get_icebreaker(message.chat.id)
-          bot.send_message(message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')         
+          gender = db.get_gender(call.message.chat.id)
+          gendermatch = db.get_gender_match(call.message.chat.id)
+          seeking = db.get_seeking(call.message.chat.id)
+          mbti = db.get_mbti(call.message.chat.id)
+          iceb = db.get_icebreaker(call.message.chat.id)
+          bot.send_message(call.message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')         
       else:
         if db.set_seeking(call.message.chat.id, 'Dating'):
-          # bot.send_message(call.message.chat.id, 'You selected *Dating* as your purpose\.',  parse_mode = 'MarkdownV2')
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Dating* as your purpose\.',  parse_mode = 'MarkdownV2')
           bot.send_message(call.message.chat.id, 'Select your MBTI type!', reply_markup = mbti_menu())
         else:
@@ -558,21 +545,18 @@ def echo(call):
 
     elif call.data == 'Friendship': 
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
       if bool(db.get_seeking(call.message.chat.id)):
         if db.set_seeking(call.message.chat.id, 'Friendship'):
-            # bot.send_message(call.message.chat.id, 'You updated your purpose to *Friendship*\.',reply_markup=setup_settings(),  parse_mode = 'MarkdownV2')
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your purpose to *Friendship*\.',reply_markup=setup_settings(),  parse_mode = 'MarkdownV2')
             mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
-            gender = db.get_gender(message.chat.id)
-            gendermatch = db.get_gender_match(message.chat.id)
-            seeking = db.get_seeking(message.chat.id)
-            mbti = db.get_mbti(message.chat.id)
-            iceb = db.get_icebreaker(message.chat.id)
-            bot.send_message(message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            gender = db.get_gender(call.message.chat.id)
+            gendermatch = db.get_gender_match(call.message.chat.id)
+            seeking = db.get_seeking(call.message.chat.id)
+            mbti = db.get_mbti(call.message.chat.id)
+            iceb = db.get_icebreaker(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if db.set_seeking(call.message.chat.id, 'Friendship'):
-          # bot.send_message(call.message.chat.id, 'You selected *Friendship* as your purpose\.', parse_mode = 'MarkdownV2')
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Friendship* as your purpose\.', parse_mode = 'MarkdownV2')
           bot.send_message(call.message.chat.id, 'Select your MBTI type!', reply_markup = mbti_menu())
         else:
@@ -580,45 +564,33 @@ def echo(call):
 
     elif call.data == 'Purpose': 
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
-      # bot.send_message(call.message.chat.id, 'What are you seeking?', reply_markup = seeking_menu())
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'What are you seeking?', reply_markup = seeking_menu())
     
     elif call.data == 'Gender': 
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
-      # bot.send_message(call.message.chat.id, 'Select your gender.', reply_markup = gender_menu())
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Select your gender.', reply_markup = gender_menu())
 
     elif call.data == 'Match Gender': 
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
-      # bot.send_message(call.message.chat.id, 'Who would you like to match with?', reply_markup = match_gender_menu())
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Who would you like to match with?', reply_markup = match_gender_menu())
 
     elif call.data == 'MBTI': 
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
-      # bot.send_message(call.message.chat.id, 'Select your MBTI type!', reply_markup = mbti_menu())
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Select your MBTI type!', reply_markup = mbti_menu())
 
     elif call.data == 'icebreaker':
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
       mess = "Edit your 2 Truth 1 Lie.\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
       truth1 = db.get_truth1(call.message.chat.id)
       truth2 = db.get_truth2(call.message.chat.id)
       lie = db.get_lie(call.message.chat.id)
       if bool(db.get_truth1(call.message.chat.id)):
-        # bot.send_message(call.message.chat.id, mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu(), parse_mode = 'MarkdownV2')
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu())
       else:
-        # bot.send_message(call.message.chat.id, 'Setup your 2 Truths and 1 Lie!', reply_markup=icebreaker_setup_menu())
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Setup your 2 Truths and 1 Lie!', reply_markup=icebreaker_setup_menu())
 
     elif call.data in ['truth1','truth2','lie']:
         bot.answer_callback_query(call.id)
-        # bot.delete_message(call.message.chat.id, call.message.message_id)
         if call.data == 'truth1':
           statement = 'Truth 1'
           userStep[call.message.chat.id] = 1
@@ -628,50 +600,38 @@ def echo(call):
         if call.data == 'lie':
           statement = 'Lie'
           userStep[call.message.chat.id] = 3
-        # bot.send_message(call.message.chat.id, 'Send me your *{}* statement'.format(statement), parse_mode ='MarkdownV2')
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *{}* statement\.'.format(statement), parse_mode ='MarkdownV2')
 
     elif call.data == 'icebreaker_setup':
         bot.answer_callback_query(call.id)
-        # bot.delete_message(call.message.chat.id, call.message.message_id)
-        # bot.send_message(call.message.chat.id, 'Send me your *Truth 1* statement', parse_mode ='MarkdownV2')
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *Truth 1* statement\.', parse_mode ='MarkdownV2')
         userStep[call.message.chat.id] = 4
 
     elif call.data == 'complete':
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
-      # bot.send_message(call.message.chat.id, 'Your profile is complete! Press the button below to start matching!',reply_markup=main_menu())
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Your profile is complete! Press the button below to start matching!',reply_markup=main_menu())
 
     elif call.data == 'Bot':
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
-      # bot.send_message(call.message.chat.id, 'Click the button below to start matching!',reply_markup=main_menu())
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Click the button below to start matching!',reply_markup=main_menu())
 
     elif call.data == 'setupback': 
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
       mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
       gender = db.get_gender(call.message.chat.id)
       gendermatch = db.get_gender_match(call.message.chat.id)
       seeking = db.get_seeking(call.message.chat.id)
       mbti = db.get_mbti(call.message.chat.id)
       iceb = db.get_icebreaker(call.message.chat.id)
-      # bot.send_message(call.message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
 
     elif call.data in ['ISFP', 'ISFJ', 'ISTP', 'ISTJ','ESFP', 'ESFJ', 'ESTP', 'ESTJ', 'INFP', 'INFJ', 'INTP', 'INTJ', 'ENFP', 'ENFJ', 'ENTP', 'ENTJ']: 
       bot.answer_callback_query(call.id)
-      # bot.delete_message(call.message.chat.id, call.message.message_id)
       if bool(db.get_mbti(call.message.chat.id)):
         if db.set_mbti(call.message.chat.id, call.data):
-            # bot.send_message(call.message.chat.id, 'You updated your MBTI type to *{}*\.'.format(call.data), reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your MBTI type to *{}*\.'.format(call.data), reply_markup = setup_settings(),  parse_mode = 'MarkdownV2')
       else:
         if db.set_mbti(call.message.chat.id, call.data):
-          # bot.send_message(call.message.chat.id, 'You selected *{}* as your MBTI type\.'.format(call.data),  parse_mode = 'MarkdownV2')
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *{}* as your MBTI type\.'.format(call.data),  parse_mode = 'MarkdownV2')
           bot.send_message(call.message.chat.id, 'You may choose to set an ice breaker!', reply_markup = icebreaker_menu())
         else:
@@ -680,14 +640,10 @@ def echo(call):
     elif call.data == 'NewChat':
       if db.get_queue(call.message.chat.id) != False:
         bot.answer_callback_query(call.id)
-        # bot.send_message(call.message.chat.id, '❌ You are already in the queue!')
-        # bot.delete_message(call.message.chat.id, call.message.message_id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You are already in the queue!')
       
       elif db.setup_complete(call.message.chat.id) == False:
         bot.answer_callback_query(call.id)
-        # bot.send_message(call.message.chat.id, 'Your profile is incomplete!')
-        # bot.delete_message(call.message.chat.id, call.message.message_id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Your profile is incomplete!')
 
       elif db.get_active_chat(call.message.chat.id) == False:
@@ -724,7 +680,6 @@ def echo(call):
       bot.answer_callback_query(call.id)
       bot.delete_message(call.message.chat.id, call.message.message_id -1)
       db.delete_queue(call.message.chat.id)
-      # bot.send_message(call.message.chat.id, 'Search stopped.', reply_markup = main_menu())
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Search stopped.', reply_markup = main_menu())
 
 #bot.polling(none_stop = True)

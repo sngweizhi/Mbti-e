@@ -11,6 +11,7 @@ import time
 from decouple import config
 
 from flask import Flask, request
+from flask_sqlalchemy import SQLAlchemy
 
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)

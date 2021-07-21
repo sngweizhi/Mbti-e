@@ -18,8 +18,11 @@ Updates:
   - Roll dice for game?
   - Liking algorithm w/ NN
   - Admin options to check online users stats etc and send message to all users [Done]
-  - Error logging
-  - report function
+  - Error logging [Done]
+  - report function 
+	- include lastchat database table so that reporting function works even when chat ends. [Done]
+	- reporting function with button for confirmation [Done]
+	banning function/unban function
   - help command 
   - edit global variables , add dictionary to keep track of userstep [Done]
   - edit /start message
@@ -37,4 +40,5 @@ Updates:
   - Add guidelines and terms of use
   - Add gif to help?
 
-
+  Add to Help: For reporting make sure that either report during active chat or report before starting a new chat.
+  Purpose (add to start): purpose of the bot is to increase exposure of ppl to MBTI and see how well MBTI ties in. get feedback whether it works. if it does, create a real mobile app and promote MBTI matching for relationships/friendships

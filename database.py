@@ -1,4 +1,6 @@
 import sqlite3
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 class Database:
     def __init__(self, database_file):
@@ -202,7 +204,7 @@ class Database:
     
     def get_gender_chat(self, gender, gendermatch, seeking):
         with self.connection:
-            if gendermatch != 'any':
+            if gendermatch != 'Any':
               chat = self.cursor.execute("SELECT * FROM `queue` WHERE `gendermatch` = ? AND `gender` = ? AND `seeking` = ?", (gender,gendermatch,seeking)).fetchmany(1)
               if bool(len(chat)):
                   for row in chat:
@@ -211,7 +213,7 @@ class Database:
               else:
                   return [0,0,0,0,0]
 
-            elif gendermatch == 'any':
+            elif gendermatch == 'Any':
               chat = self.cursor.execute("SELECT * FROM `queue` WHERE `gendermatch` = ? AND `seeking` = ?", (gender, seeking)).fetchmany(1)
               if bool(len(chat)):
                 for row in chat:

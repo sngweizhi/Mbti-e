@@ -18,6 +18,23 @@ def delete_queue(chat_id):
     
 def delete_chat(id_chat):
     user = Chats.query.filter_by(id=id_chat).first()
+    chatone = user.chat_one
+    chattwo = user.chat_two
+    if get_last_chat(chatone) == None:
+        user2 = Lastchat(user=chatone,partner=chattwo) #lastchat entry for chatone person
+        db.session.add(user2)
+    else:
+        user2 = Lastchat.query.filter_by(user=chatone)
+        user2.user = chatone
+        user2.partner = chattwo
+
+    if get_last_chat(chattwo) == None:
+        user3 = Lastchat(user=chattwo,partner=chatone) #lastchat entry for chattwo person
+        db.session.add(user3)
+    else:
+        user3 = Lastchat.query.filter_by(user=chattwo)
+        user3.user = chattwo
+        user3.partner = chatone
     db.session.delete(user)
     db.session.commit()
 
@@ -46,15 +63,6 @@ def set_gender(chat_id, gender):
         return True
     else:
         return False
-
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-    #    if bool(len(user)) == False:
-    #        self.cursor.execute("INSERT INTO `users` (`chat_id`, `gender`) VALUES (?,?)", (chat_id, gender))
-    #        return True
-    #    else:
-    #        self.cursor.execute("UPDATE `users` SET `gender` = ? WHERE `chat_id` = ?",(gender, chat_id))
-    #        return True
            
 
 def set_gender_match(chat_id, gendermatch):
@@ -65,12 +73,7 @@ def set_gender_match(chat_id, gendermatch):
         return True
     else:
         return False
-        #user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-        #if bool(len(user)):
-        #    self.cursor.execute("UPDATE `users` SET `gendermatch` = ? WHERE `chat_id` = ?",(gendermatch, chat_id))
-        #    return True
-        #else:
-        #    return False
+
 
 def set_seeking(chat_id, seeking):
     user = Users.query.filter_by(chat_id=chat_id).first()
@@ -81,12 +84,6 @@ def set_seeking(chat_id, seeking):
     else:
         return False
 
-        #user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-        #if bool(len(user)):
-        #    self.cursor.execute("UPDATE `users` SET `seeking` = ? WHERE `chat_id` = ?",(seeking, chat_id))
-        #    return True
-        #else:
-        #    return False
 
 def set_mbti(chat_id, mbti):
     user = Users.query.filter_by(chat_id=chat_id).first()
@@ -97,13 +94,7 @@ def set_mbti(chat_id, mbti):
     else:
         return False
 
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-    #    if bool(len(user)):
-    #        self.cursor.execute("UPDATE `users` SET `mbti` = ? WHERE `chat_id` = ?",(mbti, chat_id))
-    #        return True
-    #    else:
-    #        return False
+
 
 def set_truth1(chat_id, truth1):
     user = Users.query.filter_by(chat_id=chat_id).first()
@@ -114,13 +105,6 @@ def set_truth1(chat_id, truth1):
     else:
         return False
 
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-    #    if bool(len(user)):
-    #        self.cursor.execute("UPDATE `users` SET `truth1` = ? WHERE `chat_id` = ?",(truth1, chat_id))
-    #        return True
-    #    else:
-    #        return False
 
 def set_truth2(chat_id, truth2):
     user = Users.query.filter_by(chat_id=chat_id).first()
@@ -152,18 +136,7 @@ def get_icebreaker(chat_id):
     else:
         return
 
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-    #    if bool(len(user)):
-    #        for row in user:
-    #            if bool(row[6]) and bool(row[7]) and bool(row[8]):
-    #                return 'Set'
-    #            elif bool(row[6]) | bool(row[7]) | bool(row[8]):
-    #                return 'Incomplete'
-    #            else:
-    #                return 'Not set'
-    #    else:
-    #        return False
+
 
 def get_message_id(chat_id):
     user = Queue.query.filter_by(chat_id=chat_id).first()
@@ -171,12 +144,7 @@ def get_message_id(chat_id):
         return user.message_id
     else:
         return 0
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT `message_id` FROM `queue` WHERE `chat_id` = ?", (chat_id,)).fetchone()
-    #    if user != None:
-    #        return user[0]
-    #    else:
-    #        return 0
+
 
 def get_seeking(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
@@ -185,28 +153,14 @@ def get_seeking(chat_id):
     else:
         return 
 
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-    #    if bool(len(user)):
-    #        for row in user:
-    #            return row[4]
-    #    else:
-    #        return False
-
+ 
 def get_truth1(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
     if user.truth1 != None:
         return user.truth1
     else:
         return 
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-    #    if bool(len(user)):
-    #        for row in user:
-    #            return row[6]
-    #    else:
-    #        return False
-
+  
 def get_truth2(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
     if user.truth2 != None:
@@ -214,14 +168,6 @@ def get_truth2(chat_id):
     else:
         return
 
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-    #    if bool(len(user)):
-    #        for row in user:
-    #            return row[7]
-    #    else:
-    #        return False
-    
 def get_lie(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
     if user.lie != None:
@@ -229,13 +175,7 @@ def get_lie(chat_id):
     else:
         return
 
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-    #    if bool(len(user)):
-    #        for row in user:
-    #            return row[8]
-    #    else:
-    #        return False
+
 
 def get_mbti(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
@@ -243,13 +183,7 @@ def get_mbti(chat_id):
         return user.mbti
     else:
         return 
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-    #    if bool(len(user)):
-    #        for row in user:
-    #            return row[5]
-    #    else:
-    #        return False
+
 
 def get_gender_match(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
@@ -257,13 +191,7 @@ def get_gender_match(chat_id):
         return user.gendermatch
     else:
         return 
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT * FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-    #    if bool(len(user)):
-    #        for row in user:
-    #            return row[3]
-    #    else:
-    #        return False
+ 
 
 def get_gender(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
@@ -272,12 +200,7 @@ def get_gender(chat_id):
     else:
         return 
 
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT `gender` FROM `users` WHERE `chat_id` = ?", (chat_id,)).fetchone()
-    #    if user[0] != None:
-    #        return user[0]
-    #    else:
-    #        return False
+ 
 
 def get_queue(chat_id):
     user = Queue.query.filter_by(chat_id=chat_id).first()
@@ -285,13 +208,7 @@ def get_queue(chat_id):
         return user.chat_id
     else:
         return
-    #with self.connection:
-    #    user = self.cursor.execute("SELECT * FROM `queue` WHERE `chat_id` = ?", (chat_id,)).fetchmany(1)
-    #    if bool(len(user)):
-    #        for row in user:
-    #            return row[1]
-    #    else:
-    #        return False
+ 
     
 def get_gender_chat(gender, gendermatch, seeking):
     if gendermatch != 'Any':
@@ -310,38 +227,6 @@ def get_gender_chat(gender, gendermatch, seeking):
             return [0,0,0,0,0]
     else:
         return [0,0,0,0,0]
-
-    #with self.connection:
-    #    if gendermatch != 'Any':
-    #        chat = self.cursor.execute("SELECT * FROM `queue` WHERE `gendermatch` = ? AND `gender` = ? AND `seeking` = ?", (gender,gendermatch,seeking)).fetchmany(1)
-    #        if bool(len(chat)):
-    #            for row in chat:
-    #                user_info = [row[1], row[2],row[3],row[4],row[6]]
-    #                return user_info
-    #        else:
-    #            return [0,0,0,0,0]
-
-    #    elif gendermatch == 'Any':
-    #        chat = self.cursor.execute("SELECT * FROM `queue` WHERE `gendermatch` = ? AND `seeking` = ?", (gender, seeking)).fetchmany(1)
-    #        if bool(len(chat)):
-    #            for row in chat:
-    #                user_info = [row[1], row[2],row[3],row[4],row[6]]
-    #                return user_info
-    #        else:
-    #            return [0,0,0,0,0]
-
-    #    else:
-    #        return[0,0,0,0,0]
-
-# def get_chat(self):
-#     with self.connection:
-#         chat = self.cursor.execute("SELECT * FROM `queue`", ()).fetchmany(1)
-#         if bool(len(chat)):
-#             for row in chat:
-#                 user_info = [row[1], row[2]]
-#                 return user_info
-#         else:
-#             return [0]
 
 def create_chat(chat_one, chat_two):
     if chat_two != 0:
@@ -373,25 +258,17 @@ def get_active_chat(chat_id):
     else:
         return chat_info
 
+def get_last_chat(chat_id):
+    user = Lastchat.query.filter_by(user=chat_id).first()
+    try:
+        userchat = user.user
+        partner = user.partner
+        chat_info = [userchat, partner]
+        return chat_info
+    except:
+        return None
+        
 
-    #with self.connection:
-    #    chat = self.cursor.execute("SELECT * FROM `chats` WHERE `chat_one` = ?", (chat_id,))
-    #    id_chat = 0
-    #    for row in chat:
-    #        id_chat = row[0]
-    #        chat_info = [row[0], row[2]]
-            
-    #    if id_chat == 0:
-    #        chat = self.cursor.execute("SELECT * FROM `chats` WHERE `chat_two` = ?", (chat_id,))
-    #        for row in chat:
-    #            id_chat = row[0]
-    #            chat_info = [row[0], row[1]]
-    #        if id_chat == 0:
-    #            return False
-    #        else:
-    #            return chat_info
-    #    else:
-    #        return chat_info
 
 # Admin level functions
 
@@ -414,10 +291,28 @@ def admin_active_chat():
 def admin_queue():
     count = db.session.query(Queue.chat_id).count()
     return count
+
+def banned_user_count():
+    count = db.session.query(Banned.chat_id).count()
+    return count
         
 def get_all_users():
     user = [value[0] for value in db.session.query(Users.chat_id)]
     return user
+
+def get_banned():
+    user = [value[0] for value in db.session.query(Banned.chat_id)]
+    return user
+
+def set_banned(chat_id):
+    user  = Banned(chat_id=chat_id)
+    db.session.add(user)
+    db.session.commit()
+
+def del_banned(chat_id):
+    user  = Banned(chat_id=chat_id)
+    db.session.delete(user)
+    db.session.commit()
 
 #Create a model
 class Users(db.Model):
@@ -437,7 +332,12 @@ class Users(db.Model):
 class Chats(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chat_one = db.Column(db.Integer, unique=True) 
-    chat_two = db.Column(db.Integer, unique=True) 
+    chat_two = db.Column(db.Integer, unique=True)
+    
+class Lastchat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.Integer, unique=True) 
+    match = db.Column(db.Integer, unique=True)
 
 class Queue(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -449,3 +349,7 @@ class Queue(db.Model):
     mbti = db.Column(db.String(60))
     age = db.Column(db.Integer)
     agefilter = db.Column(db.String(60))
+
+class Banned(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    chat_id = db.Column(db.Integer, unique=True)

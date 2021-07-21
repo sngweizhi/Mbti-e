@@ -25,6 +25,7 @@ server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL'
 
 
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
+banned = get_banned()
 userStep = {}
 userPoll = {}
 
@@ -117,6 +118,24 @@ def icebreaker_menu():
                                           callback_data='complete')
   markup.add(button1,button2)
 
+  return markup
+
+def report_confirm():
+  markup = types.InlineKeyboardMarkup()
+  button1 = types.InlineKeyboardButton(text='Re-type reason',
+                                          callback_data='retype_report')
+  button2 = types.InlineKeyboardButton(text='» Submit ',
+                                          callback_data='complete_report')
+  markup.add(button1,button2)
+  return markup
+
+def report_make():
+  markup = types.InlineKeyboardMarkup()
+  button1 = types.InlineKeyboardButton(text='« Back to Bot',
+                                          callback_data='cancel_report')
+  button2 = types.InlineKeyboardButton(text='⚠ Make a report ',
+                                          callback_data='make_report')
+  markup.add(button1,button2)
   return markup
 
 def icebreaker_first():
@@ -236,6 +255,16 @@ def echo(message):
     else:
       bot.send_message(message.chat.id, 'You have not started a chat!')
 
+
+@bot.message_handler(commands=['report'])
+def echo(message):
+    if get_active_chat != None:
+        bot.send_message(message.chat.id, 'Do you wish to make a report\? You will be asked to enter your reason for reporting (e\.g\. Harassment, impersonation, advertising services)\. Misuse of the reporting system will *result in a ban*\.', reply_markup=report_make(),parse_mode='MarkdownV2')
+    elif get_last_chat != None:
+        bot.send_message(message.chat.id, 'Do you wish to make a report\? You will be asked to enter your reason for reporting (e\.g\. Harassment, impersonation, advertising services)\. Misuse of the reporting system will *result in a ban*\.', reply_markup=report_make(),parse_mode='MarkdownV2')
+    else:
+        bot.send_message(message.chat.id, '❗ Chat history not found! Please contact the admin @zeigarnik for assistance.')
+
 @bot.poll_answer_handler(func=lambda message: True)
 def poll_answer(message):
   user_ans = message.option_ids[0]
@@ -250,6 +279,7 @@ def poll_answer(message):
     bot.send_message(chat_info[1], "User selected the wrong answer! '{}'".format(statement[user_ans]))
   userPoll.pop(message.user.id, None) #reset
 
+##### ADMIN COMMANDS #####
 
 @bot.message_handler(commands=['deletedb'])
 def echo(message):
@@ -282,8 +312,31 @@ def echo(message):
         user = admin_user_count()
         active = admin_active_chat()
         queue = admin_queue()
-        msg = '*MBTInder Bot stats*\n\nTotal Users: *{}*\nActive chats: *{}*\nIn queue: *{}*'.format(user,active,queue)
+        banned_users = banned_user_count()
+        msg = '*MBTInder Bot stats*\n\nTotal Users: *{}*\nActive chats: *{}*\nIn queue: *{}*\nBanned: *{}*'.format(user,active,queue,banned_users)
         bot.send_message(message.chat.id, msg,parse_mode='MarkdownV2')
+    else:
+        return
+
+@bot.message_handler(commands=['ban'])
+def echo(message):
+    """
+    Ban a user
+    """
+    if message.chat.id in admins:
+        bot.send_message(message.chat.id,'Send chat_id to ban:')
+        userStep[message.chat.id] = 98
+    else:
+        return
+
+@bot.message_handler(commands=['unban'])
+def echo(message):
+    """
+    Unban a user
+    """
+    if message.chat.id in admins:
+        bot.send_message(message.chat.id,'Send chat_id to unban:')
+        userStep[message.chat.id] = 985
     else:
         return
 
@@ -294,10 +347,10 @@ def get_user_step(uid):
       return 0
 
 @bot.message_handler(func=lambda message: get_user_step(message.chat.id) > 0)
-def icebreakerset(message):
+def messagestop(message):
   step = get_user_step(message.chat.id)
   if step < 4:
-    if step == 1:
+    if step == 1: #1,2,3 is for setup settings
       if set_truth1(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Truth 1 set!')
     elif step == 2:
@@ -313,7 +366,7 @@ def icebreakerset(message):
     bot.send_message(message.chat.id, mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu())
     userStep.pop(message.chat.id,None)
 
-  elif step == 4:
+  elif step == 4: #4,5,6 is for first time setup process
     if set_truth1(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Truth 1 set!')
     bot.send_message(message.chat.id, 'Now send me your *Truth 2* statement\.', parse_mode ='MarkdownV2')
@@ -335,13 +388,42 @@ def icebreakerset(message):
     bot.send_message(message.chat.id, mess.format(truth1, truth2, lie),reply_markup=icebreaker_first())
     userStep.pop(message.chat.id,None)
     
-  elif step == 99:
+  elif step == 99: #Admin broadcast
       alluser = get_all_users()
       for user in alluser:
           bot.send_message(user, '*Admin: ' + message.text+'*', parse_mode = 'MarkdownV2')
       userStep.pop(message.chat.id,None)
+
+  elif step == 98: #Ban user
+      set_banned(int(message.text))
+      bot.send_message('Banned user {}'.format(message.text))
+      userStep.pop(message.chat.id,None)
+
+  elif step == 985:
+      del_banned(int(message.text))
+      bot.send_message('Unbanned user {}'.format(message.text))
+      userStep.pop(message.chat.id,None)
+
+  elif step == 91: #Reporting
+    user_reporting = [message.chat.id, message.chat.username]
+    if bool(get_active_chat(message.chat.id)):
+        user_reported = get_active_chat(message.chat.id)[1]
+    elif bool(get_last_chat(message.chat.id)):
+        user_reported = get_last_chat(message.chat.id)[1]
+    else:
+        user_reported = 'Unidentified'
+    mess = 'Report:\n\nReason: {}'
+    bot.send_message(message.chat.id, mess.format(message.text))
+    bot.send_message(message.chat.id, "Please verify if the above information is accurate before submitting your report.", reply_markup = report_confirm())
+          
+    for admin in admins:
+        mess = 'Report:\n\nUser reporting: {}\nUser reported: {}\nReason: {}'
+        bot.send_message(admin, mess.format(user_reporting, user_reported, message.text))
+    
   else:
     userStep[message.chat.id]=0
+
+  
 
 
 @bot.message_handler(content_types=['text', 'sticker', 'video', 'photo', 'audio', 'voice','video_note'])
@@ -647,6 +729,23 @@ def echo(call):
         else:
           return
 
+    elif call.data == 'cancel_report':
+        bot.delete_message_text(call.message.chat.id, call.message.message_id)
+
+    elif call.data == 'make_report':
+        userStep[message.chat.id] == 91
+        bot.send_message(message.chat.id, 'Please enter your reason for reporting.')
+
+    elif call.data == 'retype_report':
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Re-type your reason for reporting.')
+
+    elif call.data == 'confirm_report':
+        userStep.pop(call.message.chat.id,None)
+        bot.send_message(call.message.chat.id, 'Report succesfully submitted! An admin will contact you should further information be required.')
+        for admin in admins:
+            user_reporting = call.message.chat.id
+            bot.send_message(admin, 'Latest report from {} confirmed'.format(user_reporting))
+
     elif call.data == 'NewChat':
       if get_queue(call.message.chat.id) != None:
         bot.answer_callback_query(call.id)
@@ -656,7 +755,7 @@ def echo(call):
         bot.answer_callback_query(call.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Your profile is incomplete!')
 
-      elif get_active_chat(call.message.chat.id) == None:
+      elif get_active_chat(call.message.chat.id) == None and call.message.id not in banned:
         bot.answer_callback_query(call.id)
         bot.delete_message(call.message.chat.id, call.message.message_id)
         gendermatch = get_gender_match(call.message.chat.id)

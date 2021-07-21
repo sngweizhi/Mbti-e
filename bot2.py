@@ -24,7 +24,7 @@ server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL'
 
 
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
-banned = get_banned()
+
 userStep = {}
 userPoll = {}
 
@@ -509,6 +509,7 @@ def echo(message):
             else:
               bot.send_message(message.chat.id, 'You are not currently in a chat with anyone!')
   
+banned = get_banned()
 
 @bot.callback_query_handler(func=lambda call: True)
 def echo(call):

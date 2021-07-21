@@ -746,6 +746,7 @@ def echo(call):
             bot.send_message(admin, 'Latest report from {} confirmed'.format(user_reporting))
 
     elif call.data == 'NewChat':
+
       if get_queue(call.message.chat.id) != None:
         bot.answer_callback_query(call.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ You are already in the queue!')
@@ -754,7 +755,7 @@ def echo(call):
         bot.answer_callback_query(call.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ Your profile is incomplete!')
 
-      elif call.message.id in get_banned():
+      elif call.message.chat.id in get_banned():
           bot.answer_callback_query(call.id)
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ You have been banned!')
 

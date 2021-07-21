@@ -391,12 +391,12 @@ def messagestop(message):
 
   elif step == 98: #Ban user
       set_banned(int(message.text))
-      bot.send_message('Banned user {}'.format(message.text))
+      bot.send_message(message.chat.id,'Banned user {}'.format(message.text))
       userStep.pop(message.chat.id,None)
 
   elif step == 985:
       del_banned(int(message.text))
-      bot.send_message('Unbanned user {}'.format(message.text))
+      bot.send_message(message.chat.id,'Unbanned user {}'.format(message.text))
       userStep.pop(message.chat.id,None)
 
   elif step == 91: #Reporting

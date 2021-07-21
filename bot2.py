@@ -254,9 +254,9 @@ def echo(message):
 @bot.message_handler(commands=['report'])
 def echo(message):
     if get_active_chat != None:
-        bot.send_message(message.chat.id, 'Do you wish to make a report\? You will be asked to enter your reason for reporting (e\.g\. Harassment, impersonation, advertising services)\. Misuse of the reporting system will *result in a ban*\.', reply_markup=report_make(),parse_mode='MarkdownV2')
+        bot.send_message(message.chat.id, 'Do you wish to make a report\? You will be asked to enter your reason for reporting \(e\.g\. Harassment, impersonation, advertising services\)\. Misuse of the reporting system will *result in a ban*\.', reply_markup=report_make(),parse_mode='MarkdownV2')
     elif get_last_chat != None:
-        bot.send_message(message.chat.id, 'Do you wish to make a report\? You will be asked to enter your reason for reporting (e\.g\. Harassment, impersonation, advertising services)\. Misuse of the reporting system will *result in a ban*\.', reply_markup=report_make(),parse_mode='MarkdownV2')
+        bot.send_message(message.chat.id, 'Do you wish to make a report\? You will be asked to enter your reason for reporting \(e\.g\. Harassment, impersonation, advertising services\)\. Misuse of the reporting system will *result in a ban*\.', reply_markup=report_make(),parse_mode='MarkdownV2')
     else:
         bot.send_message(message.chat.id, '❗ Chat history not found! Please contact the admin @zeigarnik for assistance.')
 
@@ -798,7 +798,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://mbtindertest.herokuapp.com/' + config('TOKEN'))
+    bot.set_webhook(url='https://mbtindertest.herokuapp.com/' + config('TOKEN')) #changeback when not in testing
     return "!", 200
 
 

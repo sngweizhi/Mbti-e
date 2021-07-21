@@ -276,6 +276,8 @@ def clear_database():
     db.session.query(Users).delete()
     db.session.query(Queue).delete()
     db.session.query(Chats).delete()
+    db.session.query(Banned).delete()
+    db.session.query(Lastchat).delete()
     db.session.commit()
 
 def admin_user_count():

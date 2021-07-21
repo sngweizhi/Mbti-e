@@ -117,7 +117,7 @@ def icebreaker_menu():
 
 def report_confirm():
   markup = types.InlineKeyboardMarkup()
-  button1 = types.InlineKeyboardButton(text='Re-type reason',
+  button1 = types.InlineKeyboardButton(text='✏ Re-type reason',
                                           callback_data='retype_report')
   button2 = types.InlineKeyboardButton(text='» Submit ',
                                           callback_data='complete_report')
@@ -135,7 +135,7 @@ def report_make():
 
 def icebreaker_first():
   markup = types.InlineKeyboardMarkup()
-  button1 = types.InlineKeyboardButton(text='Edit',
+  button1 = types.InlineKeyboardButton(text='✏ Edit',
                                           callback_data='icebreaker')
   button2 = types.InlineKeyboardButton(text='» Complete ',
                                           callback_data='complete')
@@ -170,7 +170,7 @@ def icebreaker_setup_menu():
 
 def stop_search():
   markup = types.InlineKeyboardMarkup()
-  button1 = types.InlineKeyboardButton(text='Stop searching',
+  button1 = types.InlineKeyboardButton(text='🚫 Stop searching',
                                           callback_data='Stop')
   markup.add(button1)
 
@@ -183,14 +183,14 @@ def start(message):
         return
 
     elif setup_complete(message.chat.id) == False:
-      bot.send_message(message.chat.id, 'Please setup your profile first! /setup')
+      bot.send_message(message.chat.id, '❗ Please setup your profile first! /setup')
       
     elif get_active_chat(message.chat.id) != None:
         print(get_active_chat(message.chat.id))
-        bot.send_message(message.chat.id, 'You are still in a chat!')
+        bot.send_message(message.chat.id, '❗ You are still in a chat!')
 
     elif get_queue(message.chat.id) != None:
-      bot.send_message(message.chat.id, 'You are already in the queue!')
+      bot.send_message(message.chat.id, '❗ You are already in the queue!')
 
     else:
       bot.send_message(message.chat.id, 'Click the button below to start matching!',reply_markup=main_menu())
@@ -208,7 +208,7 @@ def stop(message):
         bot.send_message(chat_info[1], 'Your match has ended the chat. Input /start to start searching for another match!')
         bot.send_message(message.chat.id, 'You have ended the chat. Input /start to start searching for another match!')
     else:
-        bot.send_message(message.chat.id, 'You have not started a chat!')
+        bot.send_message(message.chat.id, '❗ You have not started a chat!')
 
 
 @bot.message_handler(commands=['setup'])
@@ -219,7 +219,7 @@ def echo(message):
     :return:
     """
     if get_active_chat(message.chat.id) != None:
-       bot.send_message(message.chat.id, 'You are still in a chat!')
+       bot.send_message(message.chat.id, '❗ You are still in a chat!')
        return
     
     if get_gender(message.chat.id) == None:
@@ -246,9 +246,9 @@ def echo(message):
           bot.send_poll(chat_info[1], '2 Truths 1 Lie. Select the Lie!', options = statements, correct_option_id=ans, type = 'quiz', is_anonymous= False)
           bot.send_message(message.chat.id, '2 Truths 1 Lie sent!')
       else:
-          bot.send_message(message.chat.id, 'You have not set an ice breaker!')
+          bot.send_message(message.chat.id, '❗ You have not set an ice breaker!')
     else:
-      bot.send_message(message.chat.id, 'You have not started a chat!')
+      bot.send_message(message.chat.id, '❗ You have not started a chat!')
 
 
 @bot.message_handler(commands=['report'])
@@ -386,7 +386,7 @@ def messagestop(message):
   elif step == 99: #Admin broadcast
       alluser = get_all_users()
       for user in alluser:
-          bot.send_message(user, '*Admin: ' + message.text+'*', parse_mode = 'MarkdownV2')
+          bot.send_message(user, '📢 *Admin: ' + message.text+'*', parse_mode = 'MarkdownV2')
       userStep.pop(message.chat.id,None)
 
   elif step == 98: #Ban user
@@ -409,7 +409,7 @@ def messagestop(message):
         user_reported = 'Unidentified'
     mess = 'Report:\n\nReason: {}'
     bot.send_message(message.chat.id, mess.format(message.text))
-    bot.send_message(message.chat.id, "Please verify if the above information is accurate before submitting your report.", reply_markup = report_confirm())
+    bot.send_message(message.chat.id, "⚠ Please verify if the above information is accurate before submitting your report.", reply_markup = report_confirm())
           
     for admin in admins:
         mess = 'Report:\n\nUser reporting: {}\nUser reported: {}\nReason: {}'
@@ -501,9 +501,9 @@ def echo(message):
                       text,
                       reply_to_message_id=message.reply_to_message.message_id -1)
               else:
-                  bot.send_message(message.chat.id, 'You cannot forward your own message!')
+                  bot.send_message(message.chat.id, '❗ You cannot forward your own message!')
             else:
-              bot.send_message(message.chat.id, 'You are not currently in a chat with anyone!')
+              bot.send_message(message.chat.id, '❗ You are not currently in a chat with anyone!')
 
 @bot.callback_query_handler(func=lambda call: True)
 def echo(call):
@@ -743,11 +743,11 @@ def echo(call):
     elif call.data == 'NewChat':
       if get_queue(call.message.chat.id) != None:
         bot.answer_callback_query(call.id)
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You are already in the queue!')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ You are already in the queue!')
       
       elif setup_complete(call.message.chat.id) == False:
         bot.answer_callback_query(call.id)
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Your profile is incomplete!')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ Your profile is incomplete!')
 
       elif get_active_chat(call.message.chat.id) == None and call.message.id not in banned:
         bot.answer_callback_query(call.id)
@@ -776,7 +776,7 @@ def echo(call):
                   bot.send_message(chat_two, mess.format(gender,seeking,mbti))
       else:
         print('error')
-        bot.send_message(call.message.chat.id, 'Error.')
+        bot.send_message(call.message.chat.id, '❗ Error.')
         return
 
     elif call.data == 'Stop':

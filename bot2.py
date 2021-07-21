@@ -20,7 +20,7 @@ telebot.logging.basicConfig(filename='filename.log', level=logging.DEBUG,
 bot = telebot.TeleBot(config('TOKEN'))
 
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
-banned = get_banned()
+
 userStep = {}
 userPoll = {}
 
@@ -749,7 +749,7 @@ def echo(call):
         bot.answer_callback_query(call.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Your profile is incomplete!')
 
-      elif get_active_chat(call.message.chat.id) == None and call.message.id not in banned:
+      elif get_active_chat(call.message.chat.id) == None:#and call.message.id not in banned
         bot.answer_callback_query(call.id)
         bot.delete_message(call.message.chat.id, call.message.message_id)
         gendermatch = get_gender_match(call.message.chat.id)

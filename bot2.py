@@ -753,7 +753,11 @@ def echo(call):
         bot.answer_callback_query(call.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ Your profile is incomplete!')
 
-      elif get_active_chat(call.message.chat.id) == None and call.message.id not in banned:
+      elif call.message.id in banned:
+          bot.answer_callback_query(call.id)
+          bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ You have been banned!')
+
+      elif get_active_chat(call.message.chat.id) == None:
         bot.answer_callback_query(call.id)
         bot.delete_message(call.message.chat.id, call.message.message_id)
         gendermatch = get_gender_match(call.message.chat.id)

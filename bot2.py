@@ -724,18 +724,22 @@ def echo(call):
           return
 
     elif call.data == 'cancel_report':
+        bot.answer_callback_query(call.id)
         bot.delete_message(call.message.chat.id, call.message.message_id)
 
     elif call.data == 'make_report':
+        bot.answer_callback_query(call.id)
         userStep[call.message.chat.id] = 91
         bot.send_message(call.message.chat.id, 'Please enter your reason for reporting.')
 
     elif call.data == 'retype_report':
+        bot.answer_callback_query(call.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Re-type your reason for reporting.')
 
     elif call.data == 'confirm_report':
+        bot.answer_callback_query(call.id)
         userStep.pop(call.message.chat.id,None)
-        bot.send_message(call.message.chat.id, 'Report succesfully submitted! An admin will contact you should further information be required.')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Report succesfully submitted! An admin will contact you should further information be required.')
         for admin in admins:
             user_reporting = call.message.chat.id
             bot.send_message(admin, 'Latest report from {} confirmed'.format(user_reporting))

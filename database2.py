@@ -337,7 +337,7 @@ class Chats(db.Model):
 class Lastchat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.Integer, unique=True) 
-    match = db.Column(db.Integer, unique=True)
+    match = db.Column(db.Integer)
 
 class Queue(db.Model):
     id = db.Column(db.Integer, primary_key=True)

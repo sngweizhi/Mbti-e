@@ -151,30 +151,42 @@ def get_message_id(chat_id):
 
 def get_seeking(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
-    if user.seeking != None:
-        return user.seeking
+    if user != None:
+        if user.seeking != None:
+            return user.seeking
+        else:
+            return 
     else:
-        return 
+        return
 
  
 def get_truth1(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
-    if user.truth1 != None:
-        return user.truth1
+    if user != None:
+        if user.truth1 != None:
+            return user.truth1
+        else:
+            return
     else:
-        return 
+        return
   
 def get_truth2(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
-    if user.truth2 != None:
-        return user.truth2
+    if user != None:
+        if user.truth2 != None:
+            return user.truth2
+        else:
+            return
     else:
         return
 
 def get_lie(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
-    if user.lie != None:
-        return user.lie
+    if user != None:
+        if user.lie != None:
+            return user.lie
+        else:
+            return
     else:
         return
 
@@ -182,26 +194,33 @@ def get_lie(chat_id):
 
 def get_mbti(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
-    if user.mbti != None:
-        return user.mbti
+    if user != None:
+        if user.mbti != None:
+            return user.mbti
+        else:
+            return 
     else:
-        return 
-
+        return
 
 def get_gender_match(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
-    if user.gendermatch != None:
-        return user.gendermatch
+    if user != None:
+        if user.gendermatch != None:
+            return user.gendermatch
+        else:
+            return 
     else:
-        return 
- 
+        return
 
 def get_gender(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
-    if user.gender != None:
-        return user.gender
+    if user != None:
+        if user.gender != None:
+            return user.gender
+        else:
+            return
     else:
-        return 
+        return
 
  
 

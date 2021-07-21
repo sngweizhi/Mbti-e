@@ -20,7 +20,6 @@ telebot.logging.basicConfig(filename='filename.log', level=logging.DEBUG,
 bot = telebot.TeleBot(config('TOKEN'))
 
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
-banned = get_banned()
 userStep = {}
 userPoll = {}
 
@@ -386,7 +385,7 @@ def messagestop(message):
   elif step == 99: #Admin broadcast
       alluser = get_all_users()
       for user in alluser:
-          bot.send_message(user, '📢 *Admin: ' + message.text+'*', parse_mode = 'MarkdownV2')
+          bot.send_message(user, '\📢*Admin: ' + message.text+'*', parse_mode = 'MarkdownV2')
       userStep.pop(message.chat.id,None)
 
   elif step == 98: #Ban user
@@ -487,7 +486,9 @@ def echo(message):
         
 
         if message.text != '/start' and message.text != '/stop' and \
-                    message.text != '/setup' and message.text != '/icebreaker' and message.text != '/help':
+                    message.text != '/setup' and message.text != '/icebreaker' and message.text != '/help'\
+                    and message.text != '/ban' and message.text != '/unban' and message.text != '/broadcast' \
+                    and message.text != '/report':
 
             if get_active_chat(message.chat.id) != None:
               chat_info = get_active_chat(message.chat.id)
@@ -753,7 +754,7 @@ def echo(call):
         bot.answer_callback_query(call.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ Your profile is incomplete!')
 
-      elif call.message.id in banned:
+      elif call.message.id in get_banned():
           bot.answer_callback_query(call.id)
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ You have been banned!')
 

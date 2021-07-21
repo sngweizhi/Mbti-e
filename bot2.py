@@ -170,7 +170,7 @@ def icebreaker_setup_menu():
 
 def stop_search():
   markup = types.InlineKeyboardMarkup()
-  button1 = types.InlineKeyboardButton(text='🚫 Stop searching',
+  button1 = types.InlineKeyboardButton(text='Stop searching',
                                           callback_data='Stop')
   markup.add(button1)
 

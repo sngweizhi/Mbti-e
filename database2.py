@@ -331,7 +331,7 @@ def set_banned(chat_id):
     db.session.commit()
 
 def del_banned(chat_id):
-    user  = Banned(chat_id=chat_id)
+    user  = Banned.query.filter_by(chat_id=chat_id)
     db.session.delete(user)
     db.session.commit()
 

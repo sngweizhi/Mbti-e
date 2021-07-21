@@ -798,7 +798,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + config('TOKEN'))
+    bot.set_webhook(url='https://mbtindertest.herokuapp.com/' + config('TOKEN'))
     return "!", 200
 
 

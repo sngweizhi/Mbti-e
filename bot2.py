@@ -727,7 +727,7 @@ def echo(call):
         bot.delete_message(call.message.chat.id, call.message.message_id)
 
     elif call.data == 'make_report':
-        userStep[call.message.chat.id] == 91
+        userStep[call.message.chat.id] = 91
         bot.send_message(call.message.chat.id, 'Please enter your reason for reporting.')
 
     elif call.data == 'retype_report':

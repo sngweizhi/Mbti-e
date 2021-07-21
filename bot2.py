@@ -221,7 +221,7 @@ def echo(message):
        bot.send_message(message.chat.id, '❗ You are still in a chat!')
        return
 
-    if set_gender(message.chat.id) == None: # Means no user id in database, direct them to /start
+    if set_gender(message.chat.id,'Male') == None: # Just using random function to check existence of user id in database
         bot.send_message(message.chat.id, 'Please enter /start first!', reply_markup=gender_menu())
         return
 

@@ -220,7 +220,11 @@ def echo(message):
     if get_active_chat(message.chat.id) != None:
        bot.send_message(message.chat.id, '❗ You are still in a chat!')
        return
-    
+
+    if set_gender(message.chat.id) == None: # Means no user id in database, direct them to /start
+        bot.send_message(message.chat.id, 'Please enter /start first!', reply_markup=gender_menu())
+        return
+
     if get_gender(message.chat.id) == None:
       bot.send_message(message.chat.id, 'Welcome to MBTInder! Please select your gender!', reply_markup=gender_menu())
       

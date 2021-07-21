@@ -2,7 +2,6 @@ import messages
 import telebot
 import random
 from telebot import types
-from database import Database
 from database2 import *
 import os
 

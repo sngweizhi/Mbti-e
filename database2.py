@@ -1,5 +1,11 @@
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import or_
+
+server = Flask(__name__)
+server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL').split('//')[1]
+db = SQLAlchemy(server)
+
 
 def add_queue(chat_id, gender, gendermatch, seeking, mbti, message_id):
     user = Queue(chat_id=chat_id,gender=gender,gendermatch=gendermatch,seeking=seeking,mbti=mbti,message_id=message_id)
@@ -262,6 +268,7 @@ def get_last_chat(chat_id):
         return chat_info
     except:
         return None
+        
 
 def clear_database():
     db.session.query(Users).delete()

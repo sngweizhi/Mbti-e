@@ -11,7 +11,6 @@ import time
 from decouple import config
 
 from flask import Flask, request
-from flask_sqlalchemy import SQLAlchemy
 
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)
@@ -20,13 +19,7 @@ telebot.logging.basicConfig(filename='filename.log', level=logging.DEBUG,
 
 bot = telebot.TeleBot(config('TOKEN'))
 
-server = Flask(__name__)
-server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL').split('//')[1]
-
-db = SQLAlchemy(server)
-
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
-
 banned = get_banned()
 userStep = {}
 userPoll = {}

@@ -24,7 +24,7 @@ server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL'
 
 
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
-banned = get_banned()
+banned = database2.get_banned()
 userStep = {}
 userPoll = {}
 

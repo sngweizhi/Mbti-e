@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import or_
 from flask import Flask
+from decouple import config
 
 server = Flask(__name__)
 server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL').split('//')[1]

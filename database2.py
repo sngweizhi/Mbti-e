@@ -267,10 +267,6 @@ def get_last_chat(chat_id):
         return chat_info
     except:
         return None
-        
-
-
-# Admin level functions
 
 def clear_database():
     db.session.query(Users).delete()

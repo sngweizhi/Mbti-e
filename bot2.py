@@ -120,7 +120,7 @@ def report_confirm():
   button1 = types.InlineKeyboardButton(text='✏ Re-type reason',
                                           callback_data='retype_report')
   button2 = types.InlineKeyboardButton(text='» Submit ',
-                                          callback_data='complete_report')
+                                          callback_data='confirm_report')
   markup.add(button1,button2)
   return markup
 
@@ -407,10 +407,10 @@ def messagestop(message):
         user_reported = get_last_chat(message.chat.id)[1]
     else:
         user_reported = 'Unidentified'
-    mess = 'Report:\n\nReason: {}'
+    mess = 'Report\n\nReason: {}'
     bot.send_message(message.chat.id, mess.format(message.text))
     bot.send_message(message.chat.id, "⚠ Please verify if the above information is accurate before submitting your report.", reply_markup = report_confirm())
-          
+        
     for admin in admins:
         mess = 'Report:\n\nUser reporting: {}\nUser reported: {}\nReason: {}'
         bot.send_message(admin, mess.format(user_reporting, user_reported, message.text))

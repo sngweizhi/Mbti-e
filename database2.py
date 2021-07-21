@@ -24,20 +24,20 @@ def delete_chat(id_chat):
     chatone = user.chat_one
     chattwo = user.chat_two
     if get_last_chat(chatone) == None:
-        user2 = Lastchat(user=chatone,partner=chattwo) #lastchat entry for chatone person
+        user2 = Lastchat(user=chatone,match=chattwo) #lastchat entry for chatone person
         db.session.add(user2)
     else:
         user2 = Lastchat.query.filter_by(user=chatone)
         user2.user = chatone
-        user2.partner = chattwo
+        user2.match = chattwo
 
     if get_last_chat(chattwo) == None:
-        user3 = Lastchat(user=chattwo,partner=chatone) #lastchat entry for chattwo person
+        user3 = Lastchat(user=chattwo,match=chatone) #lastchat entry for chattwo person
         db.session.add(user3)
     else:
         user3 = Lastchat.query.filter_by(user=chattwo)
         user3.user = chattwo
-        user3.partner = chatone
+        user3.match = chatone
     db.session.delete(user)
     db.session.commit()
 
@@ -265,8 +265,8 @@ def get_last_chat(chat_id):
     user = Lastchat.query.filter_by(user=chat_id).first()
     try:
         userchat = user.user
-        partner = user.partner
-        chat_info = [userchat, partner]
+        match = user.match
+        chat_info = [userchat, match]
         return chat_info
     except:
         return None

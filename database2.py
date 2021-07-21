@@ -1,10 +1,5 @@
-from bot2 import server
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import or_
-
-db = SQLAlchemy(server)
-
 
 def add_queue(chat_id, gender, gendermatch, seeking, mbti, message_id):
     user = Queue(chat_id=chat_id,gender=gender,gendermatch=gendermatch,seeking=seeking,mbti=mbti,message_id=message_id)

@@ -11,6 +11,7 @@ import time
 from decouple import config
 
 from flask import Flask, request
+from flask_sqlalchemy import SQLAlchemy
 
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)
@@ -22,9 +23,11 @@ bot = telebot.TeleBot(config('TOKEN'))
 server = Flask(__name__)
 server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL').split('//')[1]
 
+db = SQLAlchemy(server)
 
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
 
+banned = get_banned()
 userStep = {}
 userPoll = {}
 
@@ -508,8 +511,6 @@ def echo(message):
                   bot.send_message(message.chat.id, 'You cannot forward your own message!')
             else:
               bot.send_message(message.chat.id, 'You are not currently in a chat with anyone!')
-  
-banned = get_banned()
 
 @bot.callback_query_handler(func=lambda call: True)
 def echo(call):

@@ -108,7 +108,7 @@ def setup_menu():
                                           callback_data='icebreaker')
   button8 = types.InlineKeyboardButton(text='« Back to Bot',
                                           callback_data='Bot')
-  markup = types.InlineKeyboardMarkup([[button1,button2],[button3,button4],[button5,button6],[button7,button8])                                   
+  markup = types.InlineKeyboardMarkup([[button1,button2],[button3,button4],[button5,button6],[button7,button8]])                                   
   return markup
 
 def icebreaker_menu():

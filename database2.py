@@ -44,7 +44,7 @@ def delete_chat(id_chat):
 
 def setup_complete(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
-    if bool(user.chat_id) and bool(user.gender) and bool(user.gendermatch) and bool(user.seeking) and bool(user.mbti):
+    if bool(user.chat_id) and bool(user.gender) and bool(user.age) and bool(user.gendermatch) and bool(user.seeking) and bool(user.mbti) and bool(user.agefilter):
         return True
     else:
         return False
@@ -52,7 +52,7 @@ def setup_complete(chat_id):
 def set_user(chat_id):
         user = Users.query.filter_by(chat_id=chat_id).first()           
         if user == None:
-            user = Users(chat_id=chat_id)
+            user = Users(chat_id=chat_id, agefilter='18-99')
             db.session.add(user)
             db.session.commit()
             return True
@@ -67,7 +67,24 @@ def set_gender(chat_id, gender):
         return True
     else:
         return False
-           
+
+def set_age(chat_id, age):
+    user = Users.query.filter_by(chat_id=chat_id).first()
+    if user != None:
+        user.age = int(age)
+        db.session.commit()
+        return True
+    else:
+        return False
+
+def set_agefilter(chat_id, agefilter):
+    user = Users.query.filter_by(chat_id=chat_id).first()
+    if user != None:
+        user.agefilter = agefilter
+        db.session.commit()
+        return True
+    else:
+        return False
 
 def set_gender_match(chat_id, gendermatch):
     user = Users.query.filter_by(chat_id=chat_id).first()
@@ -139,8 +156,6 @@ def get_icebreaker(chat_id):
             return 'Not set'
     else:
         return
-
-
 
 def get_message_id(chat_id):
     user = Queue.query.filter_by(chat_id=chat_id).first()
@@ -223,7 +238,25 @@ def get_gender(chat_id):
     else:
         return
 
- 
+def get_age(chat_id):
+    user = Users.query.filter_by(chat_id=chat_id).first()
+    if user != None:
+        if user.age != None:
+            return user.age
+        else:
+            return
+    else:
+        return
+
+def get_agefilter(chat_id):
+    user = Users.query.filter_by(chat_id=chat_id).first()
+    if user != None:
+        if user.agefilter != None:
+            return user.agefilter
+        else:
+            return
+    else:
+        return
 
 def get_queue(chat_id):
     user = Queue.query.filter_by(chat_id=chat_id).first()

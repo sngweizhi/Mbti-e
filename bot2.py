@@ -253,8 +253,8 @@ def echo(message):
       bot.send_message(message.chat.id, 'Welcome to MBTInder! Please select your gender!', reply_markup=gender_menu())
       
     else:
-      message = mbtinder_settings(message.chat.id)
-      bot.send_message(message.chat.id, message, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+      mess = mbtinder_settings(message.chat.id)
+      bot.send_message(message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
 
 @bot.message_handler(commands=['icebreaker'])
 def echo(message):
@@ -419,8 +419,8 @@ def messagestop(message):
               if bool(get_age(message.chat.id)):
                   set_age(message.chat.id, int(message.text))
                   bot.send_message(message.chat.id,'Age updated to *{}*\!'.format(message.text), parse_mode='MarkdownV2')
-                  message = mbtinder_settings(message.chat.id)
-                  bot.send_message(message.chat.id, message, parse_mode='MarkdownV2')
+                  mess = mbtinder_settings(message.chat.id)
+                  bot.send_message(message.chat.id, mess, parse_mode='MarkdownV2')
                   userStep.pop(message.chat.id,None)
               else:
                   set_age(message.chat.id, int(message.text))
@@ -445,8 +445,8 @@ def messagestop(message):
           else:
               set_agefilter(message.chat.id, message.text)
               bot.send_message(message.chat.id,'Age filter updated to *{}*\!'.format(message.text), parse_mode='MarkdownV2')
-              message = mbtinder_settings(message.chat.id)
-              bot.send_message(message.chat.id, message, parse_mode='MarkdownV2')
+              mess = mbtinder_settings(message.chat.id)
+              bot.send_message(message.chat.id, mess, parse_mode='MarkdownV2')
               userStep.pop(message.chat.id,None)
       else:
           bot.send_message(message.chat.id,'❗ Invalid entry! Please enter age limits in the form of XX-XX e.g. 18-35!')
@@ -600,8 +600,8 @@ def echo(call):
       if bool(get_gender(call.message.chat.id)):
         if set_gender(call.message.chat.id, 'Male'):
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your gender to *Male*\.',  parse_mode = 'MarkdownV2')
-            message = mbtinder_settings(call.message.chat.id)
-            bot.send_message(call.message.chat.id, message, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            mess = mbtinder_settings(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if set_gender(call.message.chat.id, 'Male'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Male* as your gender\.', parse_mode = 'MarkdownV2')
@@ -616,8 +616,8 @@ def echo(call):
       if bool(get_gender(call.message.chat.id)):
         if set_gender(call.message.chat.id, 'Female'):
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your gender to *Female*\.', parse_mode = 'MarkdownV2')
-            message = mbtinder_settings(call.message.chat.id)
-            bot.send_message(call.message.chat.id, message, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            mess = mbtinder_settings(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if set_gender(call.message.chat.id, 'Female'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Female* as your gender\.', parse_mode = 'MarkdownV2')
@@ -632,8 +632,8 @@ def echo(call):
       if bool(get_gender_match(call.message.chat.id)):
         if set_gender_match(call.message.chat.id, 'Male'):
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Males*\.',  parse_mode = 'MarkdownV2')
-            message = mbtinder_settings(call.message.chat.id)
-            bot.send_message(call.message.chat.id, message, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            mess = mbtinder_settings(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if set_gender_match(call.message.chat.id, 'Male'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Males*\.', parse_mode = 'MarkdownV2')
@@ -646,8 +646,8 @@ def echo(call):
       if bool(get_gender_match(call.message.chat.id)):
         if set_gender_match(call.message.chat.id, 'Female'):
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Females*\.',  parse_mode = 'MarkdownV2')
-            message = mbtinder_settings(call.message.chat.id)
-            bot.send_message(call.message.chat.id, message, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            mess = mbtinder_settings(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if set_gender_match(call.message.chat.id, 'Female'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Females*\.', parse_mode = 'MarkdownV2')
@@ -660,8 +660,8 @@ def echo(call):
       if bool(get_gender_match(call.message.chat.id)):
         if set_gender_match(call.message.chat.id, 'Any'):
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Everyone*\.',  parse_mode = 'MarkdownV2')
-            message = mbtinder_settings(call.message.chat.id)
-            bot.send_message(call.message.chat.id, message, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            mess = mbtinder_settings(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if set_gender_match(call.message.chat.id, 'Any'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to match with *Everyone*\.',  parse_mode = 'MarkdownV2')
@@ -674,8 +674,8 @@ def echo(call):
       if bool(get_seeking(call.message.chat.id)):
         if set_seeking(call.message.chat.id, 'Dating'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your purpose to *Dating*\.',  parse_mode = 'MarkdownV2')
-          message = mbtinder_settings(call.message.chat.id)
-          bot.send_message(call.message.chat.id, message, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')         
+          mess = mbtinder_settings(call.message.chat.id)
+          bot.send_message(call.message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')         
       else:
         if set_seeking(call.message.chat.id, 'Dating'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Dating* as your purpose\.',  parse_mode = 'MarkdownV2')
@@ -688,8 +688,8 @@ def echo(call):
       if bool(get_seeking(call.message.chat.id)):
         if set_seeking(call.message.chat.id, 'Friendship'):
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your purpose to *Friendship*\.',  parse_mode = 'MarkdownV2')
-            message = mbtinder_settings(call.message.chat.id)
-            bot.send_message(call.message.chat.id, message, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            mess = mbtinder_settings(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       else:
         if set_seeking(call.message.chat.id, 'Friendship'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Friendship* as your purpose\.', parse_mode = 'MarkdownV2')
@@ -762,16 +762,16 @@ def echo(call):
 
     elif call.data == 'setupback': 
       bot.answer_callback_query(call.id)
-      message = mbtinder_settings(call.message.chat.id)
-      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = message, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+      mess = mbtinder_settings(call.message.chat.id)
+      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
 
     elif call.data in ['ISFP', 'ISFJ', 'ISTP', 'ISTJ','ESFP', 'ESFJ', 'ESTP', 'ESTJ', 'INFP', 'INFJ', 'INTP', 'INTJ', 'ENFP', 'ENFJ', 'ENTP', 'ENTJ', 'mbti_skip']: 
       bot.answer_callback_query(call.id)
       if bool(get_mbti(call.message.chat.id)):
         if set_mbti(call.message.chat.id, call.data):
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your MBTI type to *{}*\.'.format(call.data),  parse_mode = 'MarkdownV2')
-            message = mbtinder_settings(call.message.chat.id)
-            bot.send_message(call.message.chat.id, message, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+            mess = mbtinder_settings(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
       elif call.data == 'mbti_skip':
           set_mbti(call.message.chat.id, 'Not set')
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to skip setting of MBTI type'.format(call.data))

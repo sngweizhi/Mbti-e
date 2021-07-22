@@ -158,6 +158,14 @@ def icebreaker_setup_menu():
 
   return markup
 
+def stop_dialog():
+    markup = types.ReplyKeyboardMarkup(resize_keyboard = True)
+    item1 = types.KeyboardButton('/icebreaker')
+    item2 = types.KeyboardButton('/stop')
+    item3 = types.KeyboardButton('/report')
+    markup.add(item1, item2, item3)
+    return markup
+
 #def setup_settings():
 #  markup = types.InlineKeyboardMarkup()
 #  button1 = types.InlineKeyboardButton(text='« Back to profile setup',
@@ -204,8 +212,8 @@ def stop(message):
     chat_info = get_active_chat(message.chat.id)
     if chat_info != None:
         delete_chat(chat_info[0])
-        bot.send_message(chat_info[1], 'Your match has ended the chat. Input /start to start searching for another match!')
-        bot.send_message(message.chat.id, 'You have ended the chat. Input /start to start searching for another match!')
+        bot.send_message(chat_info[1], 'Your match has ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
+        bot.send_message(message.chat.id, 'You have ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
     else:
         bot.send_message(message.chat.id, '❗ You have not started a chat!')
 
@@ -786,9 +794,9 @@ def echo(call):
                   bot.delete_message(chat_two, msg)
                   bot.delete_message(chat_two, int(msg)-1)
                   bot.send_sticker(call.message.chat.id, messages.match_sticker)
-                  bot.send_message(call.message.chat.id, mess.format(gender2,seeking2,mbti2))
+                  bot.send_message(call.message.chat.id, mess.format(gender2,seeking2,mbti2), reply_markup=stop_dialog())
                   bot.send_sticker(chat_two, messages.match_sticker)
-                  bot.send_message(chat_two, mess.format(gender,seeking,mbti))
+                  bot.send_message(chat_two, mess.format(gender,seeking,mbti), reply_markup=stop_dialog())
       else:
         print('error')
         bot.send_message(call.message.chat.id, '❗ Error.')

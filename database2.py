@@ -271,20 +271,27 @@ def get_queue(chat_id):
         return user.chat_id
     else:
         return
- 
+
+def age_filter_range(agefilter): # "18 to 99" -> [18,99]
+    agefilter = agefilter.split(' to ')
+    return agefilter
+
     
-def get_gender_chat(gender, gendermatch, seeking):
+def get_gender_chat(gender, gendermatch, age, agefilter, seeking):
     if gendermatch != 'Any':
-        user = Queue.query.filter(Queue.seeking==seeking, Queue.gender==gendermatch).filter(or_(Queue.gendermatch==gender, Queue.gendermatch=='Any')).first()
+        agefilters = agefilter.split(' to ')
+        agefilter_LL = int(agefilter[0])
+        agefilter_UL = int(agefilter[1])
+        user = Queue.query.filter(Queue.seeking==seeking, Queue.gender==gendermatch, agefilter_LL<=Queue.age<=agefilter_UL, int(Queue.agefilter.split(' to ')[0])<=age<=int(Queue.agefilter.split(' to ')[1])).filter(or_(Queue.gendermatch==gender, Queue.gendermatch=='Any')).first()
         if user != None:
-            user_info = [user.chat_id,user.gender,user.gendermatch,user.seeking,user.mbti]
+            user_info = [user.chat_id,user.gender,user.age,user.seeking,user.mbti]
             return user_info
         else:
             return [0,0,0,0,0]
     elif gendermatch == 'Any':
         user = Queue.query.filter(Queue.seeking==seeking).filter(or_(Queue.gendermatch==gender, Queue.gendermatch==gendermatch)).first()
         if user != None:
-            user_info = [user.chat_id,user.gender,user.gendermatch,user.seeking,user.mbti]
+            user_info = [user.chat_id,user.gender,user.age,user.seeking,user.mbti]
             return user_info
         else:
             return [0,0,0,0,0]

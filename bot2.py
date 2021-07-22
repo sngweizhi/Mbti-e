@@ -447,7 +447,7 @@ def messagestop(message):
               set_agefilter(message.chat.id, agefilter)
               bot.send_message(message.chat.id,'Age filter updated to *{}*\!'.format(agefilter), parse_mode='MarkdownV2')
               mess = mbtinder_settings(message.chat.id)
-              bot.send_message(message.chat.id, mess, parse_mode='MarkdownV2')
+              bot.send_message(message.chat.id, mess, reply_markup=setup_menu(),parse_mode='MarkdownV2')
               userStep.pop(message.chat.id,None)
       else:
           bot.send_message(message.chat.id,'❗ Invalid entry! Please enter age limits in the form of XX-XX e.g. 18-35!')

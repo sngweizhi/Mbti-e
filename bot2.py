@@ -444,7 +444,8 @@ def messagestop(message):
               bot.send_message(message.chat.id,'❗ Lower and Upper age limit cannot be the same!')
           else:
               set_agefilter(message.chat.id, message.text)
-              bot.send_message(message.chat.id,'Age filter updated to *{}*\!'.format(message.text), parse_mode='MarkdownV2')
+              agefilter = age_filter[0]+'\-'+age_filter[1]
+              bot.send_message(message.chat.id,'Age filter updated to *{}*\!'.format(agefilter), parse_mode='MarkdownV2')
               mess = mbtinder_settings(message.chat.id)
               bot.send_message(message.chat.id, mess, parse_mode='MarkdownV2')
               userStep.pop(message.chat.id,None)

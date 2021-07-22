@@ -166,6 +166,15 @@ def stop_dialog():
     markup.add(item1, item2, item3)
     return markup
 
+def feedback_make():
+    markup = types.InlineKeyboardMarkup()
+    button1 = types.InlineKeyboardButton(text='« Back to Bot',
+                                              callback_data='cancel_report') #Reuse cancel report to remove message.
+    button2 = types.InlineKeyboardButton(text='⭐ Give feedback!',
+                                              callback_data='make_feedback')
+    markup.add(button1,button2)
+    return markup
+
 #def setup_settings():
 #  markup = types.InlineKeyboardMarkup()
 #  button1 = types.InlineKeyboardButton(text='« Back to profile setup',
@@ -270,6 +279,17 @@ def echo(message):
         bot.send_message(message.chat.id, 'Do you wish to make a report\? You will be asked to enter your reason for reporting \(e\.g\. Harassment, impersonation, advertising services\)\. Misuse of the reporting system will *result in a ban*\.', reply_markup=report_make(),parse_mode='MarkdownV2')
     else:
         bot.send_message(message.chat.id, '❗ Chat history not found! Please contact the admin @zeigarnik for assistance.')
+
+
+@bot.message_handler(commands=['feedback'])
+def echo(message):
+    if get_active_chat(message.chat.id) != None:
+        bot.send_message(message.chat.id, '❗ You are still in a chat!')
+    else:
+        bot.send_message(message.chat.id, 'Hey there! Hope you are enjoying the bot so far! If you have any feedback for us to improve to bot (e.g. bug, typo, new feature suggestions) you are welcome to write your feedback here!', reply_markup= feedback_make())
+        
+        
+
 
 @bot.poll_answer_handler(func=lambda message: True)
 def poll_answer(message):
@@ -425,6 +445,14 @@ def messagestop(message):
     for admin in admins:
         mess = 'Report:\n\nUser reporting: {}\nUser reported: {}\nReason: {}'
         bot.send_message(admin, mess.format(user_reporting, user_reported, message.text))
+
+  elif step == 92: #Give feedback
+    user_feedback = [message.chat.id, message.chat.username]
+    bot.send_message(message.chat.id, 'Your feedback has been sent! Thank you for helping us improve MBTInder! ☺')
+    userStep.pop(message.chat.id,None)
+    for admin in admins:
+        mess = 'Feedback:\n\nUser: {}\Feedback: {}'
+        bot.send_message(admin, mess.format(user_feedback, message.text))
     
   else:
     userStep[message.chat.id]=0
@@ -743,7 +771,7 @@ def echo(call):
     elif call.data == 'make_report':
         bot.answer_callback_query(call.id)
         userStep[call.message.chat.id] = 91
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Please enter your reason for reporting.')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Please enter your reason for reporting:')
 
 
     elif call.data == 'retype_report':
@@ -757,6 +785,11 @@ def echo(call):
         for admin in admins:
             user_reporting = call.message.chat.id
             bot.send_message(admin, 'Latest report from {} confirmed'.format(user_reporting))
+
+    elif call.data == 'make_feedback':
+        bot.answer_callback_query(call.id)
+        userStep[call.message.chat.id] = 92 
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Enter your feedback:')
 
     elif call.data == 'NewChat':
 

@@ -397,7 +397,7 @@ def messagestop(message):
       bot.send_message(message.chat.id,'Banned user {}'.format(message.text))
       userStep.pop(message.chat.id,None)
 
-  elif step == 985:
+  elif step == 985: #unban user
       del_banned(int(message.text))
       bot.send_message(message.chat.id,'Unbanned user {}'.format(message.text))
       userStep.pop(message.chat.id,None)
@@ -735,7 +735,8 @@ def echo(call):
     elif call.data == 'make_report':
         bot.answer_callback_query(call.id)
         userStep[call.message.chat.id] = 91
-        bot.send_message(call.message.chat.id, 'Please enter your reason for reporting.')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Please enter your reason for reporting.')
+
 
     elif call.data == 'retype_report':
         bot.answer_callback_query(call.id)

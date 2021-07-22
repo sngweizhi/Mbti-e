@@ -228,6 +228,13 @@ def get_gender_match(chat_id):
     else:
         return
 
+def get_user(chat_id):
+    user = Users.query.filter_by(chat_id=chat_id).first()
+    if user != None:
+            return user.chat_id
+    else:
+        return
+
 def get_gender(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
     if user != None:

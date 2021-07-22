@@ -253,13 +253,8 @@ def echo(message):
       bot.send_message(message.chat.id, 'Welcome to MBTInder! Please select your gender!', reply_markup=gender_menu())
       
     else:
-      mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
-      gender = get_gender(message.chat.id)
-      gendermatch = get_gender_match(message.chat.id)
-      seeking = get_seeking(message.chat.id)
-      mbti = get_mbti(message.chat.id)
-      iceb = get_icebreaker(message.chat.id)
-      bot.send_message(message.chat.id, mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+      message = mbtinder_settings(message.chat.id)
+      bot.send_message(message.chat.id, message, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
 
 @bot.message_handler(commands=['icebreaker'])
 def echo(message):
@@ -767,13 +762,8 @@ def echo(call):
 
     elif call.data == 'setupback': 
       bot.answer_callback_query(call.id)
-      mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
-      gender = get_gender(call.message.chat.id)
-      gendermatch = get_gender_match(call.message.chat.id)
-      seeking = get_seeking(call.message.chat.id)
-      mbti = get_mbti(call.message.chat.id)
-      iceb = get_icebreaker(call.message.chat.id)
-      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = mess.format(gender, gendermatch, seeking, mbti, iceb), reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+      message = mbtinder_settings(call.message.chat.id)
+      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = message, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
 
     elif call.data in ['ISFP', 'ISFJ', 'ISTP', 'ISTJ','ESFP', 'ESFJ', 'ESTP', 'ESTJ', 'INFP', 'INFJ', 'INTP', 'INTJ', 'ENFP', 'ENFJ', 'ENTP', 'ENTJ', 'mbti_skip']: 
       bot.answer_callback_query(call.id)

@@ -420,7 +420,7 @@ def messagestop(message):
                   set_age(message.chat.id, int(message.text))
                   bot.send_message(message.chat.id,'Age updated to *{}*\!'.format(message.text), parse_mode='MarkdownV2')
                   mess = mbtinder_settings(message.chat.id)
-                  bot.send_message(message.chat.id, mess, parse_mode='MarkdownV2')
+                  bot.send_message(message.chat.id, mess,reply_markup=setup_menu(), parse_mode='MarkdownV2')
                   userStep.pop(message.chat.id,None)
               else:
                   set_age(message.chat.id, int(message.text))

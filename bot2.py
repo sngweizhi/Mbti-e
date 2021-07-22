@@ -607,7 +607,7 @@ def echo(call):
         if set_gender(call.message.chat.id, 'Male'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Male* as your gender\.', parse_mode = 'MarkdownV2')
           bot.send_message(call.message.chat.id, 'Please enter your age:')
-          userStep[call.message.id]=7
+          userStep[call.message.chat.id]=7
           #bot.send_message(call.message.chat.id, 'Who would you like to match with?', reply_markup = match_gender_menu())
         else:
           return
@@ -623,7 +623,7 @@ def echo(call):
         if set_gender(call.message.chat.id, 'Female'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Female* as your gender\.', parse_mode = 'MarkdownV2')
           bot.send_message(call.message.chat.id, 'Please enter your age:')
-          userStep[call.message.id]=7
+          userStep[call.message.chat.id]=7
           #bot.send_message(call.message.chat.id, 'Who would you like to match with?', reply_markup =match_gender_menu())
         else:
           return

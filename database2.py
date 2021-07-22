@@ -27,7 +27,7 @@ def delete_chat(id_chat):
         user2 = Lastchat(user=chatone,match=chattwo) #lastchat entry for chatone person
         db.session.add(user2)
     else:
-        user2 = Lastchat.query.filter_by(user=chatone)
+        user2 = Lastchat.query.filter_by(user=chatone).first()
         user2.user = chatone
         user2.match = chattwo
         db.session.commit()
@@ -36,7 +36,7 @@ def delete_chat(id_chat):
         user3 = Lastchat(user=chattwo,match=chatone) #lastchat entry for chattwo person
         db.session.add(user3)
     else:
-        user3 = Lastchat.query.filter_by(user=chattwo)
+        user3 = Lastchat.query.filter_by(user=chattwo).first()
         user3.user = chattwo
         user3.match = chatone
         db.session.commit()

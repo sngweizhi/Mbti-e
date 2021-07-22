@@ -246,7 +246,7 @@ def echo(message):
        return
 
     if get_user(message.chat.id) == None: # Just using random function to check existence of user id in database
-        bot.send_message(message.chat.id, 'Please enter /start first!', reply_markup=gender_menu())
+        bot.send_message(message.chat.id, 'Please enter /start first!')
         return
 
     if get_gender(message.chat.id) == None:

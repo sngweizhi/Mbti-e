@@ -777,7 +777,7 @@ def echo(call):
             bot.send_message(call.message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
 
         else: 
-            set_mbti(call.message.chat.id, call.data):
+            set_mbti(call.message.chat.id, call.data)
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your MBTI type to *{}*\.'.format(call.data),  parse_mode = 'MarkdownV2')
             mess = mbtinder_settings(call.message.chat.id)
             bot.send_message(call.message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')

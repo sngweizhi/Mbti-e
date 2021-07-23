@@ -243,9 +243,9 @@ def echo(message):
     :return:
     """
     if get_active_chat(message.chat.id) != None:
-       bot.send_message(message.chat.id, "You are entering setup while in a chat! Simply Press 'Back to Bot' to resume your chat!")
+       bot.send_message(message.chat.id, "⚠ You are entering setup while in a chat! Simply press 'Back to Bot' to resume your chat!")
        mess = mbtinder_settings(message.chat.id)
-       bot.send_message(message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2'
+       bot.send_message(message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
        return
 
     if get_user(message.chat.id) == None: # Just using random function to check existence of user id in database
@@ -769,6 +769,7 @@ def echo(call):
       bot.answer_callback_query(call.id)
       if get_active_chat(call.message.chat.id) != None:
           bot.delete_message(call.message.chat.id, call.message.message_id)
+          bot.send_message(call.message.chat.id, '*Setup exited\. You may resume your chat\!*', parse_mode='MarkdownV2')
       else:
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Click the button below to start matching!',reply_markup=main_menu())
 

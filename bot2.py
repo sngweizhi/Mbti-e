@@ -242,9 +242,11 @@ def echo(message):
     :param message:
     :return:
     """
-    #if get_active_chat(message.chat.id) != None:
-    #   bot.send_message(message.chat.id, '❗ You are still in a chat!')
-    #   return
+    if get_active_chat(message.chat.id) != None:
+       bot.send_message(message.chat.id, "You are entering setup while in a chat! Simply Press 'Back to Bot' to resume your chat!")
+       mess = mbtinder_settings(message.chat.id)
+       bot.send_message(message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2'
+       return
 
     if get_user(message.chat.id) == None: # Just using random function to check existence of user id in database
         bot.send_message(message.chat.id, 'Please enter /start first!')
@@ -290,7 +292,12 @@ def echo(message):
         bot.send_message(message.chat.id, '❗ You are still in a chat!')
     else:
         bot.send_message(message.chat.id, 'Hey there! Hope you are enjoying the bot so far! If you have any feedback for us to improve to bot (e.g. bug, typo, new feature suggestions) you are welcome to write your feedback here!', reply_markup= feedback_make())
-        
+ 
+@bot.message_handler(commands=['help'])
+def echo(message):
+    bot.send_message(message.chat.id, messages.help)
+
+
 @bot.poll_answer_handler(func=lambda message: True)
 def poll_answer(message):
   user_ans = message.option_ids[0]
@@ -760,7 +767,10 @@ def echo(call):
 
     elif call.data == 'Bot':
       bot.answer_callback_query(call.id)
-      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Click the button below to start matching!',reply_markup=main_menu())
+      if get_active_chat(call.message.chat.id) != None:
+          bot.delete_message(call.message.chat.id, call.message.message_id)
+      else:
+          bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Click the button below to start matching!',reply_markup=main_menu())
 
     elif call.data == 'setupback': 
       bot.answer_callback_query(call.id)

@@ -134,7 +134,7 @@ def report_make():
   markup = types.InlineKeyboardMarkup()
   button1 = types.InlineKeyboardButton(text='« Back to Bot',
                                           callback_data='cancel_report')
-  button2 = types.InlineKeyboardButton(text='⚠ Make a report ',
+  button2 = types.InlineKeyboardButton(text='⚠ Report user',
                                           callback_data='make_report')
   markup.add(button1,button2)
   return markup
@@ -192,6 +192,18 @@ def stop_chat():
   markup.add(button1,button2)
 
   return markup
+
+def help_menu():
+  markup = types.InlineKeyboardMarkup()
+  button1 = types.InlineKeyboardButton(text='⭐ Give feedback!',
+                                              callback_data='make_feedback')
+  button2 = types.InlineKeyboardButton(text='⚠ Report user',
+                                          callback_data='make_report')
+  button3 = types.InlineKeyboardButton(text='« Back to Bot',
+                                          callback_data='cancel_report')
+  
+  markup.add(button1,button2,button3)
+
 
 #def setup_settings():
 #  markup = types.InlineKeyboardMarkup()
@@ -305,7 +317,7 @@ def echo(message):
  
 @bot.message_handler(commands=['help'])
 def echo(message):
-    bot.send_message(message.chat.id, messages.help, parse_mode = 'MarkdownV2')
+    bot.send_message(message.chat.id, messages.help, reply_markup=help_menu(),parse_mode = 'MarkdownV2')
 
 
 @bot.poll_answer_handler(func=lambda message: True)

@@ -9,7 +9,7 @@ server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL'
 db = SQLAlchemy(server)
 
 
-def add_queue(chat_id, gender, gendermatch, age, agefilter_ll, agefilter_ul seeking, mbti, message_id):
+def add_queue(chat_id, gender, gendermatch, age, agefilter_ll, agefilter_ul, seeking, mbti, message_id):
     user = Queue(chat_id=chat_id,gender=gender,gendermatch=gendermatch,age=age,agefilter_ll=agefilter_ll, agefilter_ul=agefilter_ul, seeking=seeking,mbti=mbti,message_id=message_id)
     db.session.add(user)
     db.session.commit()

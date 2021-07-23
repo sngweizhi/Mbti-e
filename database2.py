@@ -44,7 +44,7 @@ def delete_chat(id_chat):
 
 def setup_complete(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
-    if bool(user.chat_id) and bool(user.gender) and bool(user.age) and bool(user.gendermatch) and bool(user.seeking) and bool(user.mbti) and bool(user.agefilter):
+    if bool(user.chat_id) and bool(user.gender) and bool(user.age) and bool(user.gendermatch) and bool(user.seeking) and bool(user.mbti) and bool(user.agefilter_ll) and bool(user.agefilter_ul):
         return True
     else:
         return False
@@ -52,7 +52,7 @@ def setup_complete(chat_id):
 def set_user(chat_id):
         user = Users.query.filter_by(chat_id=chat_id).first()           
         if user == None:
-            user = Users(chat_id=chat_id, agefilter='18 to 99')
+            user = Users(chat_id=chat_id, agefilter_ll=18, agefilter_ul=99)
             db.session.add(user)
             db.session.commit()
             return True
@@ -77,10 +77,11 @@ def set_age(chat_id, age):
     else:
         return False
 
-def set_agefilter(chat_id, agefilter):
+def set_agefilter(chat_id, agefilter_ll, agefilter_ul):
     user = Users.query.filter_by(chat_id=chat_id).first()
     if user != None:
-        user.agefilter = agefilter
+        user.agefilter_ll = agefilter_ll
+        user.agefilter_ul = agefilter_ul
         db.session.commit()
         return True
     else:
@@ -258,8 +259,8 @@ def get_age(chat_id):
 def get_agefilter(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
     if user != None:
-        if user.agefilter != None:
-            return user.agefilter
+        if user.agefilter_ll != None and user.agefilter_ul != None:
+            return [user.agefilter_ll, user.agefilter_ul]
         else:
             return
     else:
@@ -272,19 +273,18 @@ def get_queue(chat_id):
     else:
         return
     
-def get_gender_chat(gender, gendermatch, age, agefilter, seeking):
+
+
+def get_gender_chat(gender, gendermatch, age, agefilter_ll, agefilter_ul, seeking):
     if gendermatch != 'Any':
-        agefilters = agefilter.split(' to ')
-        agefilter_LL = int(agefilter[0])
-        agefilter_UL = int(agefilter[1])
-        user = Queue.query.filter(Queue.seeking==seeking, Queue.gender==gendermatch, Queue.age>=agefilter_LL, Queue.age<=agefilter_UL, int(Queue.agefilter.split(' to ')[0])<=age, int(Queue.agefilter.split(' to ')[1])>=age).filter(or_(Queue.gendermatch==gender, Queue.gendermatch=='Any')).first()
+        user = Queue.query.filter(Queue.seeking==seeking, Queue.gender==gendermatch, Queue.age>=agefilter_ll, Queue.age<=agefilter_ul, Queue.agefilter_ll<=age, Queue.agefilter_ul>=age).filter(or_(Queue.gendermatch==gender, Queue.gendermatch=='Any')).first()
         if user != None:
             user_info = [user.chat_id,user.gender,user.age,user.seeking,user.mbti]
             return user_info
         else:
             return [0,0,0,0,0]
     elif gendermatch == 'Any':
-        user = Queue.query.filter(Queue.seeking==seeking, Queue.age>=agefilter_LL, Queue.age<=agefilter_UL, int(Queue.agefilter.split(' to ')[0])<=age, int(Queue.agefilter.split(' to ')[1])>=age).filter(or_(Queue.gendermatch==gender, Queue.gendermatch==gendermatch)).first()
+        user = Queue.query.filter(Queue.seeking==seeking, Queue.age>=agefilter_ll, Queue.age<=agefilter_ul, Queue.agefilter_ll<=age, Queue.agefilter_ul>=age).filter(or_(Queue.gendermatch==gender, Queue.gendermatch==gendermatch)).first()
         #Queue.query.filter(Queue.seeking==seeking).filter(or_(Queue.gendermatch==gender, Queue.gendermatch==gendermatch)).first()
         if user != None:
             user_info = [user.chat_id,user.gender,user.age,user.seeking,user.mbti]
@@ -392,6 +392,8 @@ class Users(db.Model):
     lie = db.Column(db.String(300))
     age = db.Column(db.Integer)
     agefilter = db.Column(db.String(60))
+    agefilter_ll = db.Column(db.Integer)
+    agefilter_ul = db.Column(db.Integer)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
 class Chats(db.Model):

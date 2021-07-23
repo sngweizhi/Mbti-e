@@ -445,7 +445,7 @@ def messagestop(message):
               bot.send_message(message.chat.id,'❗ Lower and Upper age limit cannot be the same!')
           else:
               agefilter = age_filter[0]+' to '+age_filter[1]
-              set_agefilter(message.chat.id, agefilter)
+              set_agefilter(message.chat.id, agefilter[0], agefilter[1])
               bot.send_message(message.chat.id,'Age filter updated to *{}*\!'.format(agefilter), parse_mode='MarkdownV2')
               mess = mbtinder_settings(message.chat.id)
               bot.send_message(message.chat.id, mess, reply_markup=setup_menu(),parse_mode='MarkdownV2')
@@ -588,7 +588,7 @@ def mbtinder_settings(id):
     gender = get_gender(id)
     gendermatch = get_gender_match(id)
     age = get_age(id)
-    agefilter = get_agefilter(id)
+    agefilter = ' to '.join(get_agefilter(id))
     seeking = get_seeking(id)
     mbti = get_mbti(id)
     iceb = get_icebreaker(id)
@@ -829,19 +829,24 @@ def echo(call):
       elif get_active_chat(call.message.chat.id) == None:
         bot.answer_callback_query(call.id)
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        gendermatch = get_gender_match(call.message.chat.id)
+
+        gendermatch = get_gender_match(call.message.chat.id) # Get all user info
         gender = get_gender(call.message.chat.id)
         age = get_age(call.message.chat.id)
         agefilter = get_agefilter(call.message.chat.id)
+        agefilter_ll = agefilter[0]
+        agefilter_ul = agefilter[1]
         seeking = get_seeking(call.message.chat.id)
         mbti = get_mbti(call.message.chat.id)
-        user_info = get_gender_chat(gender, gendermatch, age, agefilter, seeking)
+
+        user_info = get_gender_chat(gender, gendermatch, age, agefilter_ll, agefilter_ul, seeking) # Look for match and obtain match's info
         chat_two = user_info[0]
         gender2 = user_info[1]
         age2 = user_info[2]
         seeking2 = user_info[3]
         mbti2 = user_info[4]
         msg = get_message_id(chat_two)
+
         if create_chat(call.message.chat.id, chat_two) == False:
                   bot.send_sticker(call.message.chat.id, messages.search_sticker)
                   sent = bot.send_message(call.message.chat.id, 'Searching for a suitable match...', reply_markup = stop_search())

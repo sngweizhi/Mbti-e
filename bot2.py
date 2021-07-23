@@ -289,7 +289,7 @@ def echo(message):
           random.shuffle(statements)
           ans = statements.index(get_lie(message.chat.id))
           userPoll[chat_info[1]] = [ans,statements]
-          bot.send_poll(chat_info[1], '2 Truths 1 Lie. Select the Lie!', options = statements, correct_option_id=ans, type = 'quiz', is_anonymous= True)
+          bot.send_poll(chat_info[1], '2 Truths 1 Lie. Select the Lie!', options = statements, correct_option_id=ans, type = 'quiz', is_anonymous= False)
           bot.send_message(message.chat.id, '2 Truths 1 Lie sent!')
       else:
           bot.send_message(message.chat.id, '❗ You have not set an ice breaker!')

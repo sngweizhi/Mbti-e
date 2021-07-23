@@ -242,9 +242,9 @@ def echo(message):
     :param message:
     :return:
     """
-    if get_active_chat(message.chat.id) != None:
-       bot.send_message(message.chat.id, '❗ You are still in a chat!')
-       return
+    #if get_active_chat(message.chat.id) != None:
+    #   bot.send_message(message.chat.id, '❗ You are still in a chat!')
+    #   return
 
     if get_user(message.chat.id) == None: # Just using random function to check existence of user id in database
         bot.send_message(message.chat.id, 'Please enter /start first!')
@@ -456,7 +456,7 @@ def messagestop(message):
   elif step == 99: #Admin broadcast
       alluser = get_all_users()
       for user in alluser:
-          bot.send_message(user, '\📢*Admin: ' + message.text+'*', parse_mode = 'MarkdownV2')
+          bot.send_message(user, '📢 Admin: ' + message.text)
       userStep.pop(message.chat.id,None)
 
   elif step == 98: #Ban user

@@ -10,7 +10,8 @@ types based on how they perceive the world and make decisions\. The bot will mat
 type\.\n\n*Use these commands control the bot:*\n/setup \- Setup or configure your profile\n/start \- start matching with someone\n/icebreaker \- send a 2 Truth 1 \
 Lie poll to your match\!\n/report \- to report a user\.\n/help \- for more info on how to use the bot\."
 
-help = '*Help*: \n\nUse '
+help = '*Help*\n\nThis section is being updated. If you need help, contact the admin through the feedback function!\n\n*List of commands:*\n/setup \- Setup or configure your profile\n/start \- start matching with someone\n/icebreaker \- send a 2 Truth 1 \
+Lie poll to your match\!\n/report \- to report a user\.\n/help \- for more info on how to use the bot\.'
 
 search_sticker = 'CAACAgUAAxkBAAIJxmDyqgXaYH7ZcxzHGZbOjwtaEqMAA54CAAKJ_JBXZilybC94gzggBA'
 match_sticker ='CAACAgUAAxkBAAIJ7WDyykDX_M8j0z3TCKanMmuDUt2tAAKOAwACPyqZV1g5tYcaYUa6IAQ'

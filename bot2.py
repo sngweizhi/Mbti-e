@@ -219,7 +219,7 @@ def start(message):
     else:
       bot.send_message(message.chat.id, 'Click the button below to start matching!',reply_markup=main_menu())
 
-@bot.message_handler(commands = ['stop'])
+@bot.message_handler(commands = ['stop']) # add confirmatioun
 def stop(message):
     if get_queue(message.chat.id) != None:
       bot.delete_message(call.message.chat.id, call.message.message_id -1)
@@ -268,7 +268,7 @@ def echo(message):
           random.shuffle(statements)
           ans = statements.index(get_lie(message.chat.id))
           userPoll[chat_info[1]] = [ans,statements]
-          bot.send_poll(chat_info[1], '2 Truths 1 Lie. Select the Lie!', options = statements, correct_option_id=ans, type = 'quiz', is_anonymous= False)
+          bot.send_poll(chat_info[1], '2 Truths 1 Lie. Select the Lie!', options = statements, correct_option_id=ans, type = 'quiz', is_anonymous= True)
           bot.send_message(message.chat.id, '2 Truths 1 Lie sent!')
       else:
           bot.send_message(message.chat.id, '❗ You have not set an ice breaker!')
@@ -295,7 +295,7 @@ def echo(message):
  
 @bot.message_handler(commands=['help'])
 def echo(message):
-    bot.send_message(message.chat.id, messages.help)
+    bot.send_message(message.chat.id, messages.help, parse_mode = 'MarkdownV2')
 
 
 @bot.poll_answer_handler(func=lambda message: True)

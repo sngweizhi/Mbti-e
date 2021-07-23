@@ -859,9 +859,8 @@ def echo(call):
         chat_info = get_active_chat(call.message.chat.id)
         delete_chat(chat_info[0])
         bot.send_message(chat_info[1], 'Your match has ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
-        bot.send_message(message.chat.id, 'You have ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
+        bot.edit_message_text(chat_id = call.message.chat.id,message_id = call.message.message_id, text= 'You have ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
     
-
     elif call.data == 'NewChat':
 
       if get_queue(call.message.chat.id) != None:

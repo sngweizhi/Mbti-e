@@ -249,7 +249,7 @@ def stop(message):
       return
 
     if get_active_chat(message.chat.id) != None:
-        bot.send_message(message.chat.id, "*You will lose contact with your match after you end the chat*\. Are you sure you want to end the chat?",reply_markup=stop_chat(), parse_mode='MarkdownV2')
+        bot.send_message(message.chat.id, "*You will lose contact with your match after you end the chat*\.\n\nAre you sure you want to end the chat?",reply_markup=stop_chat(), parse_mode='MarkdownV2')
         return
 
     else:

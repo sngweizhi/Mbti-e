@@ -9,8 +9,8 @@ server.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+config('DATABASE_URL'
 db = SQLAlchemy(server)
 
 
-def add_queue(chat_id, gender, gendermatch, seeking, mbti, message_id):
-    user = Queue(chat_id=chat_id,gender=gender,gendermatch=gendermatch,seeking=seeking,mbti=mbti,message_id=message_id)
+def add_queue(chat_id, gender, gendermatch, age, agefilter_ll, agefilter_ul seeking, mbti, message_id):
+    user = Queue(chat_id=chat_id,gender=gender,gendermatch=gendermatch,age=age,agefilter_ll=agefilter_ll, agefilter_ul=agefilter_ul, seeking=seeking,mbti=mbti,message_id=message_id)
     db.session.add(user)
     db.session.commit()
     
@@ -260,7 +260,7 @@ def get_agefilter(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
     if user != None:
         if user.agefilter_ll != None and user.agefilter_ul != None:
-            return [str(user.agefilter_ll), str(user.agefilter_ul)]
+            return [user.agefilter_ll, user.agefilter_ul]
         else:
             return
     else:
@@ -277,7 +277,7 @@ def get_queue(chat_id):
 
 def get_gender_chat(gender, gendermatch, age, agefilter_ll, agefilter_ul, seeking):
     if gendermatch != 'Any':
-        user = Queue.query.filter(Queue.seeking==seeking, Queue.gender==gendermatch, Queue.age>=agefilter_ll, Queue.age<=agefilter_ul, Queue.agefilter_ll<=age, Queue.agefilter_ul>=age).filter(or_(Queue.gendermatch==gender, Queue.gendermatch=='Any')).first()
+        user = Queue.query.filter(Queue.seeking==seeking, Queue.gender==gendermatch).filter(Queue.age>=agefilter_ll, Queue.age<=agefilter_ul, Queue.agefilter_ll<=age, Queue.agefilter_ul>=age).filter(or_(Queue.gendermatch==gender, Queue.gendermatch=='Any')).first()
         if user != None:
             user_info = [user.chat_id,user.gender,user.age,user.seeking,user.mbti]
             return user_info

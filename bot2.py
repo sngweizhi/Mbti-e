@@ -850,7 +850,7 @@ def echo(call):
         if create_chat(call.message.chat.id, chat_two) == False:
                   bot.send_sticker(call.message.chat.id, messages.search_sticker)
                   sent = bot.send_message(call.message.chat.id, 'Searching for a suitable match...', reply_markup = stop_search())
-                  add_queue(call.message.chat.id, gender, gendermatch, seeking, mbti, sent.message_id)
+                  add_queue(call.message.chat.id, gender, gendermatch, age, agefilter_ll, agefilter_ul, seeking, mbti, sent.message_id)
         else:
                   mess = 'Gender: {}\nAge: {}\nPurpose: {}\nMBTI: {}\n\nInput /stop to end the chat.'
                   bot.delete_message(chat_two, msg)

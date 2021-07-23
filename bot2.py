@@ -416,7 +416,7 @@ def messagestop(message):
 
   elif step == 7: # Set age
       if (message.text).isnumeric():
-          if int(message.text) < 100:
+          if int(message.text) < 100 and int(message.text)>=18:
               if bool(get_age(message.chat.id)):
                   set_age(message.chat.id, int(message.text))
                   bot.send_message(message.chat.id,'Age updated to *{}*\!'.format(message.text), parse_mode='MarkdownV2')

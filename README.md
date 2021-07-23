@@ -44,6 +44,6 @@ Updates:
   - Add disable sendpic function when in chat?
   - Change /setup to settings.
   - Add invite links for invite-only access
-
+- edit setting of icebreaker does not show up as 'set complete'
   Add to Help: For reporting make sure that either report during active chat or report before starting a new chat.
   Purpose (add to start): purpose of the bot is to increase exposure of ppl to MBTI and see how well MBTI ties in. get feedback whether it works. if it does, create a real mobile app and promote MBTI matching for relationships/friendships

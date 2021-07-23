@@ -588,7 +588,7 @@ def mbtinder_settings(id):
     gender = get_gender(id)
     gendermatch = get_gender_match(id)
     age = get_age(id)
-    agefilter = ' to '.join(get_agefilter(id))
+    agefilter = ' to '.join([str(x) for x in get_agefilter(id)])
     seeking = get_seeking(id)
     mbti = get_mbti(id)
     iceb = get_icebreaker(id)

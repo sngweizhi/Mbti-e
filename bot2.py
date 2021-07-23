@@ -300,9 +300,9 @@ def echo(message):
 @bot.message_handler(commands=['report'])
 def echo(message):
     if get_active_chat(message.chat.id) != None:
-        bot.send_message(message.chat.id, 'Do you wish to make a report\? You will be asked to enter your reason for reporting \(e\.g\. harassment, impersonation, advertising services\)\. Misuse of the reporting system will *result in a ban*\.', reply_markup=report_make(),parse_mode='MarkdownV2')
+        bot.send_message(message.chat.id, 'Do you wish to make a report\? You will be asked to enter your reason for reporting \(e\.g\. harassment, impersonation, advertising services\)\.\n\n*Misuse of the reporting system will result in a ban*\.', reply_markup=report_make(),parse_mode='MarkdownV2')
     elif get_last_chat(message.chat.id) != None:
-        bot.send_message(message.chat.id, 'Do you wish to make a report\? You will be asked to enter your reason for reporting \(e\.g\. harassment, impersonation, advertising services\)\. Misuse of the reporting system will *result in a ban*\.', reply_markup=report_make(),parse_mode='MarkdownV2')
+        bot.send_message(message.chat.id, 'Do you wish to make a report\? You will be asked to enter your reason for reporting \(e\.g\. harassment, impersonation, advertising services\)\.\n\n*Misuse of the reporting system will result in a ban*\.', reply_markup=report_make(),parse_mode='MarkdownV2')
     else:
         bot.send_message(message.chat.id, '❗ Chat history not found! Please contact the admin @zeigarnik for assistance.')
 
@@ -859,7 +859,8 @@ def echo(call):
         chat_info = get_active_chat(call.message.chat.id)
         delete_chat(chat_info[0])
         bot.send_message(chat_info[1], 'Your match has ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
-        bot.edit_message_text(chat_id = call.message.chat.id,message_id = call.message.message_id, text= 'You have ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
+        bot.delete_message(call.message.chat.id, call.message.message_id)
+        bot.send_message(call.message.chat.id, 'You have ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
     
     elif call.data == 'NewChat':
 

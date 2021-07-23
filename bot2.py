@@ -183,6 +183,16 @@ def feedback_make():
     markup.add(button1,button2)
     return markup
 
+def stop_chat():
+  markup = types.InlineKeyboardMarkup()
+  button1 = types.InlineKeyboardButton(text='« Back to Chat',
+                                          callback_data='cancel_report')
+  button2 = types.InlineKeyboardButton(text='⚠ End Chat',
+                                          callback_data='endchat')
+  markup.add(button1,button2)
+
+  return markup
+
 #def setup_settings():
 #  markup = types.InlineKeyboardMarkup()
 #  button1 = types.InlineKeyboardButton(text='« Back to profile setup',
@@ -226,13 +236,13 @@ def stop(message):
       delete_queue(call.message.chat.id)
       bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Search stopped.', reply_markup = main_menu())
       return
-    chat_info = get_active_chat(message.chat.id)
-    if chat_info != None:
-        delete_chat(chat_info[0])
-        bot.send_message(chat_info[1], 'Your match has ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
-        bot.send_message(message.chat.id, 'You have ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
+
+    if get_active_chat(message.chat.id) != None:
+        bot.send_message(message.chat.id, "You will lose contact with your after you end the chat. Are you sure you want to end the chat?",reply_markup=stop_chat())
+        return
+
     else:
-        bot.send_message(message.chat.id, '❗ You have not started a chat!')
+        bot.send_message(message.chat.id, '❗ You have not yet started a chat!')
 
 
 @bot.message_handler(commands=['setup'])
@@ -831,6 +841,14 @@ def echo(call):
         bot.answer_callback_query(call.id)
         userStep[call.message.chat.id] = 92 
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Enter your feedback:')
+
+    elif call.data == 'endchat':
+        bot.answer_callback_query(call.id)
+        chat_info = get_active_chat(call.message.chat.id)
+        delete_chat(chat_info[0])
+        bot.send_message(chat_info[1], 'Your match has ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
+        bot.send_message(message.chat.id, 'You have ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
+    
 
     elif call.data == 'NewChat':
 

@@ -201,8 +201,8 @@ def help_menu():
                                           callback_data='make_report')
   button3 = types.InlineKeyboardButton(text='« Back to Bot',
                                           callback_data='cancel_report')
-  
   markup.add(button1,button2,button3)
+  return markup
 
 
 #def setup_settings():
@@ -317,7 +317,7 @@ def echo(message):
  
 @bot.message_handler(commands=['help'])
 def echo(message):
-    bot.send_message(message.chat.id, messages.help, reply_markup=help_menu(),parse_mode = 'MarkdownV2')
+    bot.send_message(message.chat.id, messages.help, reply_markup=help_menu() ,parse_mode = 'MarkdownV2')
 
 
 @bot.poll_answer_handler(func=lambda message: True)

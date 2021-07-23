@@ -22,3 +22,4 @@ pyvenv.cfg
 
 test.py
 filenames.log
+*.log

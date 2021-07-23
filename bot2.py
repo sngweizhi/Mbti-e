@@ -770,14 +770,23 @@ def echo(call):
     elif call.data in ['ISFP', 'ISFJ', 'ISTP', 'ISTJ','ESFP', 'ESFJ', 'ESTP', 'ESTJ', 'INFP', 'INFJ', 'INTP', 'INTJ', 'ENFP', 'ENFJ', 'ENTP', 'ENTJ', 'mbti_skip']: 
       bot.answer_callback_query(call.id)
       if bool(get_mbti(call.message.chat.id)):
-        if set_mbti(call.message.chat.id, call.data):
+        if call.data == 'mbti_skip':
+            set_mbti(call.message.chat.id, 'Not set')
+            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to skip setting of MBTI type'.format(call.data))
+            mess = mbtinder_settings(call.message.chat.id)
+            bot.send_message(call.message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+
+        else: 
+            set_mbti(call.message.chat.id, call.data):
             bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You updated your MBTI type to *{}*\.'.format(call.data),  parse_mode = 'MarkdownV2')
             mess = mbtinder_settings(call.message.chat.id)
             bot.send_message(call.message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
+
       elif call.data == 'mbti_skip':
           set_mbti(call.message.chat.id, 'Not set')
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to skip setting of MBTI type'.format(call.data))
           bot.send_message(call.message.chat.id, 'You may choose to set an ice breaker!', reply_markup = icebreaker_menu())
+
       else:
         if set_mbti(call.message.chat.id, call.data):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *{}* as your MBTI type\.'.format(call.data),  parse_mode = 'MarkdownV2')

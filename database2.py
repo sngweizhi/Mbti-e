@@ -260,7 +260,7 @@ def get_agefilter(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
     if user != None:
         if user.agefilter_ll != None and user.agefilter_ul != None:
-            return [user.agefilter_ll, user.agefilter_ul]
+            return [str(user.agefilter_ll), str(user.agefilter_ul)]
         else:
             return
     else:
@@ -391,7 +391,6 @@ class Users(db.Model):
     truth2 = db.Column(db.String(300))
     lie = db.Column(db.String(300))
     age = db.Column(db.Integer)
-    agefilter = db.Column(db.String(60))
     agefilter_ll = db.Column(db.Integer)
     agefilter_ul = db.Column(db.Integer)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
@@ -415,7 +414,8 @@ class Queue(db.Model):
     message_id = db.Column(db.String(255))
     mbti = db.Column(db.String(60))
     age = db.Column(db.Integer)
-    agefilter = db.Column(db.String(60))
+    agefilter_ll = db.Column(db.Integer)
+    agefilter_ul = db.Column(db.Integer)
 
 class Banned(db.Model):
     id = db.Column(db.Integer, primary_key=True)

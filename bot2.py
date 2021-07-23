@@ -791,6 +791,7 @@ def echo(call):
       bot.answer_callback_query(call.id)
       if get_active_chat(call.message.chat.id) != None:
           bot.delete_message(call.message.chat.id, call.message.message_id)
+          bot.delete_message(call.message.chat.id, call.message.message_id-1)
           bot.send_message(call.message.chat.id, '*Setup exited\. You may resume your chat\!*', parse_mode='MarkdownV2')
       else:
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Click the button below to start matching!',reply_markup=main_menu())

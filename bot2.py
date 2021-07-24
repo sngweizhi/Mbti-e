@@ -553,7 +553,7 @@ def messagestop(message):
                   bot.delete_message(user, int(msg)-1)
               create_chat(message.chat.id, user)
               bot.send_message(user, '*You have entered a chat with an admin\.*', parse_mode='MarkdownV2')
-              bot.send_message(user, '*You have entered a chat with {}\.*'.format(message.text), parse_mode='MarkdownV2')
+              bot.send_message(message.chat.id, '*You have entered a chat with {}\.*'.format(message.text), parse_mode='MarkdownV2')
           else:
               bot.send_message(message.chat.id, 'User is currently in a chat!')
       else:

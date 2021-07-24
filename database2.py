@@ -369,8 +369,8 @@ def get_banned():
     user = [value[0] for value in db.session.query(Banned.chat_id)]
     return user
 
-def set_banned(chat_id):
-    user  = Banned(chat_id=chat_id)
+def set_banned(chat_id, reason):
+    user  = Banned(chat_id=chat_id, reason=reason)
     db.session.add(user)
     db.session.commit()
 
@@ -420,3 +420,4 @@ class Queue(db.Model):
 class Banned(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chat_id = db.Column(db.Integer, unique=True)
+    reason = db.Column(db.String(255))

@@ -23,3 +23,5 @@ pyvenv.cfg
 test.py
 filenames.log
 *.log
+logs/restart.bat
+logs/mbtinderlogging.bat

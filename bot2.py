@@ -378,7 +378,7 @@ def echo(message):
     Ban a user
     """
     if message.chat.id in admins:
-        bot.send_message(message.chat.id,'Send chat_id to ban:')
+        bot.send_message(message.chat.id,'Send format [chat_id - reason] for ban:')
         userStep[message.chat.id] = 98
     else:
         return
@@ -488,9 +488,17 @@ def messagestop(message):
       userStep.pop(message.chat.id,None)
 
   elif step == 98: #Ban user
-      set_banned(int(message.text))
-      bot.send_message(message.chat.id,'Banned user {}'.format(message.text))
-      userStep.pop(message.chat.id,None)
+      try:
+          banned = message.text
+          banned = banned.split('-')
+          chat_id = banned[0]
+          reason = banned[1]
+          set_banned(int(chat_id), reason)
+          bot.send_message(message.chat.id,'Banned user {} for {}'.format(chat_id, reason))
+          userStep.pop(message.chat.id,None)
+      except:
+          bot.send_message(message.chat.id,'Error. Try again.')
+          userStep.pop(message.chat.id,None)
 
   elif step == 985: #unban user
       del_banned(int(message.text))
@@ -637,7 +645,6 @@ def echo(call):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Male* as your gender\.', parse_mode = 'MarkdownV2')
           bot.send_message(call.message.chat.id, 'Please enter your age:')
           userStep[call.message.chat.id]=7
-          #bot.send_message(call.message.chat.id, 'Who would you like to match with?', reply_markup = match_gender_menu())
         else:
           return
         
@@ -653,7 +660,6 @@ def echo(call):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Female* as your gender\.', parse_mode = 'MarkdownV2')
           bot.send_message(call.message.chat.id, 'Please enter your age:')
           userStep[call.message.chat.id]=7
-          #bot.send_message(call.message.chat.id, 'Who would you like to match with?', reply_markup =match_gender_menu())
         else:
           return
 
@@ -784,7 +790,8 @@ def echo(call):
 
     elif call.data == 'complete':
       bot.answer_callback_query(call.id)
-      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Your profile is complete! Press the button below to start matching!',reply_markup=main_menu())
+      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Your icebreaker has been *set*\!', parse_mode='MarkdownV2')
+      bot.send_message(call.message.chat.id,'Your profile is complete! Press the button below to start matching!',reply_markup=main_menu())
 
     elif call.data == 'Bot':
       bot.answer_callback_query(call.id)
@@ -874,7 +881,8 @@ def echo(call):
 
       elif call.message.chat.id in get_banned():
           bot.answer_callback_query(call.id)
-          bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ You have been banned!')
+          # reason = get_banned_reason(call.message.chat.id)
+          bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ You have been banned! Reason: {}'.format(reason))
 
       elif get_active_chat(call.message.chat.id) == None:
         bot.answer_callback_query(call.id)

@@ -369,6 +369,10 @@ def get_banned():
     user = [value[0] for value in db.session.query(Banned.chat_id)]
     return user
 
+def get_banned_reason(chat_id):
+    user = Banned.query.filter_by(chat_id=chat_id).first()
+    return user.reason
+
 def set_banned(chat_id, reason):
     user  = Banned(chat_id=chat_id, reason=reason)
     db.session.add(user)

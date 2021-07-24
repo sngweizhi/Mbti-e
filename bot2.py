@@ -881,7 +881,7 @@ def echo(call):
 
       elif call.message.chat.id in get_banned():
           bot.answer_callback_query(call.id)
-          # reason = get_banned_reason(call.message.chat.id)
+          reason = get_banned_reason(call.message.chat.id)
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ You have been banned! Reason: {}'.format(reason))
 
       elif get_active_chat(call.message.chat.id) == None:

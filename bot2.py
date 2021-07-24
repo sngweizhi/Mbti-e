@@ -314,6 +314,7 @@ def echo(message):
     else:
         bot.send_message(message.chat.id, 'Hey there! Hope you are enjoying the bot so far! If you have any feedback for us to improve to bot (e.g. bug, typo, new feature suggestions) you are welcome to write your feedback here!', reply_markup= feedback_make())
  
+
 @bot.message_handler(commands=['help'])
 def echo(message):
     bot.send_message(message.chat.id, messages.help, reply_markup=help_menu() ,parse_mode = 'MarkdownV2')
@@ -394,7 +395,15 @@ def echo(message):
     else:
         return
 
-def get_user_step(uid):
+@bot.message_handler(commands=['directmessage'])
+def echo(message):
+    if message.chat.id in admins:
+        bot.send_message(message.chat.id,'Send chat_id to create chat with:')
+        userStep[message.chat.id] = 991
+    else:
+        return
+
+def get_user_step(uid): #For getting user state
     if uid in userStep:
       return userStep[uid]
     else:
@@ -482,9 +491,14 @@ def messagestop(message):
           bot.send_message(message.chat.id,'❗ Invalid entry! Please enter age limits in the form of XX-XX e.g. 18-35!')
 
   elif step == 99: #Admin broadcast
+      newtext = ''
+      for i in message.text:
+        if i in ['!','?','.','-']:
+            i = "\\"+i
+        newtext+=i
       alluser = get_all_users()
       for user in alluser:
-          bot.send_message(user, '📢 Admin: ' + message.text)
+          bot.send_message(user, '*📢 Admin: ' + newtext+'*', parse_mode='MarkdownV2')
       userStep.pop(message.chat.id,None)
 
   elif step == 98: #Ban user
@@ -528,7 +542,23 @@ def messagestop(message):
     for admin in admins:
         mess = 'Feedback:\n\nUser: {}\nFeedback: {}'
         bot.send_message(admin, mess.format(user_feedback, message.text))
-    
+
+  elif step == 999: #Create chat with specific user
+      user = int(message.text)
+      if bool(get_user(user)):
+          if get_active_chat(user) == None:
+              if get_queue(user) != None:
+                  msg = get_message_id(user)
+                  bot.delete_message(user, msg)
+                  bot.delete_message(user, int(msg)-1)
+              create_chat(message.chat.id, user)
+              bot.send_message(user, '*You have entered a chat with an admin\.*', parse_mode='MarkdownV2')
+              bot.send_message(user, '*You have entered a chat with {}\.*'.format(message.text), parse_mode='MarkdownV2')
+          else:
+              bot.send_message(message.chat.id, 'User is currently in a chat!')
+      else:
+          bot.send_message(message.chat.id, 'User does not exist!')
+
   else:
     userStep[message.chat.id]=0
 
@@ -882,7 +912,7 @@ def echo(call):
       elif call.message.chat.id in get_banned():
           bot.answer_callback_query(call.id)
           reason = get_banned_reason(call.message.chat.id)
-          bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ You have been banned! Reason: {}'.format(reason))
+          bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = '❗ You have been banned!\n\nReason: {}'.format(reason))
 
       elif get_active_chat(call.message.chat.id) == None:
         bot.answer_callback_query(call.id)

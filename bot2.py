@@ -543,7 +543,7 @@ def messagestop(message):
         mess = 'Feedback:\n\nUser: {}\nFeedback: {}'
         bot.send_message(admin, mess.format(user_feedback, message.text))
 
-  elif step == 999: #Create chat with specific user
+  elif step == 991: #Create chat with specific user
       user = int(message.text)
       if bool(get_user(user)):
           if get_active_chat(user) == None:

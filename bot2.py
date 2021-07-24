@@ -251,7 +251,7 @@ def stop(message):
     if get_active_chat(message.chat.id) != None:
         chat_info = get_active_chat(message.chat.id)
         if chat_info[1] in admins:
-            bot.send_message(message.chat.id, "*You cannot end a chat with an admin. The admin will end it.*",reply_markup=stop_chat(), parse_mode='MarkdownV2')
+            bot.send_message(message.chat.id, "*You cannot end a chat with an admin\. The admin will end it\.*",reply_markup=stop_chat(), parse_mode='MarkdownV2')
             return
         else:
             bot.send_message(message.chat.id, "*You will lose contact with your match after you end the chat*\.\n\nAre you sure you want to end the chat?",reply_markup=stop_chat(), parse_mode='MarkdownV2')

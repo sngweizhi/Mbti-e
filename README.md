@@ -47,11 +47,12 @@ Updates:
   - Add daily check in rewards
   - Add dice for GACHA 
   - Add invite links for invite-only access
-  - Add in ban reason and text to contact admin for appeal.
+  - Add in ban reason [Done].
   - Allow for setting of icebreaker while in chat [Done]
   - Add confirmation of stopping chat.[Done]
   - Edit admin broadcast to broadcast in bold
-  - Use register next step handler 
+  - Add admin direct message function [Done]
+  - Use register next step handler check pytelegrambotapi step example.
 
 - edit setting of icebreaker does not show up as 'set complete'
   Add to Help: For reporting make sure that either report during active chat or report before starting a new chat.

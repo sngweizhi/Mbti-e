@@ -500,9 +500,9 @@ def messagestop(message):
         if i in ['!','?','.','-']:
             i = "\\"+i
         newtext+=i
-      #alluser = get_all_users()
-      #for user in alluser:
-      bot.send_message(message.chat.id, '*📢 Admin: ' + newtext+'*', parse_mode='MarkdownV2')
+      alluser = get_all_users()
+      for user in alluser:
+        bot.send_message(user, '*📢 Admin: ' + newtext+'*', parse_mode='MarkdownV2')
       userStep.pop(message.chat.id,None)
 
   elif step == 98: #Ban user

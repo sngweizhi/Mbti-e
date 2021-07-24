@@ -554,10 +554,13 @@ def messagestop(message):
               create_chat(message.chat.id, user)
               bot.send_message(user, '*You have entered a chat with an admin\.*', parse_mode='MarkdownV2')
               bot.send_message(message.chat.id, '*You have entered a chat with {}\.*'.format(message.text), parse_mode='MarkdownV2')
+              userStep.pop(message.chat.id,None)
           else:
               bot.send_message(message.chat.id, 'User is currently in a chat!')
+              userStep.pop(message.chat.id,None)
       else:
           bot.send_message(message.chat.id, 'User does not exist!')
+          userStep.pop(message.chat.id,None)
 
   else:
     userStep[message.chat.id]=0

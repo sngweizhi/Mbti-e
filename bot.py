@@ -7,7 +7,7 @@ import os
 import re
 
 import logging
-import time
+from time import sleep
 
 from decouple import config
 
@@ -306,6 +306,7 @@ def echo(message):
      chat_info = get_active_chat(message.chat.id)
      bot.send_message(message.chat.id, 'You have rolled the dice for a random topic.')
      bot.send_message(chat_info[1], 'User has rolled the dice for a random topic.')
+     sleep(5)
      msg = bot.send_dice(message.chat.id)
      topic = messages.topics[msg.dice.value]
      bot.send_message(message.chat.id, 'Random topic: *{}*\.'.format(topic), parse_mode='MarkdownV2')

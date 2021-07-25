@@ -623,7 +623,7 @@ def direct_message_step(message):
 def tiktok_url_step(message):
     url = re.match(r'^https://vt.tiktok.com/' ,message.text)
     if url:
-        chat_info = get_active_chat[message.chat.id]
+        chat_info = get_active_chat(message.chat.id)
         bot.send_message(message.chat.id, 'TikTok sent to user!')
         bot.send_message(chat_info[1], url.group(0))
     else:

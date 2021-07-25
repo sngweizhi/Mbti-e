@@ -5,7 +5,7 @@ from telebot import types
 from database import *
 import os
 import re
-
+import requests
 import logging
 from time import sleep
 
@@ -168,9 +168,10 @@ def icebreaker_setup_menu():
 def stop_dialog():
     markup = types.ReplyKeyboardMarkup(resize_keyboard = True)
     item1 = types.KeyboardButton('/icebreaker')
-    item2 = types.KeyboardButton('/stop')
-    item3 = types.KeyboardButton('/report')
-    markup.add(item1, item2, item3)
+    item2 = types.KeyboardButton('/topic')
+    item3 = types.KeyboardButton('/stop')
+    item4 = types.KeyboardButton('/report')
+    markup.add(item1, item2, item3, item4)
     return markup
 
 def feedback_make():
@@ -202,6 +203,14 @@ def help_menu():
   markup = types.InlineKeyboardMarkup([[button1,button2],[button3]])
   return markup
 
+def tiktok_menu():
+  markup = types.InlineKeyboardMarkup()
+  button1 = types.InlineKeyboardButton(text='Bring it on! 😈',
+                                          callback_data='tiktok_accept')
+  button2 = types.InlineKeyboardButton(text='Decline',
+                                          callback_data='tiktok_decline')
+  markup.add(button1,button2)
+  return markup
 
 #def setup_settings():
 #  markup = types.InlineKeyboardMarkup()
@@ -334,6 +343,31 @@ def echo(message):
      sleep(3)
      bot.send_message(message.chat.id, 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
      bot.send_message(chat_info[1], 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
+   else:
+     bot.send_message(message.chat.id, '❗ You have not started a chat!')
+
+@bot.message_handler(commands=['tiktok'])
+def echo(message):
+    if bool(get_active_chat(message.chat.id)):
+        chat_info = get_active_chat(message.chat.id)
+        bot.send_message(chat_info[1], 'User has sent you a request for a *TikTokBattle™*\.', reply_markup=tiktok_menu(), parse_mode='MarkdownV2')
+        sent = bot.send_message(message.chat.id, 'You have sent a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
+
+        @bot.callback_query_handler(func=lambda call: True)
+        def echo(call):
+            if call.data == 'tiktok_accept':
+                # Send tiktokbattle image
+                bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Welcome to *TikTokBattle™\!*\.', parse_mode='MarkdownV2')
+                bot.edit_message_text(chat_id = sent.chat.id, message_id = sent.message_id, text = 'Welcome to *TikTokBattle™\!*\.', parse_mode='MarkdownV2')
+                bot.send_message(call.message.chat.id, 'Send me your TikTok URL!', parse_mode='MarkdownV2')
+                bot.send_message(sent.chat.id, 'Send me your TikTok URL!', parse_mode='MarkdownV2')
+    else:
+        bot.send_message(message.chat.id, '❗ You have not started a chat!')
+
+#url = 'https://vt.tiktok.com/ZSJsmbj1n/'
+#session = requests.Session()  # so connections are recycled
+#resp = session.head(url, allow_redirects=True)
+#print(resp.url)
 
 
 @bot.message_handler(commands=['report'])

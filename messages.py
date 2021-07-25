@@ -15,3 +15,6 @@ Lie game to your match\!\n/report \- Report a user for any misconduct\.\n/feedba
 
 search_sticker = 'CAACAgUAAxkBAAIJxmDyqgXaYH7ZcxzHGZbOjwtaEqMAA54CAAKJ_JBXZilybC94gzggBA'
 match_sticker ='CAACAgUAAxkBAAIJ7WDyykDX_M8j0z3TCKanMmuDUt2tAAKOAwACPyqZV1g5tYcaYUa6IAQ'
+
+
+topics = {'1':'Your greatest fear','2':'Your proudest achievement','3':'What you love to eat','4':'Favorite sport','5':'Favorite music','6':'Favorite movie'}

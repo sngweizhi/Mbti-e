@@ -351,16 +351,7 @@ def echo(message):
     if bool(get_active_chat(message.chat.id)):
         chat_info = get_active_chat(message.chat.id)
         bot.send_message(chat_info[1], 'User has sent you a request for a *TikTokBattle™*\.', reply_markup=tiktok_menu(), parse_mode='MarkdownV2')
-        sent = bot.send_message(message.chat.id, 'You have sent a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
-
-        @bot.callback_query_handler(func=lambda call: True)
-        def echo(call):
-            if call.data == 'tiktok_accept':
-                # Send tiktokbattle image
-                bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Welcome to *TikTokBattle™\!*\.', parse_mode='MarkdownV2')
-                bot.edit_message_text(chat_id = sent.chat.id, message_id = sent.message_id, text = 'Welcome to *TikTokBattle™\!*\.', parse_mode='MarkdownV2')
-                bot.send_message(call.message.chat.id, 'Send me your TikTok URL!', parse_mode='MarkdownV2')
-                bot.send_message(sent.chat.id, 'Send me your TikTok URL!', parse_mode='MarkdownV2')
+        bot.send_message(message.chat.id, 'You have sent a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
     else:
         bot.send_message(message.chat.id, '❗ You have not started a chat!')
 
@@ -971,7 +962,20 @@ def echo(call):
             bot.send_message(chat_info[1], 'Your match has ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
             bot.delete_message(call.message.chat.id, call.message.message_id)
             bot.send_message(call.message.chat.id, 'You have ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
-    
+
+    elif call.data == 'tiktok_accept':
+        # send tiktokbattle image
+        chat_info = get_active_chat(call.message.chat.id)
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'welcome to *TikTokBattle™\!*\.', parse_mode='markdownv2')
+        bot.send_message(chat_info[1],'welcome to *TikTokBattle™\!*\.', parse_mode='markdownv2')
+        bot.send_message(call.message.chat.id, 'Submit your tiktok url for battle!')
+        bot.send_message(chat_info[1], 'Submit your tiktok url for battle!')
+
+    elif call.data == 'tiktok_decline':
+        chat_info = get_active_chat(call.message.chat.id)
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for a TikTokBattle™.')
+        bot.send_message(chat_info[1],'User has declined your request for a TikTokBattle™.')
+
     elif call.data == 'NewChat':
 
       if get_queue(call.message.chat.id) != None:

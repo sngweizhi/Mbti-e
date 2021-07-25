@@ -304,7 +304,7 @@ def mbti_cognitive_match(mbti1,mbti2): # Check for match in cognitive functions 
         mbti1 = 'ABCD' 
     else: 
         mbti1 = messages.mbti_cf[mbti1]
-    if get_mbti(chattwo) == 'Not set':
+    if mbti2 == 'Not set':
         mbti2 = 'WXYZ' 
     else: 
         mbti2 = messages.mbti_cf[mbti2]

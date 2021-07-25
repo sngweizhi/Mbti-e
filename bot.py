@@ -1004,7 +1004,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://mbtindertest.herokuapp.com/' + config('TOKEN')) #changeback when not in testing
+    bot.set_webhook(url='https://mbtinder.herokuapp.com/' + config('TOKEN')) #changeback when not in testing
     return "!", 200
 
 

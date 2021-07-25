@@ -299,6 +299,20 @@ def echo(message):
     else:
       bot.send_message(message.chat.id, '❗ You have not started a chat!')
 
+def mbti_cognitive_match(mbti1,mbti2): # Check for match in cognitive functions btw 2 MBTI types
+    if mbti1 == 'Not set':
+        mbti1 = 'ABCD' 
+    else: 
+        mbti1 = messages.mbti_cf[mbti1]
+    if get_mbti(chattwo) == 'Not set':
+        mbti2 = 'WXYZ' 
+    else: 
+        mbti2 = messages.mbti_cf[mbti2]
+    match = []
+    for c in mbti1:
+        if c in mbti2:
+            match.append(c)
+    return match
 
 @bot.message_handler(commands=['topic'])
 def echo(message):
@@ -306,10 +320,19 @@ def echo(message):
      chat_info = get_active_chat(message.chat.id)
      bot.send_message(message.chat.id, 'You have rolled the dice for a random topic.')
      bot.send_message(chat_info[1], 'User has rolled the dice for a random topic.')
+     mbti1 = get_mbti(message.chat.id)
+     mbti2 = get_mbti(chat_info[1])
+     match = mbti_cognitive_match(mbti1,mbti2)
+     if len(match) == 0:
+         if mbti1 == 'Not set':
+             match = ['Ni','Ne','Si','Se','Ti','Te','Fi','Fe']
+         else:
+             match = messages.mbti_cf[mbti1]
+     cognitive_func = random.choice(match)
      msg = bot.send_dice(message.chat.id)
-     topic = messages.topics[msg.dice.value]
+     topic = messages.topics[cognitive_func][msg.dice.value]
      sleep(3)
-     bot.send_message(message.chat.id, 'Random topic: *{}*\.'.format(topic), parse_mode='MarkdownV2')
+     bot.send_message(message.chat.id, 'Cognitive function: *{}*\nRandom topic: *{}*\.'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
      bot.send_message(chat_info[1], 'Random topic: *{}*\.'.format(topic), parse_mode='MarkdownV2')
 
 

@@ -622,10 +622,16 @@ def direct_message_step(message):
  
 def tiktok_url_step(message):
     url = re.match(r'^https://vt.tiktok.com/' ,message.text)
+    if url == None:
+        url = re.match(r'^https://www.tiktok.com/' ,message.text)
     if url:
+        url = message.text
+        session = requests.Session()  # so connections are recycled
+        resp = session.head(url, allow_redirects=True)
+        url = resp.url.split('?_d')[0]
         chat_info = get_active_chat(message.chat.id)
         bot.send_message(message.chat.id, 'TikTok sent to user!')
-        bot.send_message(chat_info[1], url.group(0))
+        bot.send_message(chat_info[1], url)
     else:
         msg =bot.send_message(message.chat.id, 'Invalid URL! Please ensure it is in the format of vt.tiktok.com or tiktok.com')
         bot.register_next_step_handler(msg, tiktok_url_step)

@@ -304,8 +304,12 @@ def echo(message):
 def echo(message):
    if bool(get_active_chat(message.chat.id)):
      chat_info = get_active_chat(message.chat.id)
-     x = bot.send_dice(message.chat.id)
-     print(x.dice.value)
+     bot.send_message(message.chat.id, 'You have rolled the dice for a random topic.')
+     bot.send_message(chat_info[1], 'User has rolled the dice for a random topic.')
+     msg = bot.send_dice(message.chat.id)
+     topic = messages.topics[msg.dice.value]
+     bot.send_message(message.chat.id, 'Random topic: *{}*\.'.format(topic), parse_mode='MarkdownV2')
+     bot.send_message(chat_info[1], 'Random topic: *{}*\.'.format(topic), parse_mode='MarkdownV2')
 
 
 @bot.message_handler(commands=['report'])

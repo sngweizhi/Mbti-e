@@ -300,6 +300,14 @@ def echo(message):
       bot.send_message(message.chat.id, '❗ You have not started a chat!')
 
 
+@bot.message_handler(commands=['topic'])
+def echo(message):
+   if bool(get_active_chat(message.chat.id)):
+     chat_info = get_active_chat(message.chat.id)
+     x = bot.send_dice(message.chat.id)
+     print(x)
+
+
 @bot.message_handler(commands=['report'])
 def echo(message):
     if get_active_chat(message.chat.id) != None:

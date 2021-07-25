@@ -592,6 +592,31 @@ def set_age_step(message):
         msg = bot.send_message(message.chat.id,'❗ invalid entry! please enter a number!')
         bot.register_next_step_handler(msg, set_age_step)
 
+def set_agefilter_step(message):
+      x = re.fullmatch('\d\d-\d\d', message.text)
+      if x:
+          age_filter = x.group(0).split('-')
+          if int(age_filter[0]) < 18:
+              msg = bot.send_message(message.chat.id,'❗ Lower age limit cannot be below 18!')
+              bot.register_next_step_handler(msg, set_agefilter_step)
+          elif int(age_filter[1]) < int(age_filter[0]):
+              msg =bot.send_message(message.chat.id,'❗ Upper age limit cannot be below lower limit!')
+              bot.register_next_step_handler(msg, set_agefilter_step)
+          elif int(age_filter[0]) == int(age_filter[1]):
+              msg = bot.send_message(message.chat.id,'❗ Lower and Upper age limit cannot be the same!')
+              bot.register_next_step_handler(msg, set_agefilter_step)
+          else:
+              set_agefilter(message.chat.id, int(age_filter[0]), int(age_filter[1]))
+              agefilter = age_filter[0]+' to '+age_filter[1]
+              bot.send_message(message.chat.id,'Age filter updated to *{}*\!'.format(agefilter), parse_mode='MarkdownV2')
+              mess = mbtinder_settings(message.chat.id)
+              bot.send_message(message.chat.id, mess, reply_markup=setup_menu(),parse_mode='MarkdownV2')
+              #userStep.pop(message.chat.id,None)
+      else:
+          msg = bot.send_message(message.chat.id,'❗ Invalid entry! Please enter age limits in the form of XX-XX e.g. 18-35!')
+          bot.register_next_step_handler(msg, set_agefilter_step)
+
+
 @bot.message_handler(content_types=['text', 'sticker', 'video', 'photo', 'audio', 'voice','video_note'])
 def echo(message):
 
@@ -718,8 +743,8 @@ def echo(call):
       else:
         if set_gender(call.message.chat.id, 'Female'):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Female* as your gender\.', parse_mode = 'MarkdownV2')
-          bot.send_message(call.message.chat.id, 'Please enter your age:')
-          userStep[call.message.chat.id]=7
+          msg = bot.send_message(call.message.chat.id, 'Please enter your age:')
+          bot.register_next_step_handler(msg, set_age_step)
         else:
           return
 
@@ -816,8 +841,9 @@ def echo(call):
 
     elif call.data == 'Age filter':
       bot.answer_callback_query(call.id)
-      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = "Enter Age Filter in the form 'XX-XX':")
-      userStep[call.message.chat.id]=8
+      msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = "Enter Age Filter in the form 'XX-XX':")
+      bot.register_next_step_handler(msg, set_agefilter_step)
+      #userStep[call.message.chat.id]=8
 
     elif call.data == 'icebreaker':
       bot.answer_callback_query(call.id)

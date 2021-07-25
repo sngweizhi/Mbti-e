@@ -21,7 +21,6 @@ telebot.logging.basicConfig(filename='filename.log', level=logging.DEBUG,
 bot = telebot.TeleBot(config('TOKEN'))
 
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
-userStep = {}
 userPoll = {}
 
 
@@ -317,7 +316,7 @@ def echo(message):
         bot.send_message(message.chat.id, '❗ You are still in a chat!')
     else:
         bot.send_message(message.chat.id, 'Hey there! Hope you are enjoying the bot so far! If you have any feedback for us to improve to bot (e.g. bug, typo, new feature suggestions) you are welcome to write your feedback here!', reply_markup= feedback_make())
- 
+        
 
 @bot.message_handler(commands=['help'])
 def echo(message):
@@ -357,8 +356,8 @@ def echo(message):
     broadcast message to all users
     """
     if message.chat.id in admins:
-        bot.send_message(message.chat.id,'Send message to broadcast:')
-        userStep[message.chat.id] = 99
+        msg = bot.send_message(message.chat.id,'Send message to broadcast:')
+        bot.register_next_step_handler(msg, broadcast_step)
     else:
         return
 
@@ -383,8 +382,8 @@ def echo(message):
     Ban a user
     """
     if message.chat.id in admins:
-        bot.send_message(message.chat.id,'Send format [chat_id - reason] for ban:')
-        userStep[message.chat.id] = 98
+        msg = bot.send_message(message.chat.id,'Send format [chat_id - reason] for ban:')
+        bot.register_next_step_handler(msg, ban_user_step)
     else:
         return
 
@@ -394,59 +393,54 @@ def echo(message):
     Unban a user
     """
     if message.chat.id in admins:
-        bot.send_message(message.chat.id,'Send chat_id to unban:')
-        userStep[message.chat.id] = 985
+        msg = bot.send_message(message.chat.id,'Send chat_id to unban:')
+        bot.register_next_step_handler(msg, unban_user_step)
     else:
         return
 
 @bot.message_handler(commands=['directmessage'])
 def echo(message):
     if message.chat.id in admins:
-        bot.send_message(message.chat.id,'Send chat_id to create chat with:')
-        userStep[message.chat.id] = 991
+        msg = bot.send_message(message.chat.id,'Send chat_id to create chat with:')
+        bot.register_next_step_handler(msg, direct_message_step)
     else:
         return
 
-def get_user_step(uid): #For getting user state
-    if uid in userStep:
-      return userStep[uid]
-    else:
-      return 0
-
-
-@bot.message_handler(func=lambda message: get_user_step(message.chat.id) > 0)
-def messagestop(message):
-  step = get_user_step(message.chat.id)
-  if step < 4:
-    if step == 1: #1,2,3 is entering from setup settings page for icebreaker
-      if set_truth1(message.chat.id,message.text):
+#### Next Step Handlers ####
+def set_truth1_step(message):
+     if set_truth1(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Truth 1 set!')
-    elif step == 2:
+        end_icebreaker_setup(message.chat.id)
+     else:
+        bot.send_message(message.chat.id,'Error!')
+  
+def set_truth2_step(message):
       if set_truth2(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Truth 2 set!')
-    elif step == 3:
+        end_icebreaker_setup(message.chat.id)
+      else: 
+        bot.send_message(message.chat.id,'Error!')
+
+def set_lie_step(message):
       if set_lie(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Lie set!')
-    mess = "Edit your 2 Truth 1 Lie.\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
-    truth1 = get_truth1(message.chat.id)
-    truth2 = get_truth2(message.chat.id)
-    lie = get_lie(message.chat.id)
-    bot.send_message(message.chat.id, mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu())
-    userStep.pop(message.chat.id,None)
+        end_icebreaker_setup(message.chat.id)
+      else:
+        bot.send_message(message.chat.id,'Error!')
 
-  elif step == 4: #4,5,6 is for first time setup process icebreaker
+def set_truth1_new(message):
     if set_truth1(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Truth 1 set!')
-    bot.send_message(message.chat.id, 'Now send me your *Truth 2* statement\.', parse_mode ='MarkdownV2')
-    userStep[message.chat.id] = 5
+    msg = bot.send_message(message.chat.id, 'Now send me your *Truth 2* statement\.', parse_mode ='MarkdownV2')
+    bot.register_next_step_handler(msg, set_truth2_new)
 
-  elif step == 5:
+def set_truth2_new(message):
     if set_truth2(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Truth 2 set!')
-    bot.send_message(message.chat.id, 'Now send me your *Lie* statement\.', parse_mode ='MarkdownV2')
-    userStep[message.chat.id] = 6
+    msg = bot.send_message(message.chat.id, 'Now send me your *Lie* statement\.', parse_mode ='MarkdownV2')
+    bot.register_next_step_handler(msg, set_lie_new)
 
-  elif step == 6:
+def set_lie_new(message):
     if set_lie(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Lie set!')
     mess = "Your 2 Truth 1 Lie is set!\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
@@ -454,123 +448,14 @@ def messagestop(message):
     truth2 = get_truth2(message.chat.id)
     lie = get_lie(message.chat.id)
     bot.send_message(message.chat.id, mess.format(truth1, truth2, lie),reply_markup=icebreaker_first())
-    userStep.pop(message.chat.id,None)
 
-  elif step == 7: # Set age
-      if (message.text).isnumeric():
-          if int(message.text) < 100 and int(message.text)>=18:
-              if bool(get_age(message.chat.id)):
-                  set_age(message.chat.id, int(message.text))
-                  bot.send_message(message.chat.id,'Age updated to *{}*\!'.format(message.text), parse_mode='MarkdownV2')
-                  mess = mbtinder_settings(message.chat.id)
-                  bot.send_message(message.chat.id, mess,reply_markup=setup_menu(), parse_mode='MarkdownV2')
-                  userStep.pop(message.chat.id,None)
-              else:
-                  set_age(message.chat.id, int(message.text))
-                  bot.send_message(message.chat.id,'Your age is set as *{}*\!'.format(message.text), parse_mode='MarkdownV2')
-                  bot.send_message(message.chat.id, 'Who would you like to match with?', reply_markup = match_gender_menu())
-                  userStep.pop(message.chat.id,None)
-          else:
-              bot.send_message(message.chat.id,'❗ Invalid number! Please enter a number from 18 to 99.')
-      else:
-          bot.send_message(message.chat.id,'❗ Invalid entry! Please enter a number!')
+def end_icebreaker_setup(id):
+    mess = "Edit your 2 Truth 1 Lie.\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
+    truth1 = get_truth1(id)
+    truth2 = get_truth2(id)
+    lie = get_lie(id)
+    bot.send_message(id, mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu())
 
-  elif step == 8: # Set age filter in format age-age
-      x = re.fullmatch('\d\d-\d\d', message.text)
-      if x:
-          age_filter = x.group(0).split('-')
-          if int(age_filter[0]) < 18:
-              bot.send_message(message.chat.id,'❗ Lower age limit cannot be below 18!')
-          elif int(age_filter[1]) < int(age_filter[0]):
-              bot.send_message(message.chat.id,'❗ Upper age limit cannot be below lower limit!')
-          elif int(age_filter[0]) == int(age_filter[1]):
-              bot.send_message(message.chat.id,'❗ Lower and Upper age limit cannot be the same!')
-          else:
-              set_agefilter(message.chat.id, int(age_filter[0]), int(age_filter[1]))
-              agefilter = age_filter[0]+' to '+age_filter[1]
-              bot.send_message(message.chat.id,'Age filter updated to *{}*\!'.format(agefilter), parse_mode='MarkdownV2')
-              mess = mbtinder_settings(message.chat.id)
-              bot.send_message(message.chat.id, mess, reply_markup=setup_menu(),parse_mode='MarkdownV2')
-              userStep.pop(message.chat.id,None)
-      else:
-          bot.send_message(message.chat.id,'❗ Invalid entry! Please enter age limits in the form of XX-XX e.g. 18-35!')
-
-  elif step == 99: #Admin broadcast
-      newtext = ''
-      for i in message.text:
-        if i in ['!','?','.','-']:
-            i = "\\"+i
-        newtext+=i
-      alluser = get_all_users()
-      for user in alluser:
-        bot.send_message(user, '*📢 Admin: ' + newtext+'*', parse_mode='MarkdownV2')
-      userStep.pop(message.chat.id,None)
-
-  elif step == 98: #Ban user
-      try:
-          banned = message.text
-          banned = banned.split('-')
-          chat_id = banned[0]
-          reason = banned[1]
-          set_banned(int(chat_id), reason)
-          bot.send_message(message.chat.id,'Banned user {} for {}'.format(chat_id, reason))
-          userStep.pop(message.chat.id,None)
-      except:
-          bot.send_message(message.chat.id,'Error. Try again.')
-          userStep.pop(message.chat.id,None)
-
-  elif step == 985: #unban user
-      del_banned(int(message.text))
-      bot.send_message(message.chat.id,'Unbanned user {}'.format(message.text))
-      userStep.pop(message.chat.id,None)
-
-  elif step == 91: #Reporting
-    user_reporting = [message.chat.id, message.chat.username]
-    if bool(get_active_chat(message.chat.id)):
-        user_reported = get_active_chat(message.chat.id)[1]
-    elif bool(get_last_chat(message.chat.id)):
-        user_reported = get_last_chat(message.chat.id)[1]
-    else:
-        user_reported = 'Unidentified'
-    mess = 'Report\n\nReason: {}'
-    bot.send_message(message.chat.id, mess.format(message.text))
-    bot.send_message(message.chat.id, "⚠ Please verify if the above information is accurate before submitting your report.", reply_markup = report_confirm())
-        
-    for admin in admins:
-        mess = 'Report:\n\nUser reporting: {}\nUser reported: {}\nReason: {}'
-        bot.send_message(admin, mess.format(user_reporting, user_reported, message.text))
-
-  elif step == 92: #Give feedback
-    user_feedback = [message.chat.id, message.chat.username]
-    bot.send_message(message.chat.id, 'Your feedback has been sent! Thank you for helping us improve MBTInder! ☺')
-    userStep.pop(message.chat.id,None)
-    for admin in admins:
-        mess = 'Feedback:\n\nUser: {}\nFeedback: {}'
-        bot.send_message(admin, mess.format(user_feedback, message.text))
-
-  elif step == 991: #Create chat with specific user
-      user = int(message.text)
-      if bool(get_user(user)):
-          if get_active_chat(user) == None:
-              if get_queue(user) != None:
-                  msg = get_message_id(user)
-                  bot.delete_message(user, msg)
-                  bot.delete_message(user, int(msg)-1)
-              create_chat(message.chat.id, user)
-              bot.send_message(user, '*You have entered a chat with an admin\.*', parse_mode='MarkdownV2')
-              bot.send_message(message.chat.id, '*You have entered a chat with {}\.*'.format(message.text), parse_mode='MarkdownV2')
-              userStep.pop(message.chat.id,None)
-          else:
-              bot.send_message(message.chat.id, 'User is currently in a chat!')
-              userStep.pop(message.chat.id,None)
-      else:
-          bot.send_message(message.chat.id, 'User does not exist!')
-          userStep.pop(message.chat.id,None)
-
-  else:
-    userStep[message.chat.id]=0
-
-#### Next Step Handlers ####
 def set_age_step(message):
     if (message.text).isnumeric():
         if int(message.text) < 100 and int(message.text)>=18:
@@ -579,12 +464,10 @@ def set_age_step(message):
                 bot.send_message(message.chat.id,'age updated to *{}*\!'.format(message.text), parse_mode='markdownv2')
                 mess = mbtinder_settings(message.chat.id)
                 bot.send_message(message.chat.id, mess,reply_markup=setup_menu(), parse_mode='markdownv2')
-                #userstep.pop(message.chat.id,none)
             else:
                 set_age(message.chat.id, int(message.text))
                 bot.send_message(message.chat.id,'your age is set as *{}*\!'.format(message.text), parse_mode='markdownv2')
                 bot.send_message(message.chat.id, 'who would you like to match with?', reply_markup = match_gender_menu())
-                #userstep.pop(message.chat.id,none)
         else:
             msg = bot.send_message(message.chat.id,'❗ invalid number! please enter a number from 18 to 99.')
             bot.register_next_step_handler(msg, set_age_step)
@@ -611,11 +494,76 @@ def set_agefilter_step(message):
               bot.send_message(message.chat.id,'Age filter updated to *{}*\!'.format(agefilter), parse_mode='MarkdownV2')
               mess = mbtinder_settings(message.chat.id)
               bot.send_message(message.chat.id, mess, reply_markup=setup_menu(),parse_mode='MarkdownV2')
-              #userStep.pop(message.chat.id,None)
       else:
           msg = bot.send_message(message.chat.id,'❗ Invalid entry! Please enter age limits in the form of XX-XX e.g. 18-35!')
           bot.register_next_step_handler(msg, set_agefilter_step)
 
+def broadcast_step(message):
+      newtext = ''
+      for i in message.text:
+        if i in ['!','?','.','-']:
+            i = "\\"+i
+        newtext+=i
+      alluser = get_all_users()
+      for user in alluser:
+        bot.send_message(user, '*📢 Admin: ' + newtext+'*', parse_mode='MarkdownV2')
+
+def ban_user_step(message):
+      try:
+          banned = message.text
+          banned = banned.split('-')
+          chat_id = banned[0]
+          reason = banned[1]
+          set_banned(int(chat_id), reason)
+          bot.send_message(message.chat.id,'Banned user {} for {}'.format(chat_id, reason))
+       
+      except:
+          bot.send_message(message.chat.id,'Error. Try again.')
+          
+def unban_user_step(message):
+      del_banned(int(message.text))
+      bot.send_message(message.chat.id,'Unbanned user {}'.format(message.text))
+
+def report_user_step(message):
+    user_reporting = [message.chat.id, message.chat.username]
+    if bool(get_active_chat(message.chat.id)):
+        user_reported = get_active_chat(message.chat.id)[1]
+    elif bool(get_last_chat(message.chat.id)):
+        user_reported = get_last_chat(message.chat.id)[1]
+    else:
+        user_reported = 'Unidentified'
+    mess = 'Report\n\nReason: {}'
+    bot.send_message(message.chat.id, mess.format(message.text))
+    bot.send_message(message.chat.id, "⚠ Please verify if the above information is accurate before submitting your report.", reply_markup = report_confirm())
+        
+    for admin in admins:
+        mess = 'Report:\n\nUser reporting: {}\nUser reported: {}\nReason: {}'
+        bot.send_message(admin, mess.format(user_reporting, user_reported, message.text))
+
+def give_feedback_step(message):
+    user_feedback = [message.chat.id, message.chat.username]
+    bot.send_message(message.chat.id, 'Your feedback has been sent! Thank you for helping us improve MBTInder! ☺')
+    for admin in admins:
+        mess = 'Feedback:\n\nUser: {}\nFeedback: {}'
+        bot.send_message(admin, mess.format(user_feedback, message.text))
+
+def direct_message_step(message):
+      user = int(message.text)
+      if bool(get_user(user)):
+          if get_active_chat(user) == None:
+              if get_queue(user) != None:
+                  msg = get_message_id(user)
+                  bot.delete_message(user, msg)
+                  bot.delete_message(user, int(msg)-1)
+              create_chat(message.chat.id, user)
+              bot.send_message(user, '*You have entered a chat with an admin\.*', parse_mode='MarkdownV2')
+              bot.send_message(message.chat.id, '*You have entered a chat with {}\.*'.format(message.text), parse_mode='MarkdownV2')
+          
+          else:
+              bot.send_message(message.chat.id, 'User is currently in a chat!')
+      else:
+          bot.send_message(message.chat.id, 'User does not exist!')
+ 
 
 @bot.message_handler(content_types=['text', 'sticker', 'video', 'photo', 'audio', 'voice','video_note'])
 def echo(message):
@@ -729,7 +677,6 @@ def echo(call):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *Male* as your gender\.', parse_mode = 'MarkdownV2')
           msg = bot.send_message(call.message.chat.id, 'Please enter your age:')
           bot.register_next_step_handler(msg, set_age_step)
-          #userStep[call.message.chat.id]=7
         else:
           return
         
@@ -836,14 +783,13 @@ def echo(call):
 
     elif call.data == 'Age':
       bot.answer_callback_query(call.id)
-      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Enter Age:')
-      userStep[call.message.chat.id]=7
+      msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Enter Age:')
+      bot.register_next_step_handler(msg, set_age_step)
 
     elif call.data == 'Age filter':
       bot.answer_callback_query(call.id)
       msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = "Enter Age Filter in the form 'XX-XX':")
       bot.register_next_step_handler(msg, set_agefilter_step)
-      #userStep[call.message.chat.id]=8
 
     elif call.data == 'icebreaker':
       bot.answer_callback_query(call.id)
@@ -859,20 +805,19 @@ def echo(call):
     elif call.data in ['truth1','truth2','lie']:
         bot.answer_callback_query(call.id)
         if call.data == 'truth1':
-          statement = 'Truth 1'
-          userStep[call.message.chat.id] = 1
-        if call.data == 'truth2':
-          statement = 'Truth 2'
-          userStep[call.message.chat.id] = 2
-        if call.data == 'lie':
-          statement = 'Lie'
-          userStep[call.message.chat.id] = 3
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *{}* statement\.'.format(statement), parse_mode ='MarkdownV2')
+          msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *Truth 1* statement\.', parse_mode ='MarkdownV2')
+          bot.register_next_step_handler(msg, set_truth1_step)
+        elif call.data == 'truth2':
+          msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *Truth 2* statement\.', parse_mode ='MarkdownV2')
+          bot.register_next_step_handler(msg, set_truth2_step)
+        elif call.data == 'lie':
+          msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *Lie* statement\.', parse_mode ='MarkdownV2')
+          bot.register_next_step_handler(msg, set_lie_step)
 
     elif call.data == 'icebreaker_setup':
         bot.answer_callback_query(call.id)
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *Truth 1* statement\.', parse_mode ='MarkdownV2')
-        userStep[call.message.chat.id] = 4
+        msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *Truth 1* statement\.', parse_mode ='MarkdownV2')
+        bot.register_next_step_handler(msg, set_truth1_new)
 
     elif call.data == 'complete':
       bot.answer_callback_query(call.id)
@@ -926,17 +871,16 @@ def echo(call):
 
     elif call.data == 'make_report':
         bot.answer_callback_query(call.id)
-        userStep[call.message.chat.id] = 91
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Please enter your reason for reporting:')
-
+        msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Please enter your reason for reporting:')
+        bot.register_next_step_handler(msg, report_user_step)
 
     elif call.data == 'retype_report':
         bot.answer_callback_query(call.id)
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Re-type your reason for reporting.')
+        msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Re-type your reason for reporting.')
+        bot.register_next_step_handler(msg, report_user_step)
 
     elif call.data == 'confirm_report':
         bot.answer_callback_query(call.id)
-        userStep.pop(call.message.chat.id,None)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Report succesfully submitted! An admin will contact you should further information be required.')
         for admin in admins:
             user_reporting = call.message.chat.id
@@ -944,8 +888,8 @@ def echo(call):
 
     elif call.data == 'make_feedback':
         bot.answer_callback_query(call.id)
-        userStep[call.message.chat.id] = 92 
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Enter your feedback:')
+        msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Enter your feedback:')
+        bot.register_next_step_handler(msg, give_feedback_step)
 
     elif call.data == 'endchat':
         bot.answer_callback_query(call.id)

@@ -302,7 +302,7 @@ def echo(message):
           ans = statements.index(get_lie(message.chat.id))
           userPoll[chat_info[1]] = [ans,statements]
           bot.send_poll(chat_info[1], '2 Truths 1 Lie. Select the Lie!', options = statements, correct_option_id=ans, type = 'quiz', is_anonymous= False)
-          bot.send_message(message.chat.id, '2 Truths 1 Lie sent!')
+          bot.send_message(message.chat.id, '2 Truths 1 Lie sent! You will be notified when user picks an answer.')
       else:
           bot.send_message(message.chat.id, '❗ You have not set an ice breaker!')
     else:
@@ -351,14 +351,9 @@ def echo(message):
     if bool(get_active_chat(message.chat.id)):
         chat_info = get_active_chat(message.chat.id)
         bot.send_message(chat_info[1], 'User has sent you a request for a *TikTokBattle™*\.', reply_markup=tiktok_menu(), parse_mode='MarkdownV2')
-        bot.send_message(message.chat.id, 'You have sent a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
+        bot.send_message(message.chat.id, 'You have sent a request for a *TikTokBattle™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
     else:
         bot.send_message(message.chat.id, '❗ You have not started a chat!')
-
-#url = 'https://vt.tiktok.com/ZSJsmbj1n/'
-#session = requests.Session()  # so connections are recycled
-#resp = session.head(url, allow_redirects=True)
-#print(resp.url)
 
 
 @bot.message_handler(commands=['report'])
@@ -625,6 +620,20 @@ def direct_message_step(message):
       else:
           bot.send_message(message.chat.id, 'User does not exist!')
  
+def tiktok_url_step(message):
+    url = re.match(r'^https://vt.tiktok.com/' ,message.text)
+    if url:
+        chat_info = get_active_chat[message.chat.id]
+        bot.send_message(message.chat.id, 'TikTok sent to user!')
+        bot.send_message(chat_info[1], url.group(0))
+    else:
+        msg =bot.send_message(message.chat.id, 'Invalid URL! Please ensure it is in the format of vt.tiktok.com or tiktok.com')
+        bot.register_next_step_handler(msg, tiktok_url_step)
+
+#url = 'https://vt.tiktok.com/ZSJsmbj1n/'
+#session = requests.Session()  # so connections are recycled
+#resp = session.head(url, allow_redirects=True)
+#print(resp.url)
 
 @bot.message_handler(content_types=['text', 'sticker', 'video', 'photo', 'audio', 'voice','video_note'])
 def echo(message):
@@ -966,10 +975,13 @@ def echo(call):
     elif call.data == 'tiktok_accept':
         # send tiktokbattle image
         chat_info = get_active_chat(call.message.chat.id)
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'welcome to *TikTokBattle™\!*\.', parse_mode='markdownv2')
-        bot.send_message(chat_info[1],'welcome to *TikTokBattle™\!*\.', parse_mode='markdownv2')
-        bot.send_message(call.message.chat.id, 'Submit your tiktok url for battle!')
-        bot.send_message(chat_info[1], 'Submit your tiktok url for battle!')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Welcome to *TikTokBattle™\!*', parse_mode='markdownv2')
+        bot.send_message(chat_info[1],'Welcome to *TikTokBattle™\!*', parse_mode='markdownv2')
+        msg1 = bot.send_message(call.message.chat.id, 'Submit your TikTok URL for battle!')
+        bot.register_next_step_handler(msg1, tiktok_url_step)
+        msg2 = bot.send_message(chat_info[1], 'Submit your TikTok URL for battle!')
+        bot.register_next_step_handler(msg2, tiktok_url_step)
+        
 
     elif call.data == 'tiktok_decline':
         chat_info = get_active_chat(call.message.chat.id)

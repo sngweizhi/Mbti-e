@@ -305,7 +305,7 @@ def echo(message):
    if bool(get_active_chat(message.chat.id)):
      chat_info = get_active_chat(message.chat.id)
      x = bot.send_dice(message.chat.id)
-     print(x)
+     print(x.dice.value)
 
 
 @bot.message_handler(commands=['report'])

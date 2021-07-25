@@ -308,7 +308,7 @@ def echo(message):
      bot.send_message(chat_info[1], 'User has rolled the dice for a random topic.')
      msg = bot.send_dice(message.chat.id)
      topic = messages.topics[msg.dice.value]
-     sleep(5)
+     sleep(3)
      bot.send_message(message.chat.id, 'Random topic: *{}*\.'.format(topic), parse_mode='MarkdownV2')
      bot.send_message(chat_info[1], 'Random topic: *{}*\.'.format(topic), parse_mode='MarkdownV2')
 

@@ -634,7 +634,10 @@ def direct_message_step(message):
           bot.send_message(message.chat.id, 'User does not exist!')
  
 def tiktok_url_step(message):
-    if message.text == 'cancel':
+    chat_info = get_active_chat(message.chat.id)
+    if message.text == 'cancel' | message.text == 'Cancel':
+        bot.send_message(message.chat.id,'You have cancelled the TikTokBattle™')
+        bot.send_message(chat_info[1],'User has cancelled the TikTokBattle™')
         return
     url = re.match(r'^https://vt.tiktok.com/' ,message.text)
     if url == None:
@@ -644,7 +647,6 @@ def tiktok_url_step(message):
         session = requests.Session()
         resp = session.head(url, allow_redirects=True)
         url = resp.url.split('?_d')[0]
-        chat_info = get_active_chat(message.chat.id)
         userTiktok[message.chat.id] = url
         try:
             if userTiktok[chat_info[1]] != None:

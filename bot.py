@@ -232,7 +232,7 @@ def tiktok_rating(chat_id):
                                           callback_data='ttbattle-{}-5'.format(chat_id))
     button5 = types.InlineKeyboardButton(text='😂💯',
                                           callback_data='ttbattle-{}-100'.format(chat_id))
-    markup = types.InlineKeyboardMarkup([[button1,button2,button3,button4,button5]])
+    markup = types.InlineKeyboardMarkup([[button1,button2,button3,button4,button5]], one_time_keyboard=True)
     return markup
 
 ######## BASIC COMMANDS #########
@@ -1006,12 +1006,10 @@ def echo(call):
         bot.delete_message(chat_id = chat_info[1], message_id = userTiktok[chat_info[1]])
         bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2' )
         bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2' )
-        #bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = "Welcome to *TikTokBattle™\!*\n\nType 'cancel' to exit\.", parse_mode='markdownv2')
-        #bot.edit_message_text(chat_id = chat_info[1], message_id = userTiktok[chat_info[1]], text = "Welcome to *TikTokBattle™\!*\n\nType 'cancel' to exit\.", parse_mode='markdownv2')
         userTiktok.pop(chat_info[1])
-        msg1 = bot.send_message(call.message.chat.id, "Submit your TikTok URL for battle:\nType 'cancel' to exit.")
+        msg1 = bot.send_message(call.message.chat.id, "Submit your TikTok URL for battle:\nType '_cancel_' to exit." ,parse_mode='markdownv2')
         bot.register_next_step_handler(msg1, tiktok_url_step)
-        msg2 = bot.send_message(chat_info[1], "Submit your TikTok URL for battle:\nType 'cancel' to exit.")
+        msg2 = bot.send_message(chat_info[1], "Submit your TikTok URL for battle:\n\nType '_cancel_' to exit.",parse_mode='markdownv2')
         bot.register_next_step_handler(msg2, tiktok_url_step)
         
 
@@ -1030,6 +1028,7 @@ def echo(call):
       
         
         if isinstance(userTiktok[call.message.chat.id], int):
+            bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
             user = userTiktok[call.message.chat.id]
             other = userTiktok[player_id]
             if other > user:
@@ -1051,12 +1050,13 @@ def echo(call):
             round = get_tiktok_round(call.message.chat.id)
             win1 = get_tiktok_win(call.message.chat.id)
             win2 = get_tiktok_win(player_id)
-            tally = 'TikTokBattle™ *Round {}*\n\nYou: *{}*\nUser: *{}*'
+            tally = '*TikTokBattle™ Scoreboard*\n\nYou: *{}*\nUser: *{}*'
             bot.send_message(call.message.chat.id, tally.format(round,win1,win2), parse_mode='MarkdownV2')
             bot.send_message(player_id, tally.format(round,win2,win1), parse_mode='MarkdownV2')
 
         else:
-            bot.send_message(call.message.chat.id, 'Waiting for user to rate your TikTok...')
+            bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id) 
+            bot.send_message(call.message.chat.id, 'Waiting for user to rate your TikTok...', reply_markup=types.ReplyKeyboardRemove())
 
             
 

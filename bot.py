@@ -640,6 +640,7 @@ def tiktok_url_step(message):
         url = resp.url.split('?_d')[0]
         chat_info = get_active_chat(message.chat.id)
         userTiktok[message.chat.id] = url
+        print(userTiktok[message.chat.id])
         try:
             if userTiktok[chat_info[1]] != None:
                 round = set_tiktok_round(message.chat.id)

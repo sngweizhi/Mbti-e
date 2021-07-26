@@ -374,18 +374,18 @@ def set_tiktok_round(chat_id):
 def get_tiktok_win(chat_id):
     user = Chats.query.filter_by(chat_one=chat_id).first()
     if user == None:
-        try:
-            user = Chats.query.filter_by(chat_two=chat_id).first()
-            tiktok = user.tiktok_two
-            return tiktok
-        except:
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        tiktok = user.tiktok_two
+        if tiktok == None:
             return 0
+        else:
+            return tiktok
     else:
-        try:
-            tiktok = user.tiktok_one
-            return tiktok
-        except:
+        tiktok = user.tiktok_one
+        if tiktok == None:
             return 0
+        else:
+            return tiktok
 
 def get_tiktok_round(chat_id):
     user = Chats.query.filter(or_(Chats.chat_one==chat_id, Chats.chat_two==chat_id)).first()

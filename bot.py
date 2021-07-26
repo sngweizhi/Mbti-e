@@ -640,13 +640,17 @@ def direct_message_step(message):
               bot.send_message(message.chat.id, 'User is currently in a chat!')
       else:
           bot.send_message(message.chat.id, 'User does not exist!')
- 
+
+def tiktok_cancel(message):
+    bot.send_message(message.chat.id,'User has cancelled the TikTokBattle™')
+    return
+
 def tiktok_url_step(message):
     chat_info = get_active_chat(message.chat.id)
     if message.text == 'cancel' or message.text == 'Cancel':
         bot.send_message(message.chat.id,'You have cancelled the TikTokBattle™')
-        msg = bot.send_message(chat_info[1],'User has cancelled the TikTokBattle™')
-        bot.register_next_step_handler(msg, bot.message_handler(content_types=['text', 'sticker', 'video', 'photo', 'audio', 'voice','video_note']))
+        #msg = bot.send_message(chat_info[1],'User has cancelled the TikTokBattle™')
+        bot.register_next_step_handler_by_chat_id(chat_info[1],tiktok_cancel)
         userTiktok.pop(chat_info[1],None)
         return
     url = re.match(r'^https://vt.tiktok.com/' ,message.text)

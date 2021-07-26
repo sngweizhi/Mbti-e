@@ -360,7 +360,7 @@ def echo(message):
         chat_info = get_active_chat(message.chat.id)
         try:
             user = userTiktok[chat_info[1]]
-            bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a *TikTokBattle™*\.', reply_markup=tiktok_menu(), parse_mode='MarkdownV2')
+            bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
         except:
             bot.send_message(chat_info[1], 'User has sent you a request for a *TikTokBattle™*\.', reply_markup=tiktok_menu(), parse_mode='MarkdownV2')
             sent = bot.send_message(message.chat.id, 'You have sent a request for a *TikTokBattle™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
@@ -638,6 +638,7 @@ def tiktok_url_step(message):
     if message.text == 'cancel' | message.text == 'Cancel':
         bot.send_message(message.chat.id,'You have cancelled the TikTokBattle™')
         bot.send_message(chat_info[1],'User has cancelled the TikTokBattle™')
+        userTiktok.pop(chat_info[1],None)
         return
     url = re.match(r'^https://vt.tiktok.com/' ,message.text)
     if url == None:
@@ -1011,7 +1012,7 @@ def echo(call):
         userTiktok.pop(chat_info[1])
         msg1 = bot.send_message(call.message.chat.id, "Submit your TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
         bot.register_next_step_handler(msg1, tiktok_url_step)
-        msg2 = bot.send_message(chat_info[1], "Submit your TikTok URL for battle:\n\nType '_cancel_' to exit\.",parse_mode='markdownv2')
+        msg2 = bot.send_message(chat_info[1], "Submit your TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
         bot.register_next_step_handler(msg2, tiktok_url_step)
         
 

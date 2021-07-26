@@ -371,7 +371,7 @@ def set_tiktok_round(chat_id):
 #    user.tiktok_two = 0
 #    db.session.commit()
 
-def get_tiktok(chat_id):
+def get_tiktok_win(chat_id):
     user = Chats.query.filter_by(chat_one=chat_id).first()
     if user == None:
         try:

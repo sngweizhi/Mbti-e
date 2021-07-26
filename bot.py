@@ -643,9 +643,9 @@ def tiktok_url_step(message):
             if userTiktok[chat_info[1]] != None:
                 round = set_tiktok_round(message.chat.id)
                 mess = "TikTokBattle™ *Round {}*\.\nRate the user's TikTok:"
-                bot.send_message(chat_info[1], mess.format(round))
+                bot.send_message(chat_info[1], mess.format(round), parse_mode='MarkdownV2')
                 bot.send_message(chat_info[1], url, reply_markup=tiktok_rating(message.chat.id))
-                bot.send_message(message.chat.id, mess.format(round))
+                bot.send_message(message.chat.id, mess.format(round), parse_mode='MarkdownV2')
                 bot.send_message(message.chat.id, userTiktok[chat_info[1]], reply_markup=tiktok_rating(chat_info[1]))
             else:
                 bot.send_message(message.chat.id, 'Error.')
@@ -995,6 +995,7 @@ def echo(call):
 
     elif call.data == 'tiktok_accept':
         # send tiktokbattle image
+        bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Welcome to *TikTokBattle™\!*', parse_mode='markdownv2')
         bot.send_message(chat_info[1],'Welcome to *TikTokBattle™\!*', parse_mode='markdownv2')
@@ -1005,11 +1006,13 @@ def echo(call):
         
 
     elif call.data == 'tiktok_decline':
+        bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for a TikTokBattle™.')
         bot.send_message(chat_info[1],'User has declined your request for a TikTokBattle™.')
 
     elif call.data[:8] == 'ttbattle':
+        bot.answer_callback_query(call.id)
         info = call.data
         player_id = int(info.split('-')[1])
         score = int(info.split('-')[2])
@@ -1021,26 +1024,26 @@ def echo(call):
             other = userTiktok[player_id]
             if other > user:
                 set_tiktok_win(player_id)
-                bot.send_message(call.message.chat.id, 'User rated your TikTok {}\.\nYou rated their Tiktok {}\.\nUser won the battle\!'.format(user,other), parse_mode='MarkdownV2')
-                bot.send_message(player_id, 'User rated your TikTok {}\.\nYou rated their Tiktok {}\.\nYou won the battle\!'.format(other,user), parse_mode='MarkdownV2')
+                bot.send_message(call.message.chat.id, 'User rated your TikTok *{}*\.\nYou rated their Tiktok *{}*\.\n\n*User won the battle\!*'.format(user,other), parse_mode='MarkdownV2')
+                bot.send_message(player_id, 'User rated your TikTok *{}*\.\nYou rated their Tiktok *{}*\.\n\n*You won the battle\!*'.format(other,user), parse_mode='MarkdownV2')
 
             elif user > other:
                 set_tiktok_win(call.message.chat.id)
-                bot.send_message(call.message.chat.id, 'User rated your TikTok {}\.\nYou rated their Tiktok {}\.\nYou won the battle\!'.format(user,other), parse_mode='MarkdownV2')
-                bot.send_message(player_id, 'User rated your TikTok {}\.\nYou rated their Tiktok {}\.\nUser won the battle\!'.format(other,user), parse_mode='MarkdownV2')
+                bot.send_message(call.message.chat.id, 'User rated your TikTok *{}*\.\nYou rated their Tiktok *{}*\.\n\n*You won the battle\!*'.format(user,other), parse_mode='MarkdownV2')
+                bot.send_message(player_id, 'User rated your TikTok *{}*\.\nYou rated their Tiktok *{}*\.\n\n*User won the battle\!*'.format(other,user), parse_mode='MarkdownV2')
 
             elif user == other:
-                bot.send_message(call.message.chat.id, "User rated your TikTok {}\.\nYou rated their Tiktok {}\.\nIt\'s a draw\!".format(user,other), parse_mode='MarkdownV2')
-                bot.send_message(player_id, "User rated your TikTok {}\.\nYou rated their Tiktok {}\.\nIt\'s a draw\!".format(other,user), parse_mode='MarkdownV2')
+                bot.send_message(call.message.chat.id, "User rated your TikTok *{}*\.\nYou rated their Tiktok *{}*\.\n\n*It\'s a draw\!".format(user,other), parse_mode='MarkdownV2')
+                bot.send_message(player_id, "User rated your TikTok *{}*\.\nYou rated their Tiktok *{}*\.\n\n*It\'s a draw\!*".format(other,user), parse_mode='MarkdownV2')
 
             userTiktok.pop(player_id)
             userTiktok.pop(call.message.chat.id)
             round = get_tiktok_round(call.message.chat.id)
             win1 = get_tiktok_win(call.message.chat.id)
             win2 = get_tiktok_win(player_id)
-            tally = 'TikTokBattle™ *Round {}*\n\nYou: {}\nUser: {}'
-            bot.send_message(call.message.chat.id, tally.format(round,win1,win2))
-            bot.send_message(player_id, tally.format(round,win2,win1))
+            tally = 'TikTokBattle™ *Round {}*\n\nYou: *{}*\nUser: *{}*'
+            bot.send_message(call.message.chat.id, tally.format(round,win1,win2), parse_mode='MarkdownV2')
+            bot.send_message(player_id, tally.format(round,win2,win1), parse_mode='MarkdownV2')
 
         else:
             bot.send_message(call.message.chat.id, 'Waiting for user to rate your TikTok...')

@@ -640,19 +640,17 @@ def tiktok_url_step(message):
         url = resp.url.split('?_d')[0]
         chat_info = get_active_chat(message.chat.id)
         userTiktok[message.chat.id] = url
-        print(userTiktok[message.chat.id])
-        try:
-            if userTiktok[chat_info[1]] != None:
-                round = set_tiktok_round(message.chat.id)
-                mess = "TikTokBattle™ *Round {}*\.\nRate the user's TikTok:"
-                bot.send_message(chat_info[1], mess.format(round))
-                bot.send_message(chat_info[1], url, reply_markup=tiktok_rating())
-                bot.send_message(message.chat.id, mess.format(round))
-                bot.send_message(message.chat.id, userTiktok[chat_info[1]], reply_markup=tiktok_rating())
-            else:
-                bot.send_message(message.chat.id, 'Error.')
-        except:
-            bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs.')
+        if userTiktok[chat_info[1]] != None:
+            round = set_tiktok_round(message.chat.id)
+            mess = "TikTokBattle™ *Round {}*\.\nRate the user's TikTok:"
+            bot.send_message(chat_info[1], mess.format(round))
+            bot.send_message(chat_info[1], url, reply_markup=tiktok_rating())
+            bot.send_message(message.chat.id, mess.format(round))
+            bot.send_message(message.chat.id, userTiktok[chat_info[1]], reply_markup=tiktok_rating())
+        else:
+            bot.send_message(message.chat.id, 'Error.')
+        #except:
+        #    bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs.')
     else:
         msg =bot.send_message(message.chat.id, 'Invalid URL! Please ensure it is in the format of vt.tiktok.com or tiktok.com')
         bot.register_next_step_handler(msg, tiktok_url_step)

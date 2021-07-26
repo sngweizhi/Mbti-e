@@ -638,6 +638,7 @@ def tiktok_url_step(message):
         bot.send_message(message.chat.id,'You have cancelled the TikTokBattle™')
         bot.send_message(chat_info[1],'User has cancelled the TikTokBattle™')
         userTiktok.pop(chat_info[1],None)
+        userTiktok.pop(chat_info[1],None)
         return
     url = re.match(r'^https://vt.tiktok.com/' ,message.text)
     if url == None:
@@ -648,16 +649,16 @@ def tiktok_url_step(message):
         resp = session.head(url, allow_redirects=True)
         url = resp.url.split('?_d')[0]
         userTiktok[message.chat.id] = url
-        try:
-            if userTiktok[chat_info[1]] != None:
-                round = set_tiktok_round(message.chat.id)
-                mess = "🔥 TikTokBattle™ Round {} 🔥\n\nRate the user's TikTok:\n"
-                bot.send_message(chat_info[1], mess.format(round)+url, disable_web_page_preview=True, reply_markup=tiktok_rating(message.chat.id))
-                bot.send_message(message.chat.id, mess.format(round)+userTiktok[chat_info[1]],disable_web_page_preview=True, reply_markup=tiktok_rating(chat_info[1]))
-            else:
-                bot.send_message(message.chat.id, 'Error.')
-        except:
-            bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs...')
+       
+        if userTiktok[chat_info[1]] != None:
+            round = set_tiktok_round(message.chat.id)
+            mess = "🔥 TikTokBattle™ Round {} 🔥\n\nRate the user's TikTok:\n"
+            bot.send_message(chat_info[1], mess.format(round)+url, disable_web_page_preview=True, reply_markup=tiktok_rating(message.chat.id))
+            bot.send_message(message.chat.id, mess.format(round)+userTiktok[chat_info[1]],disable_web_page_preview=True, reply_markup=tiktok_rating(chat_info[1]))
+        else:
+            bot.send_message(message.chat.id, 'Error.')
+        #except:
+        #    bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs...')
     else:
         msg =bot.send_message(message.chat.id, 'Invalid URL! Please ensure it is in the format of vt.tiktok.com or tiktok.com')
         bot.register_next_step_handler(msg, tiktok_url_step)

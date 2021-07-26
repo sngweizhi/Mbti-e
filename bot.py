@@ -1004,8 +1004,8 @@ def echo(call):
         # send tiktokbattle image
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = "Welcome to *TikTokBattle™\! Type 'cancel' to exit\.*", parse_mode='markdownv2')
-        bot.edit_message_text(chat_id = chat_info[1], message_id = userTiktok[chat_info[1]], text = "Welcome to *TikTokBattle™\! Type 'cancel' to exit\.*", parse_mode='markdownv2')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = "Welcome to *TikTokBattle™\!*\nType 'cancel' to exit\.", parse_mode='markdownv2')
+        bot.edit_message_text(chat_id = chat_info[1], message_id = userTiktok[chat_info[1]], text = "Welcome to *TikTokBattle™\!*\nType 'cancel' to exit\.", parse_mode='markdownv2')
         userTiktok.pop(chat_info[1])
         msg1 = bot.send_message(call.message.chat.id, 'Submit your TikTok URL for battle:')
         bot.register_next_step_handler(msg1, tiktok_url_step)

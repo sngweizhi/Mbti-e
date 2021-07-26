@@ -379,13 +379,13 @@ def get_tiktok_win(chat_id):
             tiktok = user.tiktok_two
             return tiktok
         except:
-            return
+            return 0
     else:
         try:
             tiktok = user.tiktok_one
             return tiktok
         except:
-            return
+            return 0
 
 def get_tiktok_round(chat_id):
     user = Chats.query.filter(or_(Chats.chat_one==chat_id, Chats.chat_two==chat_id)).first()

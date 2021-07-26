@@ -23,6 +23,7 @@ bot = telebot.TeleBot(config('TOKEN'))
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
 userPoll = {}
 userTiktok = {}
+userMessage = {}
 
 def main_menu():
     """
@@ -212,6 +213,14 @@ def tiktok_menu():
   markup.add(button1,button2)
   return markup
 
+def tiktok_encore_menu():
+  markup = types.InlineKeyboardMarkup()
+  button1 = types.InlineKeyboardButton(text='Another round!',
+                                          callback_data='tiktok_encore')
+  button2 = types.InlineKeyboardButton(text='No thanks!',
+                                          callback_data='tiktok_decline_encore')
+  markup.add(button1,button2)
+  return markup
 
 def stop_search():
   markup = types.InlineKeyboardMarkup()
@@ -358,12 +367,12 @@ def echo(message):
     if bool(get_active_chat(message.chat.id)):
         chat_info = get_active_chat(message.chat.id)
         try:
-            user = userTiktok[chat_info[1]]
+            user = userMessage[chat_info[1]]
             bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
         except:
             bot.send_message(chat_info[1], 'User has sent you a request for a *TikTokBattle™*\.', reply_markup=tiktok_menu(), parse_mode='MarkdownV2')
             sent = bot.send_message(message.chat.id, 'You have sent a request for a *TikTokBattle™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
-            userTiktok[message.chat.id] = sent.message_id
+            userMessage[message.chat.id] = sent.message_id
     else:
         bot.send_message(message.chat.id, '❗ You have not started a chat!')
 
@@ -1005,21 +1014,44 @@ def echo(call):
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
         bot.delete_message(chat_id = call.message.chat.id, message_id = call.message.message_id)
-        bot.delete_message(chat_id = chat_info[1], message_id = userTiktok[chat_info[1]])
+        bot.delete_message(chat_id = chat_info[1], message_id = userMessage[chat_info[1]])
         bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2' )
         bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2' )
-        userTiktok.pop(chat_info[1])
+        userMessage.pop(chat_info[1],None)
         msg1 = bot.send_message(call.message.chat.id, "Submit your TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
         bot.register_next_step_handler(msg1, tiktok_url_step)
         msg2 = bot.send_message(chat_info[1], "Submit your TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
         bot.register_next_step_handler(msg2, tiktok_url_step)
+        
+    elif call.data == 'tiktok_encore':
+        bot.answer_callback_query(call.id)
+        chat_info = get_active_chat(call.message.chat.id)
+        try:
+            if userMessage[chat_info[1]] != None:
+                msg1 = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = "Another round\! Submit your next TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
+                bot.register_next_step_handler(msg1, tiktok_url_step)
+                msg2 = bot.edit_message_text(chat_id = chat_info[1], message_id = userMessage[chat_info[1]], text = "Another round\! Submit your next TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
+                bot.register_next_step_handler(msg2, tiktok_url_step)
+                userMessage.pop(chat_info[1],None)
+        except:
+            userMessage[call.message.chat.id] = call.message.message_id
+            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have asked for another round. Waiting for user to submit theirs...')
+        
         
 
     elif call.data == 'tiktok_decline':
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for a TikTokBattle™.')
-        bot.send_message(chat_info[1],'User has declined your request for a TikTokBattle™.')
+        bot.edit_message_text(chat_id = chat_info[1],message_id = userMessage[chat_info[1]], text= 'User has declined your request for a TikTokBattle™.')
+        userMessage.pop(chat_info[1],None)
+
+    elif call.data == 'tiktok_decline_encore':
+        bot.answer_callback_query(call.id)
+        chat_info = get_active_chat(call.message.chat.id)
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for another TikTokBattle™.')
+        bot.edit_message_text(chat_id = chat_info[1],message_id = userMessage[chat_info[1]], text= 'User has declined your request for another TikTokBattle™.')
+        userMessage.pop(chat_info[1],None)
 
     elif call.data[:8] == 'ttbattle':
         bot.answer_callback_query(call.id)
@@ -1030,6 +1062,8 @@ def echo(call):
       
         
         if isinstance(userTiktok[call.message.chat.id], int):
+            bot.delete_message(chat_id=player_id, message_id=userMessage[player_id])
+            userMessage.pop(player_id,None)
             bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
             user = userTiktok[call.message.chat.id]
             other = userTiktok[player_id]
@@ -1053,12 +1087,13 @@ def echo(call):
             win1 = get_tiktok_win(call.message.chat.id)
             win2 = get_tiktok_win(player_id)
             tally = '*TikTokBattle™ Scoreboard*\n\nYou: *{}*\nUser: *{}*'
-            bot.send_message(call.message.chat.id, tally.format(win1,win2), parse_mode='MarkdownV2')
-            bot.send_message(player_id, tally.format(win2,win1), parse_mode='MarkdownV2')
+            bot.send_message(call.message.chat.id, tally.format(win1,win2), parse_mode='MarkdownV2', reply_markup= tiktok_encore_menu())
+            bot.send_message(player_id, tally.format(win2,win1), parse_mode='MarkdownV2', reply_markup= tiktok_encore_menu())
 
         else:
             bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id) 
-            bot.send_message(call.message.chat.id, 'Waiting for user to rate your TikTok...', reply_markup=types.ReplyKeyboardRemove())
+            sent = bot.send_message(call.message.chat.id, 'Waiting for user to rate your TikTok...', reply_markup=types.ReplyKeyboardRemove())
+            userMessage[call.message.chat.id] = sent.message_id
 
             
 

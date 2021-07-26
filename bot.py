@@ -358,8 +358,13 @@ def echo(message):
 def echo(message):
     if bool(get_active_chat(message.chat.id)):
         chat_info = get_active_chat(message.chat.id)
-        bot.send_message(chat_info[1], 'User has sent you a request for a *TikTokBattle™*\.', reply_markup=tiktok_menu(), parse_mode='MarkdownV2')
-        bot.send_message(message.chat.id, 'You have sent a request for a *TikTokBattle™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
+        try:
+            user = userTiktok[chat_info[1]]
+            bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a *TikTokBattle™*\.', reply_markup=tiktok_menu(), parse_mode='MarkdownV2')
+        except:
+            bot.send_message(chat_info[1], 'User has sent you a request for a *TikTokBattle™*\.', reply_markup=tiktok_menu(), parse_mode='MarkdownV2')
+            sent = bot.send_message(message.chat.id, 'You have sent a request for a *TikTokBattle™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
+            userTiktok[message.chat.id] = sent.message_id
     else:
         bot.send_message(message.chat.id, '❗ You have not started a chat!')
 
@@ -469,10 +474,6 @@ def echo(message):
         bot.register_next_step_handler(msg, direct_message_step)
     else:
         return
-
-@bot.message_handler(commands=['testing'])
-def echo(message)
-    bot.delete_message(message.chat.id,message.message_id)
 
 #### Next Step Handlers ####
 def set_truth1_step(message):
@@ -633,6 +634,8 @@ def direct_message_step(message):
           bot.send_message(message.chat.id, 'User does not exist!')
  
 def tiktok_url_step(message):
+    if message.text == 'cancel':
+        return
     url = re.match(r'^https://vt.tiktok.com/' ,message.text)
     if url == None:
         url = re.match(r'^https://www.tiktok.com/' ,message.text)
@@ -1001,11 +1004,12 @@ def echo(call):
         # send tiktokbattle image
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Welcome to *TikTokBattle™\!*', parse_mode='markdownv2')
-        bot.send_message(chat_info[1],'Welcome to *TikTokBattle™\!*', parse_mode='markdownv2')
-        msg1 = bot.send_message(call.message.chat.id, 'Submit your TikTok URL for battle!')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = "Welcome to *TikTokBattle™\! Type 'cancel' to exit.*", parse_mode='markdownv2')
+        bot.edit_message_text(chat_id = chat_info[1], message_id = userTiktok[chat_info[1]], text = "Welcome to *TikTokBattle™\! Type 'cancel' to exit.*", parse_mode='markdownv2')
+        userTiktok.pop(chat_info[1])
+        msg1 = bot.send_message(call.message.chat.id, 'Submit your TikTok URL for battle:')
         bot.register_next_step_handler(msg1, tiktok_url_step)
-        msg2 = bot.send_message(chat_info[1], 'Submit your TikTok URL for battle!')
+        msg2 = bot.send_message(chat_info[1], 'Submit your TikTok URL for battle:')
         bot.register_next_step_handler(msg2, tiktok_url_step)
         
 

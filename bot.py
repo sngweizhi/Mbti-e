@@ -1053,8 +1053,8 @@ def echo(call):
             win1 = get_tiktok_win(call.message.chat.id)
             win2 = get_tiktok_win(player_id)
             tally = '*TikTokBattle™ Scoreboard*\n\nYou: *{}*\nUser: *{}*'
-            bot.send_message(call.message.chat.id, tally.format(round,win1,win2), parse_mode='MarkdownV2')
-            bot.send_message(player_id, tally.format(round,win2,win1), parse_mode='MarkdownV2')
+            bot.send_message(call.message.chat.id, tally.format(win1,win2), parse_mode='MarkdownV2')
+            bot.send_message(player_id, tally.format(win2,win1), parse_mode='MarkdownV2')
 
         else:
             bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id) 

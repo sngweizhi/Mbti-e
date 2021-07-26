@@ -239,7 +239,7 @@ def tiktok_rating(chat_id):
                                           callback_data='ttbattle-{}-4'.format(chat_id))
     button4 = types.InlineKeyboardButton(text='5⃣',
                                           callback_data='ttbattle-{}-5'.format(chat_id))
-    button5 = types.InlineKeyboardButton(text='😂💯',
+    button5 = types.InlineKeyboardButton(text='😂💯❤️',
                                           callback_data='ttbattle-{}-100'.format(chat_id))
     markup = types.InlineKeyboardMarkup([[button1,button2,button3,button4,button5]])
     return markup
@@ -661,7 +661,7 @@ def tiktok_url_step(message):
             if userTiktok[chat_info[1]] != None:
                 bot.delete_message(chat_id=chat_info[1], message_id = userMessage[chat_info[1]])
                 round = set_tiktok_round(message.chat.id)
-                if round = 1:
+                if round == 1:
                     mess = "TikTokBattle™ Round {} \n\nRate the user's TikTok:\n"
                 elif round == 2:
                     mess = "🌚 TikTokBattle™ Round {} 🌝\n\nRate the user's TikTok:\n"

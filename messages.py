@@ -15,6 +15,7 @@ Lie game to your match\!\n/topic \- Roll a dice for a random topic during a chat
 
 search_sticker = 'CAACAgUAAxkBAAIJxmDyqgXaYH7ZcxzHGZbOjwtaEqMAA54CAAKJ_JBXZilybC94gzggBA'
 match_sticker ='CAACAgUAAxkBAAIJ7WDyykDX_M8j0z3TCKanMmuDUt2tAAKOAwACPyqZV1g5tYcaYUa6IAQ'
+tiktokbattle = 'AgACAgUAAxkDAAIYlGD-x8prVdaSmmvnFBByIGr4yOCjAAJFrTEbOtf4V8nap4zfeim2AQADAgADdwADIAQ'
 
 mbti_cf = {'ISFP': ['Fi','Se','Ni','Te'],'ISFJ': ['Si','Fe','Ti','Ne'], 'ISTP': ['Ti','Se','Ni','Fe'], 'ISTJ': ['Si','Te','Fi','Ne'], 'ESFP': ['Se','Fi','Te','Ni'], 'ESFJ': ['Fe','Si','Ne','Ti'], 'ESTP': ['Se','Ti','Fe','Ni'], 'ESTJ': ['Te','Si','Ne','Fi'], 'INFP': ['Fi','Ne','Si','Te'], 'INFJ': ['Ni','Fe','Ti','Se'], 'INTP': ['Ti','Ne','Si','Fe'], 'INTJ': ['Ni','Te','Fi','Se'], 'ENFP': ['Ne','Fi','Te','Si'], 'ENFJ': ['Fe','Ni','Se','Ti'], 'ENTP': ['Ne','Ti','Fe','Si'], 'ENTJ': ['Te','Ni','Se','Fi']}
 

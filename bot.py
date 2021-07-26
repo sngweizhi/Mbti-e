@@ -230,8 +230,8 @@ def tiktok_rating(chat_id):
                                           callback_data='ttbattle-{}-4'.format(chat_id))
     button4 = types.InlineKeyboardButton(text='5⃣',
                                           callback_data='ttbattle-{}-5'.format(chat_id))
-    button5 = types.InlineKeyboardButton(text='💯',
-                                          callback_data='ttbattle-{}-10'.format(chat_id))
+    button5 = types.InlineKeyboardButton(text='😂💯',
+                                          callback_data='ttbattle-{}-100'.format(chat_id))
     markup = types.InlineKeyboardMarkup([[button1,button2,button3,button4,button5]])
     return markup
 
@@ -649,7 +649,7 @@ def tiktok_url_step(message):
         try:
             if userTiktok[chat_info[1]] != None:
                 round = set_tiktok_round(message.chat.id)
-                mess = "TikTokBattle™ *Round {}*\.\nRate the user's TikTok:\n"
+                mess = "🔥 TikTokBattle™ Round {} 🔥\n\nRate the user's TikTok:\n"
                 bot.send_message(chat_info[1], mess.format(round)+url, disable_web_page_preview=True, reply_markup=tiktok_rating(message.chat.id))
                 bot.send_message(message.chat.id, mess.format(round)+userTiktok[chat_info[1]],disable_web_page_preview=True, reply_markup=tiktok_rating(chat_info[1]))
             else:
@@ -1002,12 +1002,16 @@ def echo(call):
         # send tiktokbattle image
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = "Welcome to *TikTokBattle™\!*\nType 'cancel' to exit\.", parse_mode='markdownv2')
-        bot.edit_message_text(chat_id = chat_info[1], message_id = userTiktok[chat_info[1]], text = "Welcome to *TikTokBattle™\!*\nType 'cancel' to exit\.", parse_mode='markdownv2')
+        bot.delete_message(chat_id = call.message.chat.id, message_id = call.message.message_id)
+        bot.delete_message(chat_id = chat_info[1], message_id = userTiktok[chat_info[1]])
+        bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2' )
+        bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2' )
+        #bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = "Welcome to *TikTokBattle™\!*\n\nType 'cancel' to exit\.", parse_mode='markdownv2')
+        #bot.edit_message_text(chat_id = chat_info[1], message_id = userTiktok[chat_info[1]], text = "Welcome to *TikTokBattle™\!*\n\nType 'cancel' to exit\.", parse_mode='markdownv2')
         userTiktok.pop(chat_info[1])
-        msg1 = bot.send_message(call.message.chat.id, 'Submit your TikTok URL for battle:')
+        msg1 = bot.send_message(call.message.chat.id, "Submit your TikTok URL for battle:\nType 'cancel' to exit.")
         bot.register_next_step_handler(msg1, tiktok_url_step)
-        msg2 = bot.send_message(chat_info[1], 'Submit your TikTok URL for battle:')
+        msg2 = bot.send_message(chat_info[1], "Submit your TikTok URL for battle:\nType 'cancel' to exit.")
         bot.register_next_step_handler(msg2, tiktok_url_step)
         
 
@@ -1039,7 +1043,7 @@ def echo(call):
                 bot.send_message(player_id, 'User rated your TikTok *{}*\.\nYou rated their Tiktok *{}*\.\n\n*🙊 User won the battle\!*'.format(other,user), parse_mode='MarkdownV2')
 
             elif user == other:
-                bot.send_message(call.message.chat.id, "User rated your TikTok *{}*\.\nYou rated their Tiktok *{}*\.\n\n*👔 It\'s a tie\!".format(user,other), parse_mode='MarkdownV2')
+                bot.send_message(call.message.chat.id, "User rated your TikTok *{}*\.\nYou rated their Tiktok *{}*\.\n\n*👔 It\'s a tie\!*".format(user,other), parse_mode='MarkdownV2')
                 bot.send_message(player_id, "User rated your TikTok *{}*\.\nYou rated their Tiktok *{}*\.\n\n*👔 It\'s a tie\!*".format(other,user), parse_mode='MarkdownV2')
 
             userTiktok.pop(player_id)

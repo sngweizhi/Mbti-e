@@ -355,7 +355,10 @@ def set_tiktok_win(chat_id):
 
 def set_tiktok_round(chat_id):
     user = Chats.query.filter(or_(Chats.chat_one==chat_id, Chats.chat_two==chat_id)).first()
-    user.tiktok_round += 1
+    try:
+        user.tiktok_round += 1
+    except:
+        user.tiktok_round = 1
     db.session.commit()
     return user.tiktok_round
 

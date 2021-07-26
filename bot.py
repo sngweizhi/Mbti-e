@@ -668,7 +668,7 @@ def tiktok_url_step(message):
         url = message.text
         session = requests.Session()
         resp = session.head(url, allow_redirects=True)
-        url = resp.url.split('?_d')[0]
+        url = resp.url.split('?')[0]
         userTiktok[message.chat.id] = url
         try:
             if userTiktok[chat_info[1]] != None:

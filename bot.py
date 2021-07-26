@@ -671,7 +671,7 @@ def tiktok_url_step(message):
                     mess = "❄ TikTokBattle™ Round {} ❄\n\nRate the user's TikTok:\n"
                 elif 5 <= round < 10: 
                     mess = "🔥 TikTokBattle™ Round {} 🔥\n\nRate the user's TikTok:\n"
-                elif round >= 10
+                elif round >= 10:
                     mess = "🔥🔥 TikTokBattle™ Round {} 🔥🔥\n\nRate the user's TikTok:\n"
                 bot.send_message(chat_info[1], mess.format(round)+url, disable_web_page_preview=True, reply_markup=tiktok_rating(message.chat.id))
                 bot.send_message(message.chat.id, mess.format(round)+userTiktok[chat_info[1]],disable_web_page_preview=True, reply_markup=tiktok_rating(chat_info[1]))

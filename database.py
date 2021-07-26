@@ -355,7 +355,6 @@ def set_tiktok_win(chat_id):
 
 def set_tiktok_round(chat_id):
     user = Chats.query.filter(or_(Chats.chat_one==chat_id, Chats.chat_two==chat_id)).first()
-    print(user.tiktok_round)
     try:
         user.tiktok_round += 1
     except:

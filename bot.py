@@ -659,6 +659,7 @@ def tiktok_url_step(message):
         userTiktok[message.chat.id] = url
         try:
             if userTiktok[chat_info[1]] != None:
+                bot.delete_message(chat_id=chat_info[1], message_id = userMessage[chat_info[1]])
                 round = set_tiktok_round(message.chat.id)
                 mess = "🔥 TikTokBattle™ Round {} 🔥\n\nRate the user's TikTok:\n"
                 bot.send_message(chat_info[1], mess.format(round)+url, disable_web_page_preview=True, reply_markup=tiktok_rating(message.chat.id))
@@ -666,7 +667,8 @@ def tiktok_url_step(message):
             else:
                 bot.send_message(message.chat.id, 'Error.')
         except:
-            bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs...')
+            sent = bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs...')
+            userMessage[message.chat.id]=sent.message_id
     else:
         msg =bot.send_message(message.chat.id, 'Invalid URL! Please ensure it is in the format of vt.tiktok.com or tiktok.com')
         bot.register_next_step_handler(msg, tiktok_url_step)

@@ -231,7 +231,7 @@ def tiktok_rating():
                                           callback_data='4')
     button4 = types.InlineKeyboardButton(text='5⃣',
                                           callback_data='5')
-    button5 = types.InlineKeyboardButton(text='💯,
+    button5 = types.InlineKeyboardButton(text='💯',
                                           callback_data='100')
     markup.add(button1,button2, button3, button4, button5)
     return markup

@@ -22,7 +22,7 @@ bot = telebot.TeleBot(config('TOKEN'))
 
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
 userPoll = {}
-
+userTiktok = {}
 
 def main_menu():
     """
@@ -212,14 +212,6 @@ def tiktok_menu():
   markup.add(button1,button2)
   return markup
 
-#def setup_settings():
-#  markup = types.InlineKeyboardMarkup()
-#  button1 = types.InlineKeyboardButton(text='« Back to profile setup',
-#                                          callback_data='setupback')
-#  button2 = types.InlineKeyboardButton(text='« Back to Bot',
-#                                          callback_data='Bot')
-#  markup.add(button1, button2)
-#  return markup
 
 def stop_search():
   markup = types.InlineKeyboardMarkup()
@@ -228,6 +220,23 @@ def stop_search():
   markup.add(button1)
 
   return markup
+
+def tiktok_rating():
+    markup = types.InlineKeyboardMarkup()
+    button1 = types.InlineKeyboardButton(text='1⃣',
+                                          callback_data='1')
+    button2 = types.InlineKeyboardButton(text='2⃣',
+                                          callback_data='2')
+    button3 = types.InlineKeyboardButton(text='4⃣',
+                                          callback_data='4')
+    button4 = types.InlineKeyboardButton(text='5⃣',
+                                          callback_data='5')
+    button5 = types.InlineKeyboardButton(text='💯,
+                                          callback_data='100')
+    markup.add(button1,button2, button3, button4, button5)
+    return markup
+
+######## BASIC COMMANDS #########
 
 @bot.message_handler(commands = ['start'])
 def start(message):
@@ -626,20 +635,25 @@ def tiktok_url_step(message):
         url = re.match(r'^https://www.tiktok.com/' ,message.text)
     if url:
         url = message.text
-        session = requests.Session()  # so connections are recycled
+        session = requests.Session()
         resp = session.head(url, allow_redirects=True)
         url = resp.url.split('?_d')[0]
         chat_info = get_active_chat(message.chat.id)
-        bot.send_message(message.chat.id, 'TikTok sent to user!')
-        bot.send_message(chat_info[1], url)
+        userTiktok[message.chat.id] = url
+        if userTiktok[chat_info[1]] != None:
+            round = set_tiktok_round(message.chat.id)
+            mess = "TikTokBattle™ *Round {}*\.\nRate the user's TikTok:"
+            bot.send_message(chat_info[1], mess.format(round))
+            bot.send_message(chat_info[1], url, reply_markup=tiktok_rating())
+            bot.send_message(message.chat.id, mess.format(round))
+            bot.send_message(message.chat.id, userTiktok[chat_info[1]], reply_markup=tiktok_rating())
+        else:
+            bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs.')
+        
     else:
         msg =bot.send_message(message.chat.id, 'Invalid URL! Please ensure it is in the format of vt.tiktok.com or tiktok.com')
         bot.register_next_step_handler(msg, tiktok_url_step)
 
-#url = 'https://vt.tiktok.com/ZSJsmbj1n/'
-#session = requests.Session()  # so connections are recycled
-#resp = session.head(url, allow_redirects=True)
-#print(resp.url)
 
 @bot.message_handler(content_types=['text', 'sticker', 'video', 'photo', 'audio', 'voice','video_note'])
 def echo(message):

@@ -14,8 +14,8 @@ Updates:
   - Matched animation (positive reinforcement) [Done]
   - Webhook [Done]
   - MBTI matching algo 
-  - MBTI quiz 
-  - Roll dice for game/topic?
+  - MBTI quiz (add link for now)
+  - Roll dice for game/topic? [Done for topics based on MBTI]
   - Liking algorithm w/ NN
   - Admin options to check online users stats etc and send message to all users [Done]
   - Error logging [Done]
@@ -50,10 +50,12 @@ Updates:
   - Add in ban reason [Done].
   - Allow for setting of icebreaker while in chat [Done]
   - Add confirmation of stopping chat.[Done]
-  - Edit admin broadcast to broadcast in bold
+  - Edit admin broadcast to broadcast in bold [Done]
   - Add admin direct message function [Done]
-  - Use register next step handler check pytelegrambotapi step example.
+  - Use register next step handler check pytelegrambotapi step example [Done]
+  - Prompt users to share contact after a certain time during chat?
+  - Add image for 2truth1Lie, MBTITopics, TikTokBattle
 
-- edit setting of icebreaker does not show up as 'set complete'
+  Add that 2truth1lie™, MBTITopics™ and TikTokBattle™ are games that are unique to this bot. This bot is not only for MBTI people but for anyone too.
   Add to Help: For reporting make sure that either report during active chat or report before starting a new chat.
   Purpose (add to start): purpose of the bot is to increase exposure of ppl to MBTI and see how well MBTI ties in. get feedback whether it works. if it does, create a real mobile app and promote MBTI matching for relationships/friendships

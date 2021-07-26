@@ -336,7 +336,52 @@ def get_last_chat(chat_id):
         return chat_info
     except:
         return None
-        
+
+def set_tiktok_win(chat_id):
+    user = Chats.query.filter_by(chat_one=chat_id).first()
+    if user == None:
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        user.tiktok_two +=1
+        db.session.commit()
+    else:
+        user.tiktok_one +=1
+        db.session.commit()
+
+def set_tiktok_round(chat_id):
+    user = Chats.query.filter(or_(Chats.chat_one==chat_id, Chats.chat_two==chat_id)).first()
+    user.tiktok_round += 1
+    db.session.commit()
+    return user.tiktok_round
+
+
+#def reset_tiktok(chat_id):
+#    user = Chats.query.filter(or_(Chats.chat_one==chat_id, Chats.chat_two==chat_id)).first()
+#    user.tiktok_round = 0
+#    user.tiktok_one = 0
+#    user.tiktok_two = 0
+#    db.session.commit()
+
+def get_tiktok(chat_id):
+    user = Chats.query.filter_by(chat_one=chat_id).first()
+    if user == None:
+        try:
+            user = Chats.query.filter_by(chat_two=chat_id).first()
+            tiktok = user.tiktok_two
+            return tiktok
+        except:
+            return
+    else:
+        try:
+            tiktok = user.tiktok_one
+            return tiktok
+        except:
+            return
+
+def get_tiktok_round(chat_id):
+    user = Chats.query.filter(or_(Chats.chat_one==chat_id, Chats.chat_two==chat_id)).first()
+    return user.tiktok_round
+
+##### ADMIN LEVEL #####  
 
 def clear_database():
     db.session.query(Users).delete()
@@ -406,6 +451,10 @@ class Chats(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chat_one = db.Column(db.Integer, unique=True) 
     chat_two = db.Column(db.Integer, unique=True)
+    tiktok_one = db.Column(db.Integer)
+    tiktok_two = db.Column(db.Integer)
+    tiktok_round = db.Column(db.Integer)
+
     
 class Lastchat(db.Model):
     id = db.Column(db.Integer, primary_key=True)

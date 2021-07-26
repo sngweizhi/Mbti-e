@@ -221,19 +221,18 @@ def stop_search():
 
   return markup
 
-def tiktok_rating():
-    markup = types.InlineKeyboardMarkup()
+def tiktok_rating(chat_id):
     button1 = types.InlineKeyboardButton(text='1⃣',
-                                          callback_data='1')
+                                          callback_data='ttbattle-{}-1'.format(chat_id))
     button2 = types.InlineKeyboardButton(text='2⃣',
-                                          callback_data='2')
+                                          callback_data='ttbattle-{}-2'.format(chat_id))
     button3 = types.InlineKeyboardButton(text='4⃣',
-                                          callback_data='4')
+                                          callback_data='ttbattle-{}-4'.format(chat_id))
     button4 = types.InlineKeyboardButton(text='5⃣',
-                                          callback_data='5')
+                                          callback_data='ttbattle-{}-5'.format(chat_id))
     button5 = types.InlineKeyboardButton(text='💯',
-                                          callback_data='100')
-    markup.add(button1,button2, button3, button4, button5)
+                                          callback_data='ttbattle-{}-10'.format(chat_id))
+    markup = types.InlineKeyboardMarkup([[button1,button2,button3,button4,button5]])
     return markup
 
 ######## BASIC COMMANDS #########
@@ -522,7 +521,7 @@ def end_icebreaker_setup(id):
     bot.send_message(id, mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu())
 
 def set_age_step(message):
-    if (message.text).isnumeric():
+    if (message.text).isdigit():
         if int(message.text) < 100 and int(message.text)>=18:
             if bool(get_age(message.chat.id)):
                 set_age(message.chat.id, int(message.text))
@@ -640,17 +639,18 @@ def tiktok_url_step(message):
         url = resp.url.split('?_d')[0]
         chat_info = get_active_chat(message.chat.id)
         userTiktok[message.chat.id] = url
-        if userTiktok[chat_info[1]] != None:
-            round = set_tiktok_round(message.chat.id)
-            mess = "TikTokBattle™ *Round {}*\.\nRate the user's TikTok:"
-            bot.send_message(chat_info[1], mess.format(round))
-            bot.send_message(chat_info[1], url, reply_markup=tiktok_rating())
-            bot.send_message(message.chat.id, mess.format(round))
-            bot.send_message(message.chat.id, userTiktok[chat_info[1]], reply_markup=tiktok_rating())
-        else:
-            bot.send_message(message.chat.id, 'Error.')
-        #except:
-        #    bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs.')
+        try:
+            if userTiktok[chat_info[1]] != None:
+                round = set_tiktok_round(message.chat.id)
+                mess = "TikTokBattle™ *Round {}*\.\nRate the user's TikTok:"
+                bot.send_message(chat_info[1], mess.format(round))
+                bot.send_message(chat_info[1], url, reply_markup=tiktok_rating(message.chat.id))
+                bot.send_message(message.chat.id, mess.format(round))
+                bot.send_message(message.chat.id, userTiktok[chat_info[1]], reply_markup=tiktok_rating(chat_info[1]))
+            else:
+                bot.send_message(message.chat.id, 'Error.')
+        except:
+            bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs.')
     else:
         msg =bot.send_message(message.chat.id, 'Invalid URL! Please ensure it is in the format of vt.tiktok.com or tiktok.com')
         bot.register_next_step_handler(msg, tiktok_url_step)
@@ -1008,6 +1008,44 @@ def echo(call):
         chat_info = get_active_chat(call.message.chat.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for a TikTokBattle™.')
         bot.send_message(chat_info[1],'User has declined your request for a TikTokBattle™.')
+
+    elif call.data[:8] == 'ttbattle':
+        info = call.data
+        player_id = int(info.split('-')[1])
+        score = int(info.split('-')[2])
+        userTiktok[player_id] = score
+      
+        
+        if isinstance(userTiktok[call.message.chat.id], int):
+            user = userTiktok[call.message.chat.id]
+            other = userTiktok[player_id]
+            if other > user:
+                set_tiktok_win(player_id)
+                bot.send_message(call.message.chat.id, 'User rated your TikTok {}\.\nYou rated their Tiktok {}\.\nUser won the battle\!'.format(user,other), parse_mode='MarkdownV2')
+                bot.send_message(player_id, 'User rated your TikTok {}\.\nYou rated their Tiktok {}\.\nYou won the battle\!'.format(other,user), parse_mode='MarkdownV2')
+
+            elif user > other:
+                set_tiktok_win(call.message.chat.id)
+                bot.send_message(call.message.chat.id, 'User rated your TikTok {}\.\nYou rated their Tiktok {}\.\nYou won the battle\!'.format(user,other), parse_mode='MarkdownV2')
+                bot.send_message(player_id, 'User rated your TikTok {}\.\nYou rated their Tiktok {}\.\nUser won the battle\!'.format(other,user), parse_mode='MarkdownV2')
+
+            elif user == other:
+                bot.send_message(call.message.chat.id, "User rated your TikTok {}\.\nYou rated their Tiktok {}\.\nIt\'s a draw\!".format(user,other), parse_mode='MarkdownV2')
+                bot.send_message(player_id, "User rated your TikTok {}\.\nYou rated their Tiktok {}\.\nIt\'s a draw\!".format(other,user), parse_mode='MarkdownV2')
+
+            userTiktok.pop(player_id)
+            userTiktok.pop(call.message.chat.id)
+            round = get_tiktok_round(call.message.chat.id)
+            win1 = get_tiktok_win(call.message.chat.id)
+            win2 = get_tiktok_win(player_id)
+            tally = 'TikTokBattle™ *Round {}*\n\nYou: {}\nUser: {}'
+            bot.send_message(call.message.chat.id, tally.format(round,win1,win2))
+            bot.send_message(player_id, tally.format(round,win2,win1))
+
+        else:
+            bot.send_message(call.message.chat.id, 'Waiting for user to rate your TikTok...')
+
+            
 
     elif call.data == 'NewChat':
 

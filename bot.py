@@ -1007,9 +1007,9 @@ def echo(call):
         bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2' )
         bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2' )
         userTiktok.pop(chat_info[1])
-        msg1 = bot.send_message(call.message.chat.id, "Submit your TikTok URL for battle:\nType '_cancel_' to exit." ,parse_mode='markdownv2')
+        msg1 = bot.send_message(call.message.chat.id, "Submit your TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
         bot.register_next_step_handler(msg1, tiktok_url_step)
-        msg2 = bot.send_message(chat_info[1], "Submit your TikTok URL for battle:\n\nType '_cancel_' to exit.",parse_mode='markdownv2')
+        msg2 = bot.send_message(chat_info[1], "Submit your TikTok URL for battle:\n\nType '_cancel_' to exit\.",parse_mode='markdownv2')
         bot.register_next_step_handler(msg2, tiktok_url_step)
         
 

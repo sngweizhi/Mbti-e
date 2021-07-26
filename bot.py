@@ -643,17 +643,11 @@ def direct_message_step(message):
  
 def tiktok_url_step(message):
     chat_info = get_active_chat(message.chat.id)
-    try:
-        if userMessage[message.chat.id] == 'cancel':
-            userMessage.pop(message.chat.id)
-            return
-    except:
-        pass
     if message.text == 'cancel' or message.text == 'Cancel':
         bot.send_message(message.chat.id,'You have cancelled the TikTokBattle™')
         msg = bot.send_message(chat_info[1],'User has cancelled the TikTokBattle™')
+        bot.register_next_step_handler(msg, bot.message_handler(content_types=['text', 'sticker', 'video', 'photo', 'audio', 'voice','video_note']))
         userTiktok.pop(chat_info[1],None)
-        userMessage[chat_info[1]] = 'cancel'
         return
     url = re.match(r'^https://vt.tiktok.com/' ,message.text)
     if url == None:

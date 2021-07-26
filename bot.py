@@ -470,6 +470,10 @@ def echo(message):
     else:
         return
 
+@bot.message_handler(commands=['testing'])
+def echo(message)
+    bot.delete_message(message.chat.id,message.message_id)
+
 #### Next Step Handlers ####
 def set_truth1_step(message):
      if set_truth1(message.chat.id,message.text):
@@ -650,7 +654,7 @@ def tiktok_url_step(message):
             else:
                 bot.send_message(message.chat.id, 'Error.')
         except:
-            bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs.')
+            bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs...')
     else:
         msg =bot.send_message(message.chat.id, 'Invalid URL! Please ensure it is in the format of vt.tiktok.com or tiktok.com')
         bot.register_next_step_handler(msg, tiktok_url_step)
@@ -724,7 +728,7 @@ def echo(message):
         if message.text != '/start' and message.text != '/stop' and \
                     message.text != '/setup' and message.text != '/icebreaker' and message.text != '/help'\
                     and message.text != '/ban' and message.text != '/unban' and message.text != '/broadcast' \
-                    and message.text != '/report':
+                    and message.text != '/report' and message.text != '/feedback':
 
             if get_active_chat(message.chat.id) != None:
               chat_info = get_active_chat(message.chat.id)

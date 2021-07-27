@@ -385,8 +385,21 @@ def echo(message):
     if bool(get_active_chat(message.chat.id)):
         chat_info = get_active_chat(message.chat.id)
         try:
-            user = userMessage[chat_info[1]]
-            bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
+            if userMessage[chat_info[1]] != None:
+                bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
+                return
+        except:
+            pass
+        try:
+            if userTiktok[chat_info[1]] != None:
+                bot.send_message(message.chat.id, '❗ You are already in a TikTokBattle™!')
+                return
+        except:
+            pass
+        try:
+            if userTiktok[message.chat.id] != None:
+                bot.send_message(message.chat.id, '❗ You are already in a TikTokBattle™!')
+                return
         except:
             bot.send_message(chat_info[1], 'User has sent you a request for a *TikTokBattle™*\.', reply_markup=tiktok_menu(), parse_mode='MarkdownV2')
             sent = bot.send_message(message.chat.id, 'You have sent a request for a *TikTokBattle™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
@@ -1058,7 +1071,6 @@ def echo(call):
             bot.send_message(call.message.chat.id, 'You have ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
 
     elif call.data == 'tiktok_accept':
-        # send tiktokbattle image
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
         bot.delete_message(chat_id = call.message.chat.id, message_id = call.message.message_id)

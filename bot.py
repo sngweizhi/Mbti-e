@@ -256,6 +256,12 @@ def tiktok_rating(chat_id):
     markup = types.InlineKeyboardMarkup([[button1,button2,button3,button4,button5],[button6,button7,button8,button9,button10],[button11]])
     return markup
 
+def tiktok_url_menu(url):
+    markup = types.InlineKeyboardMarkup()
+    button1 = types.InlineKeyboardButton(text="Watch User's TikTok!",
+                                          url=url, callback_data = 'tiktok_watched')
+    markup.add(button1)
+    return markup
 ######## BASIC COMMANDS #########
 
 @bot.message_handler(commands = ['start'])
@@ -686,19 +692,22 @@ def tiktok_url_step(message):
                 userMessage.pop(chat_info[1],None)
                 round = set_tiktok_round(message.chat.id)
                 if round == 1:
-                    mess = "TikTokBattle™ Round {} \n\nRate the user's TikTok:\n"
+                    mess = "*TikTokBattle™ Round {}*"
                 elif round == 2:
-                    mess = "🌚 TikTokBattle™ Round {} 🌝\n\nRate the user's TikTok:\n"
+                    mess = "🌚 *TikTokBattle™ Round {}* 🌝"
                 elif round == 3:
-                    mess = "⚡ TikTokBattle™ Round {} ⚡\n\nRate the user's TikTok:\n"
+                    mess = "⚡ *TikTokBattle™ Round {}* ⚡"
                 elif round == 4:
-                    mess = "❄ TikTokBattle™ Round {} ❄\n\nRate the user's TikTok:\n"
+                    mess = "❄ *TikTokBattle™ Round {}* ❄"
                 elif 5 <= round < 10: 
-                    mess = "🔥 TikTokBattle™ Round {} 🔥\n\nRate the user's TikTok:\n"
+                    mess = "🔥 *TikTokBattle™ Round {}* 🔥"
                 elif round >= 10:
-                    mess = "🔥🔥 TikTokBattle™ Round {} 🔥🔥\n\nRate the user's TikTok:\n"
-                bot.send_message(chat_info[1], mess.format(round)+url, disable_web_page_preview=True, reply_markup=tiktok_rating(message.chat.id))
-                bot.send_message(message.chat.id, mess.format(round)+userTiktok[chat_info[1]],disable_web_page_preview=True, reply_markup=tiktok_rating(chat_info[1]))
+                    mess = "🔥🔥 *TikTokBattle™ Round {}* 🔥🔥"
+
+                bot.send_message(chat_info[1], mess.format(round), reply_markup=tiktok_url_menu(url), parse_mode = 'MarkdownV2' )
+                bot.send_message(message.chat.id, mess.format(round), reply_markup=tiktok_url_menu(userTiktok[chat_info[1]]), parse_mode = 'MarkdownV2')
+                #bot.send_message(chat_info[1], mess.format(round)+url, disable_web_page_preview=True, reply_markup=tiktok_rating(message.chat.id))
+                #bot.send_message(message.chat.id, mess.format(round)+userTiktok[chat_info[1]],disable_web_page_preview=True, reply_markup=tiktok_rating(chat_info[1]))
             else:
                 bot.send_message(message.chat.id, 'Error.')
         except:
@@ -1059,7 +1068,12 @@ def echo(call):
         bot.register_next_step_handler(msg1, tiktok_url_step)
         msg2 = bot.send_message(chat_info[1], "Submit your TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
         bot.register_next_step_handler(msg2, tiktok_url_step)
-        
+
+    elif call.data == 'tiktok_watched':
+        bot.answer_callback_query(call.id)
+        chat_info = get_active_chat(call.message.chat.id)
+        bot.send_message(call.message.chat.id, "Rate User's TikTok:", reply_markup=tiktok_rating(chat_info[1])
+
     elif call.data == 'tiktok_encore':
         bot.answer_callback_query(call.id)
         bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
@@ -1080,7 +1094,7 @@ def echo(call):
             sent = bot.send_message(call.message.chat.id, 'You have asked for another round. Waiting for user to reply...')
             userMessage[call.message.chat.id] = sent.message_id
         
-     
+
     elif call.data == 'tiktok_decline_encore':
         bot.answer_callback_query(call.id)
         bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
@@ -1140,7 +1154,7 @@ def echo(call):
             round = get_tiktok_round(call.message.chat.id)
             win1 = get_tiktok_win(call.message.chat.id)
             win2 = get_tiktok_win(player_id)
-            tally = '*TikTokBattle™ Scoreboard*\n\nYou: *{}*\nUser: *{}*'
+            tally = '__TikTokBattle™ Scoreboard__\nYou: *{}*\nUser: *{}*'
             bot.send_message(call.message.chat.id, tally.format(win1,win2), parse_mode='MarkdownV2', reply_markup= tiktok_encore_menu())
             bot.send_message(player_id, tally.format(win2,win1), parse_mode='MarkdownV2', reply_markup= tiktok_encore_menu())
 

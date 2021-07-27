@@ -1072,7 +1072,7 @@ def echo(call):
     elif call.data == 'tiktok_watched':
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
-        bot.send_message(call.message.chat.id, "Rate User's TikTok:", reply_markup=tiktok_rating(chat_info[1])
+        bot.send_message(call.message.chat.id, "Rate User's TikTok:", reply_markup=tiktok_rating(chat_info[1]))
 
     elif call.data == 'tiktok_encore':
         bot.answer_callback_query(call.id)

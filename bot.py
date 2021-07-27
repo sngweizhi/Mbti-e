@@ -237,9 +237,11 @@ def tiktok_rating(chat_id):
                                           callback_data='ttbattle-{}-2'.format(chat_id))
     button3 = types.InlineKeyboardButton(text='4⃣',
                                           callback_data='ttbattle-{}-4'.format(chat_id))
+    button3 = types.InlineKeyboardButton(text='4⃣',
+                                          callback_data='ttbattle-{}-4'.format(chat_id))
     button4 = types.InlineKeyboardButton(text='5⃣',
                                           callback_data='ttbattle-{}-5'.format(chat_id))
-    button5 = types.InlineKeyboardButton(text='😂💯❤️',
+    button11 = types.InlineKeyboardButton(text='😂💯❤️',
                                           callback_data='ttbattle-{}-100'.format(chat_id))
     markup = types.InlineKeyboardMarkup([[button1,button2,button3,button4,button5]])
     return markup
@@ -1111,6 +1113,7 @@ def echo(call):
         if isinstance(userTiktok[call.message.chat.id], int):
             bot.delete_message(chat_id=player_id, message_id=userMessage[player_id])
             userMessage.pop(player_id,None)
+            userMessage.pop(call.message.chat.id,None)
             bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
             user = userTiktok[call.message.chat.id]
             other = userTiktok[player_id]

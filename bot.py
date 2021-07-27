@@ -707,9 +707,10 @@ def tiktok_url_step(message):
                 bot.send_message(chat_info[1], mess.format(round), reply_markup=tiktok_url_menu(url), parse_mode = 'MarkdownV2' )
                 bot.send_message(message.chat.id, mess.format(round), reply_markup=tiktok_url_menu(userTiktok[chat_info[1]]), parse_mode = 'MarkdownV2')
                 sleep(10)
-                bot.send_message(chat_info[1], "Rate User's TikTok", reply_markup=tiktok_rating(message.chat.id))
-                bot.send_message(message.chat.id, "Rate User's TikTok", reply_markup=tiktok_rating(chat_info[1]))
+                bot.send_message(chat_info[1], "Rate User's TikTok!", reply_markup=tiktok_rating(message.chat.id))
+                bot.send_message(message.chat.id, "Rate User's TikTok!", reply_markup=tiktok_rating(chat_info[1]))
             else:
+                bot.send_message(message.chat.id, 'Error.')
                 bot.send_message(message.chat.id, 'Error.')
         except:
             sent = bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs...')
@@ -1127,9 +1128,10 @@ def echo(call):
         
         if isinstance(userTiktok[call.message.chat.id], int):
             bot.delete_message(chat_id=player_id, message_id=userMessage[player_id])
+            bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
             userMessage.pop(player_id,None)
             userMessage.pop(call.message.chat.id,None)
-            bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
+            #bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
             user = userTiktok[call.message.chat.id]
             other = userTiktok[player_id]
             if other > user:
@@ -1156,8 +1158,7 @@ def echo(call):
             bot.send_message(player_id, tally.format(win2,win1), parse_mode='MarkdownV2', reply_markup= tiktok_encore_menu())
 
         else:
-            bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id) 
-            sent = bot.send_message(call.message.chat.id, 'Waiting for user to rate your TikTok...', reply_markup=types.ReplyKeyboardRemove())
+            sent = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Waiting for user to rate your TikTok...')
             userMessage[call.message.chat.id] = sent.message_id
 
             

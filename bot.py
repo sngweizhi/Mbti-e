@@ -253,7 +253,7 @@ def tiktok_rating(chat_id):
                                           callback_data='ttbattle-{}-10'.format(chat_id))
     button11 = types.InlineKeyboardButton(text='😂💯❤️',
                                           callback_data='ttbattle-{}-100'.format(chat_id))
-    markup = types.InlineKeyboardMarkup([[button1,button2,button3,button4,button5],[button6,button7,button8,button9,button10],[button11])
+    markup = types.InlineKeyboardMarkup([[button1,button2,button3,button4,button5],[button6,button7,button8,button9,button10],[button11]])
     return markup
 
 ######## BASIC COMMANDS #########

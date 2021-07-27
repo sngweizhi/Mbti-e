@@ -215,7 +215,7 @@ def tiktok_menu():
 
 def tiktok_encore_menu():
   markup = types.InlineKeyboardMarkup()
-  button1 = types.InlineKeyboardButton(text='Another round!',
+  button1 = types.InlineKeyboardButton(text='😂 Another round!',
                                           callback_data='tiktok_encore')
   button2 = types.InlineKeyboardButton(text='No thanks!',
                                           callback_data='tiktok_decline_encore')
@@ -1051,24 +1051,46 @@ def echo(call):
         
     elif call.data == 'tiktok_encore':
         bot.answer_callback_query(call.id)
+        bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
         chat_info = get_active_chat(call.message.chat.id)
         try:
-            if userMessage[chat_info[1]] != None:
-                msg1 = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = "Yay another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
+            if userMessage[chat_info[1]] == 'cancel':
+                bot.send_message(call.message.chat.id, 'User did not want another round.')
+                userMessage.pop(chat_info[1],None)
+                userMessage.pop(call.message.chat.id,None)
+            else:
+                msg1 = bot.send_message(call.message.chat.id,  "Yay another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
                 bot.register_next_step_handler(msg1, tiktok_url_step)
                 msg2 = bot.edit_message_text(chat_id = chat_info[1], message_id = userMessage[chat_info[1]], text = "Another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
                 bot.register_next_step_handler(msg2, tiktok_url_step)
                 userMessage.pop(chat_info[1],None)
+                userMessage.pop(call.message.chat.id,None)
         except:
-            userMessage[call.message.chat.id] = call.message.message_id
-            bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have asked for another round. Waiting for user to reply...')
+            sent = bot.send_message(call.message.chat.id, 'You have asked for another round. Waiting for user to reply...')
+            userMessage[call.message.chat.id] = sent.message_id
         
         
 
     elif call.data == 'tiktok_decline':
         bot.answer_callback_query(call.id)
+        bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
         chat_info = get_active_chat(call.message.chat.id)
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for a TikTokBattle™.')
+        try:
+            if userMessage[chat_info[1]] == 'cancel':
+                bot.send_message(call.message.chat.id, 'User also did not want another round.')
+                userMessage.pop(chat_info[1],None)
+                userMessage.pop(call.message.chat.id,None)
+            else:
+                bot.send_message(call.message.chat.id, 'You chose not to have another round.')
+                bot.edit_message_text(chat_id = chat_info[1], message_id = userMessage[chat_info[1]], text = 'User did not want another round.')
+                userMessage.pop(chat_info[1],None)
+                userMessage.pop(call.message.chat.id,None)
+        except:
+            bot.send_message(call.message.chat.id, 'You chose not to have another round.')
+            userMessage[call.message.chat.id]='cancel'
+
+        bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
+        #bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for a TikTokBattle™.')
         bot.edit_message_text(chat_id = chat_info[1],message_id = userMessage[chat_info[1]], text= 'User has declined your request for a TikTokBattle™.')
         userMessage.pop(chat_info[1],None)
 

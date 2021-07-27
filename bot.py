@@ -740,7 +740,8 @@ def tiktok_url_step(message):
 
 @bot.message_handler(content_types=['location'])
 def check_location(message):
-    print(message)
+    print(message.location.latitude)
+    print(message.location.longitude)
 
 @bot.message_handler(content_types=['text', 'sticker', 'video', 'photo', 'audio', 'voice','video_note'])
 def echo(message):

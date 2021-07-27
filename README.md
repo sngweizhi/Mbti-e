@@ -56,6 +56,15 @@ Updates:
   - Prompt users to share contact after a certain time during chat?
   - Add image for 2truth1Lie, MBTITopics, TikTokBattle
 
+  - fix declining of another round
+  - Change tiktok link to inline button?
+  - test /tikotk while in game
+  - test cancellation of tiktok 
+  - revamp mbti logo
+  - include a tutorial?
+  - add profile pic for settings page? Animated character? Paid users can get better
+ 
+
   Add that 2truth1lie™, MBTITopics™ and TikTokBattle™ are games that are unique to this bot. This bot is not only for MBTI people but for anyone too.
   Add to Help: For reporting make sure that either report during active chat or report before starting a new chat.
   Purpose (add to start): purpose of the bot is to increase exposure of ppl to MBTI and see how well MBTI ties in. get feedback whether it works. if it does, create a real mobile app and promote MBTI matching for relationships/friendships

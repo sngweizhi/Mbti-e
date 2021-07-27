@@ -1069,8 +1069,7 @@ def echo(call):
             sent = bot.send_message(call.message.chat.id, 'You have asked for another round. Waiting for user to reply...')
             userMessage[call.message.chat.id] = sent.message_id
         
-        
-
+     
     elif call.data == 'tiktok_decline_encore':
         bot.answer_callback_query(call.id)
         bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
@@ -1089,10 +1088,10 @@ def echo(call):
             bot.send_message(call.message.chat.id, 'You chose not to have another round.')
             userMessage[call.message.chat.id]='cancel'
 
-        bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
-        #bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for a TikTokBattle™.')
-        bot.edit_message_text(chat_id = chat_info[1],message_id = userMessage[chat_info[1]], text= 'User has declined your request for a TikTokBattle™.')
-        userMessage.pop(chat_info[1],None)
+        #bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
+        ##bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for a TikTokBattle™.')
+        #bot.edit_message_text(chat_id = chat_info[1],message_id = userMessage[chat_info[1]], text= 'User has declined your request for a TikTokBattle™.')
+        #userMessage.pop(chat_info[1],None)
 
     elif call.data == 'tiktok_decline':
         bot.answer_callback_query(call.id)

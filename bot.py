@@ -672,7 +672,7 @@ def tiktok_url_step(message):
         userTiktok[message.chat.id] = url
         #try:
         if userTiktok[chat_info[1]] != None:
-            bot.delete_message(chat_id=chat_info[1], message_id = userMessage[chat_info[1]])
+            #bot.delete_message(chat_id=chat_info[1], message_id = userMessage[chat_info[1]])
             userMessage.pop(chat_info[1],None)
             round = set_tiktok_round(message.chat.id)
             if round == 1:

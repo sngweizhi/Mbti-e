@@ -385,6 +385,10 @@ def echo(message):
     if bool(get_active_chat(message.chat.id)):
         chat_info = get_active_chat(message.chat.id)
         try:
+            if userMessage[message.chat.id] != None:
+                bot.send_message(message.chat.id, '❗ You have already sent a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
+                return
+        try:
             if userMessage[chat_info[1]] != None:
                 bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
                 return
@@ -732,6 +736,9 @@ def tiktok_url_step(message):
         msg =bot.send_message(message.chat.id, 'Invalid URL! Please ensure it is in the format of vt.tiktok.com or tiktok.com')
         bot.register_next_step_handler(msg, tiktok_url_step)
 
+@bot.message_handler(content_types=['location'])
+def check_location(message):
+    print(message)
 
 @bot.message_handler(content_types=['text', 'sticker', 'video', 'photo', 'audio', 'voice','video_note'])
 def echo(message):

@@ -658,8 +658,6 @@ def tiktok_url_step(message):
         pass
     if message.text == 'cancel' or message.text == 'Cancel':
         bot.send_message(message.chat.id,'You have cancelled the TikTokBattle™')
-        #msg = bot.send_message(chat_info[1],'User has cancelled the TikTokBattle™')
-        #bot.register_next_step_handler_by_chat_id(chat_info[1],tiktok_cancel)
         userMessage[chat_info[1]] = 'cancel'
         userTiktok.pop(chat_info[1],None)
         return
@@ -675,6 +673,7 @@ def tiktok_url_step(message):
         try:
             if userTiktok[chat_info[1]] != None:
                 bot.delete_message(chat_id=chat_info[1], message_id = userMessage[chat_info[1]])
+                userMessage.pop(chat_info[1],None)
                 round = set_tiktok_round(message.chat.id)
                 if round == 1:
                     mess = "TikTokBattle™ Round {} \n\nRate the user's TikTok:\n"
@@ -1089,11 +1088,6 @@ def echo(call):
         except:
             bot.send_message(call.message.chat.id, 'You chose not to have another round.')
             userMessage[call.message.chat.id]='cancel'
-
-        #bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
-        ##bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for a TikTokBattle™.')
-        #bot.edit_message_text(chat_id = chat_info[1],message_id = userMessage[chat_info[1]], text= 'User has declined your request for a TikTokBattle™.')
-        #userMessage.pop(chat_info[1],None)
 
     elif call.data == 'tiktok_decline':
         bot.answer_callback_query(call.id)

@@ -680,30 +680,30 @@ def tiktok_url_step(message):
         resp = session.head(url, allow_redirects=True)
         url = resp.url.split('?')[0]
         userTiktok[message.chat.id] = url
-        #try:
-        if userTiktok[chat_info[1]] != None:
-            #bot.delete_message(chat_id=chat_info[1], message_id = userMessage[chat_info[1]])
-            userMessage.pop(chat_info[1],None)
-            round = set_tiktok_round(message.chat.id)
-            if round == 1:
-                mess = "TikTokBattle™ Round {} \n\nRate the user's TikTok:\n"
-            elif round == 2:
-                mess = "🌚 TikTokBattle™ Round {} 🌝\n\nRate the user's TikTok:\n"
-            elif round == 3:
-                mess = "⚡ TikTokBattle™ Round {} ⚡\n\nRate the user's TikTok:\n"
-            elif round == 4:
-                mess = "❄ TikTokBattle™ Round {} ❄\n\nRate the user's TikTok:\n"
-            elif 5 <= round < 10: 
-                mess = "🔥 TikTokBattle™ Round {} 🔥\n\nRate the user's TikTok:\n"
-            elif round >= 10:
-                mess = "🔥🔥 TikTokBattle™ Round {} 🔥🔥\n\nRate the user's TikTok:\n"
-            bot.send_message(chat_info[1], mess.format(round)+url, disable_web_page_preview=True, reply_markup=tiktok_rating(message.chat.id))
-            bot.send_message(message.chat.id, mess.format(round)+userTiktok[chat_info[1]],disable_web_page_preview=True, reply_markup=tiktok_rating(chat_info[1]))
-            #else:
-            #    bot.send_message(message.chat.id, 'Error.')
-        #except:
-        #    sent = bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs...')
-        #    userMessage[message.chat.id]=sent.message_id
+        try:
+            if userTiktok[chat_info[1]] != None:
+                bot.delete_message(chat_id=chat_info[1], message_id = userMessage[chat_info[1]])
+                userMessage.pop(chat_info[1],None)
+                round = set_tiktok_round(message.chat.id)
+                if round == 1:
+                    mess = "TikTokBattle™ Round {} \n\nRate the user's TikTok:\n"
+                elif round == 2:
+                    mess = "🌚 TikTokBattle™ Round {} 🌝\n\nRate the user's TikTok:\n"
+                elif round == 3:
+                    mess = "⚡ TikTokBattle™ Round {} ⚡\n\nRate the user's TikTok:\n"
+                elif round == 4:
+                    mess = "❄ TikTokBattle™ Round {} ❄\n\nRate the user's TikTok:\n"
+                elif 5 <= round < 10: 
+                    mess = "🔥 TikTokBattle™ Round {} 🔥\n\nRate the user's TikTok:\n"
+                elif round >= 10:
+                    mess = "🔥🔥 TikTokBattle™ Round {} 🔥🔥\n\nRate the user's TikTok:\n"
+                bot.send_message(chat_info[1], mess.format(round)+url, disable_web_page_preview=True, reply_markup=tiktok_rating(message.chat.id))
+                bot.send_message(message.chat.id, mess.format(round)+userTiktok[chat_info[1]],disable_web_page_preview=True, reply_markup=tiktok_rating(chat_info[1]))
+            else:
+                bot.send_message(message.chat.id, 'Error.')
+        except:
+            sent = bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs...')
+            userMessage[message.chat.id]=sent.message_id
     else:
         msg =bot.send_message(message.chat.id, 'Invalid URL! Please ensure it is in the format of vt.tiktok.com or tiktok.com')
         bot.register_next_step_handler(msg, tiktok_url_step)

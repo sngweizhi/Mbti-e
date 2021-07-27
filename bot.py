@@ -259,7 +259,7 @@ def tiktok_rating(chat_id):
 def tiktok_url_menu(url):
     markup = types.InlineKeyboardMarkup()
     button1 = types.InlineKeyboardButton(text="Watch User's TikTok!",
-                                          url=url, callback_data = 'tiktok_watched')
+                                          url=url)
     markup.add(button1)
     return markup
 ######## BASIC COMMANDS #########
@@ -706,8 +706,9 @@ def tiktok_url_step(message):
 
                 bot.send_message(chat_info[1], mess.format(round), reply_markup=tiktok_url_menu(url), parse_mode = 'MarkdownV2' )
                 bot.send_message(message.chat.id, mess.format(round), reply_markup=tiktok_url_menu(userTiktok[chat_info[1]]), parse_mode = 'MarkdownV2')
-                #bot.send_message(chat_info[1], mess.format(round)+url, disable_web_page_preview=True, reply_markup=tiktok_rating(message.chat.id))
-                #bot.send_message(message.chat.id, mess.format(round)+userTiktok[chat_info[1]],disable_web_page_preview=True, reply_markup=tiktok_rating(chat_info[1]))
+                sleep(10)
+                bot.send_message(chat_info[1], "Rate User's TikTok", reply_markup=tiktok_rating(message.chat.id))
+                bot.send_message(message.chat.id, "Rate User's TikTok", reply_markup=tiktok_rating(chat_info[1]))
             else:
                 bot.send_message(message.chat.id, 'Error.')
         except:
@@ -1069,10 +1070,6 @@ def echo(call):
         msg2 = bot.send_message(chat_info[1], "Submit your TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
         bot.register_next_step_handler(msg2, tiktok_url_step)
 
-    elif call.data == 'tiktok_watched':
-        bot.answer_callback_query(call.id)
-        chat_info = get_active_chat(call.message.chat.id)
-        bot.send_message(call.message.chat.id, "Rate User's TikTok:", reply_markup=tiktok_rating(chat_info[1]))
 
     elif call.data == 'tiktok_encore':
         bot.answer_callback_query(call.id)

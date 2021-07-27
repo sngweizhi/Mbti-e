@@ -231,19 +231,29 @@ def stop_search():
   return markup
 
 def tiktok_rating(chat_id):
-    button1 = types.InlineKeyboardButton(text='1⃣',
+    button1 = types.InlineKeyboardButton(text='1',
                                           callback_data='ttbattle-{}-1'.format(chat_id))
-    button2 = types.InlineKeyboardButton(text='2⃣',
+    button2 = types.InlineKeyboardButton(text='2',
                                           callback_data='ttbattle-{}-2'.format(chat_id))
-    button3 = types.InlineKeyboardButton(text='4⃣',
+    button3 = types.InlineKeyboardButton(text='3',
+                                          callback_data='ttbattle-{}-3'.format(chat_id))
+    button4 = types.InlineKeyboardButton(text='4',
                                           callback_data='ttbattle-{}-4'.format(chat_id))
-    button3 = types.InlineKeyboardButton(text='4⃣',
-                                          callback_data='ttbattle-{}-4'.format(chat_id))
-    button4 = types.InlineKeyboardButton(text='5⃣',
+    button5 = types.InlineKeyboardButton(text='5',
                                           callback_data='ttbattle-{}-5'.format(chat_id))
+    button6 = types.InlineKeyboardButton(text='6',
+                                          callback_data='ttbattle-{}-6'.format(chat_id))
+    button7 = types.InlineKeyboardButton(text='7',
+                                          callback_data='ttbattle-{}-7'.format(chat_id))
+    button8 = types.InlineKeyboardButton(text='8',
+                                          callback_data='ttbattle-{}-8'.format(chat_id))
+    button9 = types.InlineKeyboardButton(text='9',
+                                          callback_data='ttbattle-{}-9'.format(chat_id))
+    button10 = types.InlineKeyboardButton(text='10',
+                                          callback_data='ttbattle-{}-10'.format(chat_id))
     button11 = types.InlineKeyboardButton(text='😂💯❤️',
                                           callback_data='ttbattle-{}-100'.format(chat_id))
-    markup = types.InlineKeyboardMarkup([[button1,button2,button3,button4,button5]])
+    markup = types.InlineKeyboardMarkup([[button1,button2,button3,button4,button5],[button6,button7,button8,button9,button10],[button11])
     return markup
 
 ######## BASIC COMMANDS #########

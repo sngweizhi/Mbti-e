@@ -388,6 +388,8 @@ def echo(message):
             if userMessage[message.chat.id] != None:
                 bot.send_message(message.chat.id, '❗ You have already sent a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
                 return
+        except:
+            pass
         try:
             if userMessage[chat_info[1]] != None:
                 bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')

@@ -213,6 +213,27 @@ def ttol_menu():
   markup.add(button1,button2)
   return markup
 
+def ttol_tutorial(number):
+    markup = types.InlineKeyboardMarkup()
+    if number == 1:
+        button1 = types.InlineKeyboardButton(text="Start", callback_data = 'ttol_start')
+        button2 = types.InlineKeyboardButton(text="How to play »", callback_data = 'ttol_step1')
+        markup.add(button1, button2)
+    elif number == 2:
+        button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'ttol_step0')
+        button2 = types.InlineKeyboardButton(text="Next step »", callback_data = 'ttol_step2')
+        markup.add(button1, button2)
+    elif number == 3:
+        button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'ttol_step1')
+        button2 = types.InlineKeyboardButton(text="Next step »", callback_data = 'ttol_step3')
+        markup.add(button1, button2)
+    elif number == 4:
+        button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'ttol_step2')
+        button2 = types.InlineKeyboardButton(text="« Back to start", callback_data = 'ttol_step0')
+        markup.add(button1, button2)
+  
+    return markup
+
 def tiktok_menu():
   markup = types.InlineKeyboardMarkup()
   button1 = types.InlineKeyboardButton(text='Bring it on! 😈',
@@ -1137,12 +1158,35 @@ def echo(call):
         msg1 = bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *2Truths1Lie™\!*\nPress 'start' to play\!", parse_mode='MarkdownV2', reply_markup = ttol_tutorial(1))
         msg2 = bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *2Truths1Lie™\!*\nPress 'start' to play\!", parse_mode='MarkdownV2', reply_markup = ttol_tutorial(1))
         userMessage.pop(chat_info[1],None)
-        
 
     elif call.data == 'ttol_start':
         bot.answer_callback_query(call.id)
         msg = bot.send_message(call.message.chat.id, 'Send me your *Truth 1* statement\.', parse_mode ='MarkdownV2')
         bot.register_next_step_handler(msg, set_truth1_new)
+
+    elif call.data == 'ttol_step0':
+        bot.answer_callback_query(call.id)
+        message_id = call.message.message_id
+        chat_id = call.message.chat.id
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle, caption = "Welcome to *2Truths1Lie™\!*\nPress 'start' to play\!",parse_mode='MarkdownV2'), reply_markup = tiktok_tutorial(1))
+
+    elif call.data == 'ttol_step1':
+        bot.answer_callback_query(call.id)
+        message_id = call.message.message_id
+        chat_id = call.message.chat.id
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step1, caption = 'Send 2 Truth and 1 lie statement to the bot one by one.'), reply_markup = tiktok_tutorial(2))
+
+    elif call.data == 'ttol_step2':
+        bot.answer_callback_query(call.id)
+        message_id = call.message.message_id
+        chat_id = call.message.chat.id
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step2, caption = "Check if your statements are correct. Edit them if necessary. Press 'Send quiz' when you're done."), reply_markup = tiktok_tutorial(3))
+
+    elif call.data == 'ttol_step3':
+        bot.answer_callback_query(call.id)
+        message_id = call.message.message_id
+        chat_id = call.message.chat.id
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step3,  caption = "Finally, try to guess your match's lie statement!"), reply_markup = tiktok_tutorial(4))
 
 
     elif call.data == 'ttol_decline':

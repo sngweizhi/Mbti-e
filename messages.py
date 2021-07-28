@@ -15,7 +15,7 @@ Lie game to your match\!\n/topic \- Roll a dice for a random topic during a chat
 
 search_sticker = 'CAACAgUAAxkBAAIJxmDyqgXaYH7ZcxzHGZbOjwtaEqMAA54CAAKJ_JBXZilybC94gzggBA'
 match_sticker ='CAACAgUAAxkBAAIJ7WDyykDX_M8j0z3TCKanMmuDUt2tAAKOAwACPyqZV1g5tYcaYUa6IAQ'
-tiktokbattle = 'AgACAgUAAxkBAAIdE2EBaI9ql9dtivB-wZjM6sxe7nRUAAJ4sDEbDJUJVBk-3oEkhEqUAQADAgADeQADIAQ'
+tiktokbattle = 'AgACAgUAAxkBAAIdUmEBgeUNk0p__Fp6_NxioxP-wqx3AAKMsDEbDJUJVG4thTbvWknQAQADAgADeAADIAQ'
 tiktok_step1 = 'AgACAgUAAxkDAAIdN2EBcWdsXecLust3DcmKhl87b_JVAAKBsDEbDJUJVPQWSwkkjHROAQADAgADcwADIAQ'
 tiktok_step2 = 'AgACAgUAAxkBAAIdGGEBaRqqnjmbWoGzD5qUIvDbVhDGAAJ7sDEbDJUJVEe3dsv2QzHaAQADAgADeQADIAQ'
 tiktok_step3 = 'AgACAgUAAxkDAAIdOWEBcZDQPTr4cJxPQVA0bAShnSJZAAKCsDEbDJUJVO47X3uezXSdAQADAgADcwADIAQ'

@@ -165,6 +165,18 @@ def set_game_message(chat_id, message_id):
         db.session.commit()
         return True
 
+def set_tiktok_url(chat_id, url):
+    user = Chats.query.filter_by(chat_one=chat_id).first()
+    if user != None:
+        user.tiktok_url_1 = url
+        db.session.commit()
+        return True
+    else:
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        user.tiktok_url_2 = url
+        db.session.commit()
+        return True
+
 def get_message_id(chat_id):
     user = Queue.query.filter_by(chat_id=chat_id).first()
     if user != None:
@@ -251,6 +263,20 @@ def get_game_message(chat_id):
         user = Chats.query.filter_by(chat_two=chat_id).first()
         if user.message_id_2 != None:
             return user.message_id_2
+        else:
+            return
+
+def get_tiktok_url(chat_id):
+    user = Chats.query.filter_by(chat_one=chat_id).first()
+    if user != None:
+        if user.tiktok_url_1 != None:
+            return user.tiktok_url_1
+        else:
+            return
+    else:
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        if user.tiktok_url_2 != None:
+            return user.tiktok_url_2
         else:
             return
 

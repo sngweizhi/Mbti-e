@@ -204,6 +204,15 @@ def help_menu():
   markup = types.InlineKeyboardMarkup([[button1,button2],[button3]])
   return markup
 
+def ttol_menu():
+  markup = types.InlineKeyboardMarkup()
+  button1 = types.InlineKeyboardButton(text="Let's play! ☺",
+                                          callback_data='ttol_accept')
+  button2 = types.InlineKeyboardButton(text='Decline',
+                                          callback_data='ttol_decline')
+  markup.add(button1,button2)
+  return markup
+
 def tiktok_menu():
   markup = types.InlineKeyboardMarkup()
   button1 = types.InlineKeyboardButton(text='Bring it on! 😈',
@@ -347,7 +356,30 @@ def echo(message):
       mess = mbtinder_settings(message.chat.id)
       bot.send_message(message.chat.id, mess, reply_markup=setup_menu(), parse_mode = 'MarkdownV2')
 
-@bot.message_handler(commands=['icebreaker'])
+@bot.message_handler(commands=['ttol'])
+def echo(message):
+    if bool(get_active_chat(message.chat.id)):
+        chat_info = get_active_chat(message.chat.id)
+        try:
+            if userMessage[message.chat.id] != None:
+                bot.send_message(message.chat.id, '❗ You have already sent a request for a game!', parse_mode='MarkdownV2')
+                return
+        except:
+            pass
+        try:
+            if userMessage[chat_info[1]] != None:
+                bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game!.', parse_mode='MarkdownV2')
+                return
+        except:
+            pass
+        bot.send_message(chat_info[1], 'User has sent you a request for a game of *2Truths1Lie™*\.', reply_markup=ttol_menu(), parse_mode='MarkdownV2')
+        sent = bot.send_message(message.chat.id, 'You have sent a request for a *2Truths1Lie™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
+        userMessage[message.chat.id] = sent.message_id
+
+    else:
+        bot.send_message(message.chat.id, '❗ You have not started a chat!')
+
+@bot.message_handler(commands=['icebreakers'])
 def echo(message):
     if bool(get_active_chat(message.chat.id)):
       chat_info = get_active_chat(message.chat.id)
@@ -1097,6 +1129,29 @@ def echo(call):
             bot.delete_message(call.message.chat.id, call.message.message_id)
             bot.send_message(call.message.chat.id, 'You have ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
 
+    elif call.data == 'ttol_accept':
+        bot.answer_callback_query(call.id)
+        chat_info = get_active_chat(call.message.chat.id)
+        bot.delete_message(chat_id = call.message.chat.id, message_id = call.message.message_id)
+        bot.delete_message(chat_id = chat_info[1], message_id = userMessage[chat_info[1]])
+        msg1 = bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *2Truths1Lie™\!*\nPress 'start' to play\!", parse_mode='MarkdownV2', reply_markup = ttol_tutorial(1))
+        msg2 = bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *2Truths1Lie™\!*\nPress 'start' to play\!", parse_mode='MarkdownV2', reply_markup = ttol_tutorial(1))
+        userMessage.pop(chat_info[1],None)
+        
+
+    elif call.data == 'ttol_start':
+        bot.answer_callback_query(call.id)
+        msg = bot.send_message(call.message.chat.id, 'Send me your *Truth 1* statement\.', parse_mode ='MarkdownV2')
+        bot.register_next_step_handler(msg, set_truth1_new)
+
+
+    elif call.data == 'ttol_decline':
+        bot.answer_callback_query(call.id)
+        chat_info = get_active_chat(call.message.chat.id)
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for a game of 2Truths1Lie™.')
+        bot.edit_message_text(chat_id = chat_info[1],message_id = userMessage[chat_info[1]], text= 'User has declined your request for a game of 2Truths1Lie™.')
+        userMessage.pop(chat_info[1],None)
+
     elif call.data == 'tiktok_step0':
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
@@ -1132,6 +1187,9 @@ def echo(call):
         userMessage.pop(chat_info[1],None)
         bot.register_next_step_handler(msg1, tiktok_url_step)
         bot.register_next_step_handler(msg2, tiktok_url_step)
+
+    elif call.data == 'tiktok_help': # Add in help menu
+        bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\* Tutorial", parse_mode='MarkdownV2', reply_markup = tiktok_tutorial(1))
 
 
     elif call.data == 'tiktok_encore':
@@ -1176,8 +1234,8 @@ def echo(call):
     elif call.data == 'tiktok_decline':
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for another TikTokBattle™.')
-        bot.edit_message_text(chat_id = chat_info[1],message_id = userMessage[chat_info[1]], text= 'User has declined your request for another TikTokBattle™.')
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You have declined their request for a TikTokBattle™.')
+        bot.edit_message_text(chat_id = chat_info[1],message_id = userMessage[chat_info[1]], text= 'User has declined your request for a TikTokBattle™.')
         userMessage.pop(chat_info[1],None)
 
     elif call.data[:8] == 'ttbattle':

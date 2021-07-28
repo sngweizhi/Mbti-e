@@ -1100,17 +1100,17 @@ def echo(call):
     elif call.data == 'tiktok_step1':
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle), reply_markup = tiktok_tutorial(2))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step1), reply_markup = tiktok_tutorial(2))
 
     elif call.data == 'tiktok_step2':
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle), reply_markup = tiktok_tutorial(3))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step2), reply_markup = tiktok_tutorial(3))
 
     elif call.data == 'tiktok_step3':
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle), reply_markup = tiktok_tutorial(4))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step3), reply_markup = tiktok_tutorial(4))
 
 
     elif call.data == 'tiktok_accept':

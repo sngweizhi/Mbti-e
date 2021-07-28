@@ -773,33 +773,31 @@ def tiktok_url_step(message):
         resp = session.head(url, allow_redirects=True)
         url = resp.url.split('?')[0]
         set_tiktok_url(message.chat.id,url)
-        try:
-            if get_tiktok_url(chat_info[1]) != None:
-                bot.delete_message(chat_id=chat_info[1], message_id = get_game_message(chat_info[1]))
-                set_game_message(chat_info[1],None)
-                round = set_tiktok_round(message.chat.id)
-                if round == 1:
-                    mess = "*TikTokBattle™ Round {}*"
-                elif round == 2:
-                    mess = "🌚 *TikTokBattle™ Round {}* 🌝"
-                elif round == 3:
-                    mess = "⚡ *TikTokBattle™ Round {}* ⚡"
-                elif round == 4:
-                    mess = "❄ *TikTokBattle™ Round {}* ❄"
-                elif 5 <= round < 10: 
-                    mess = "🔥 *TikTokBattle™ Round {}* 🔥"
-                elif round >= 10:
-                    mess = "🔥🔥 *TikTokBattle™ Round {}* 🔥🔥"
+       
+        if get_tiktok_url(chat_info[1]) != None:
+            bot.delete_message(chat_id=chat_info[1], message_id = get_game_message(chat_info[1]))
+            set_game_message(chat_info[1],None)
+            round = set_tiktok_round(message.chat.id)
+            if round == 1:
+                mess = "*TikTokBattle™ Round {}*"
+            elif round == 2:
+                mess = "🌚 *TikTokBattle™ Round {}* 🌝"
+            elif round == 3:
+                mess = "⚡ *TikTokBattle™ Round {}* ⚡"
+            elif round == 4:
+                mess = "❄ *TikTokBattle™ Round {}* ❄"
+            elif 5 <= round < 10: 
+                mess = "🔥 *TikTokBattle™ Round {}* 🔥"
+            elif round >= 10:
+                mess = "🔥🔥 *TikTokBattle™ Round {}* 🔥🔥"
 
-                bot.send_message(chat_info[1], mess.format(round), reply_markup=tiktok_url_menu(url), parse_mode = 'MarkdownV2' )
-                bot.send_message(message.chat.id, mess.format(round), reply_markup=tiktok_url_menu(get_tiktok_url(chat_info[1])), parse_mode = 'MarkdownV2')
-                sleep(10)
-                bot.send_message(chat_info[1], "Rate User's TikTok!", reply_markup=tiktok_rating(message.chat.id))
-                bot.send_message(message.chat.id, "Rate User's TikTok!", reply_markup=tiktok_rating(chat_info[1]))
-            else:
-                bot.send_message(message.chat.id, 'Error.')
-                bot.send_message(message.chat.id, 'Error.')
-        except:
+            bot.send_message(chat_info[1], mess.format(round), reply_markup=tiktok_url_menu(url), parse_mode = 'MarkdownV2' )
+            bot.send_message(message.chat.id, mess.format(round), reply_markup=tiktok_url_menu(get_tiktok_url(chat_info[1])), parse_mode = 'MarkdownV2')
+            sleep(10)
+            bot.send_message(chat_info[1], "Rate User's TikTok!", reply_markup=tiktok_rating(message.chat.id))
+            bot.send_message(message.chat.id, "Rate User's TikTok!", reply_markup=tiktok_rating(chat_info[1]))
+    
+        else:
             sent = bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs...')
             set_game_message(message.chat.id,sent.message_id)
     else:

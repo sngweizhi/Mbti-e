@@ -1235,6 +1235,7 @@ def echo(call):
     elif call.data == 'ttol_quiz':
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
+        bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id = call.message.message_id)
         if get_icebreaker(call.message.chat.id) == 'Set':
             try:
                 if userMessage[chat_info[1]] != None:
@@ -1258,7 +1259,7 @@ def echo(call):
 
                     bot.send_poll(chat_info[1], '2Truths1Lie™. Select the Lie!', options = statements2, correct_option_id=ans2, type = 'quiz', is_anonymous= False)
                     bot.send_poll(call.message.chat.id, '2Truths1Lie™. Select the Lie!', options = statements1, correct_option_id=ans1, type = 'quiz', is_anonymous= False)
-                    #bot.send_message(message.chat.id, '2 Truths 1 Lie sent! You will be notified when user picks an answer.')
+ 
             except:
                 sent = bot.send_message(call.message.chat.id, '2Truths1Lie™ submitted. Waiting for user to submit theirs...')
                 userMessage[call.message.chat.id]=sent.message_id

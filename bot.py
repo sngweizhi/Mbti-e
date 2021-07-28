@@ -22,7 +22,6 @@ bot = telebot.TeleBot(config('TOKEN'))
 
 admins = config('ADMIN', cast=lambda v: [int(s.strip()) for s in v.split(',')])
 userPoll = {}
-userTiktok = {}
 
 def main_menu():
     """
@@ -470,18 +469,18 @@ def echo(message):
         chat_info = get_active_chat(message.chat.id)
         
         if get_game_message(message.chat.id) != None:
-            bot.send_message(message.chat.id, '❗ You have already sent a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
+            bot.send_message(message.chat.id, '❗ You have already sent a request for a game.')
             return
         
         if get_game_message(chat_info[1]) != None:
-            bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
+            bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game.')
             return
         
-        if userTiktok[chat_info[1]] != None:
+        if get_tiktok_url(chat_info[1]) != None:
             bot.send_message(message.chat.id, '❗ You are already in a TikTokBattle™!')
             return
         
-        if userTiktok[message.chat.id] != None:
+        if get_tiktok_url(message.chat.id) != None:
             bot.send_message(message.chat.id, '❗ You are already in a TikTokBattle™!')
             return
         
@@ -763,7 +762,7 @@ def tiktok_url_step(message):
     if message.text == 'cancel' or message.text == 'Cancel':
         bot.send_message(message.chat.id,'You have cancelled the TikTokBattle™')
         set_game_message(chat_info[1],'cancel')
-        userTiktok.pop(chat_info[1],None)
+        set_tiktok_url(chat_info[1],None)
         return
     url = re.match(r'^https://vt.tiktok.com/' ,message.text)
     if url == None:
@@ -773,9 +772,9 @@ def tiktok_url_step(message):
         session = requests.Session()
         resp = session.head(url, allow_redirects=True)
         url = resp.url.split('?')[0]
-        userTiktok[message.chat.id] = url
+        set_tiktok_url(message.chat.id,url)
         try:
-            if userTiktok[chat_info[1]] != None:
+            if get_tiktok_url(chat_info[1]) != None:
                 bot.delete_message(chat_id=chat_info[1], message_id = get_game_message(chat_info[1]))
                 set_game_message(chat_info[1],None)
                 round = set_tiktok_round(message.chat.id)
@@ -793,7 +792,7 @@ def tiktok_url_step(message):
                     mess = "🔥🔥 *TikTokBattle™ Round {}* 🔥🔥"
 
                 bot.send_message(chat_info[1], mess.format(round), reply_markup=tiktok_url_menu(url), parse_mode = 'MarkdownV2' )
-                bot.send_message(message.chat.id, mess.format(round), reply_markup=tiktok_url_menu(userTiktok[chat_info[1]]), parse_mode = 'MarkdownV2')
+                bot.send_message(message.chat.id, mess.format(round), reply_markup=tiktok_url_menu(get_tiktok_url(chat_info[1])), parse_mode = 'MarkdownV2')
                 sleep(10)
                 bot.send_message(chat_info[1], "Rate User's TikTok!", reply_markup=tiktok_rating(message.chat.id))
                 bot.send_message(message.chat.id, "Rate User's TikTok!", reply_markup=tiktok_rating(chat_info[1]))
@@ -1348,16 +1347,16 @@ def echo(call):
         info = call.data
         player_id = int(info.split('-')[1])
         score = int(info.split('-')[2])
-        userTiktok[player_id] = score
+        set_tiktok_url(player_id,score)
       
         
-        if isinstance(userTiktok[call.message.chat.id], int):
+        if isinstance(get_tiktok_url(call.message.chat.id), int):
             bot.delete_message(chat_id=player_id, message_id=get_game_message(player_id))
             bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
             set_game_message(player_id,None)
             set_game_message(call.message.chat.id,None)
-            user = userTiktok[call.message.chat.id]
-            other = userTiktok[player_id]
+            user = get_tiktok_url(call.message.chat.id)
+            other = get_tiktok_url(player_id)
             if other > user:
                 set_tiktok_win(player_id)
                 bot.send_message(call.message.chat.id, 'User rated your TikTok *{}*\.\nYou rated their TikTok *{}*\.\n\n*🙊 User won the battle\!*'.format(user,other), parse_mode='MarkdownV2')
@@ -1372,8 +1371,8 @@ def echo(call):
                 bot.send_message(call.message.chat.id, "User rated your TikTok *{}*\.\nYou rated their TikTok *{}*\.\n\n*👔 It\'s a tie\!*".format(user,other), parse_mode='MarkdownV2')
                 bot.send_message(player_id, "User rated your TikTok *{}*\.\nYou rated their TikTok *{}*\.\n\n*👔 It\'s a tie\!*".format(other,user), parse_mode='MarkdownV2')
 
-            userTiktok.pop(player_id)
-            userTiktok.pop(call.message.chat.id)
+            set_tiktok_url(player_id, None)
+            set_tiktok_url(call.message.chat.id, None)
             round = get_tiktok_round(call.message.chat.id)
             win1 = get_tiktok_win(call.message.chat.id)
             win2 = get_tiktok_win(player_id)

@@ -116,8 +116,6 @@ def set_mbti(chat_id, mbti):
     else:
         return False
 
-
-
 def set_truth1(chat_id, truth1):
     user = Chats.query.filter_by(chat_one=chat_id).first()
     if user != None:
@@ -155,6 +153,17 @@ def set_lie(chat_id, lie):
         db.session.commit()
         return True
 
+def set_game_message(chat_id, message_id):
+    user = Chats.query.filter_by(chat_one=chat_id).first()
+    if user != None:
+        user.message_id_1 = message_id
+        db.session.commit()
+        return True
+    else:
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        user.message_id_2 = message_id
+        db.session.commit()
+        return True
 
 def get_message_id(chat_id):
     user = Queue.query.filter_by(chat_id=chat_id).first()
@@ -231,7 +240,19 @@ def get_lie(chat_id):
         else:
             return
 
-
+def get_game_message(chat_id):
+    user = Chats.query.filter_by(chat_one=chat_id).first()
+    if user != None:
+        if user.message_id_1 != None:
+            return user.message_id_1
+        else:
+            return
+    else:
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        if user.message_id_2 != None:
+            return user.message_id_2
+        else:
+            return
 
 def get_mbti(chat_id):
     user = Users.query.filter_by(chat_id=chat_id).first()
@@ -486,6 +507,8 @@ class Chats(db.Model):
     lie_2 = db.Column(db.String(500))
     message_id_1 = db.Column(db.String(255))
     message_id_2 = db.Column(db.String(255))
+    tiktok_url_1 = db.Column(db.String(500))
+    tiktok_url_2 = db.Column(db.String(500))
     
 class Lastchat(db.Model):
     id = db.Column(db.Integer, primary_key=True)

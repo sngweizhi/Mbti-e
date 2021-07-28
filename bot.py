@@ -1161,6 +1161,9 @@ def echo(call):
 
     elif call.data == 'ttol_start':
         bot.answer_callback_query(call.id)
+        message_id = call.message.message_id
+        chat_id = call.message.chat.id
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle, caption = "Welcome to *2Truths1Lie™\!*\nPress 'start' to play\!",parse_mode='MarkdownV2'), reply_markup = ttol_tutorial(0))
         msg = bot.send_message(call.message.chat.id, 'Send me your *Truth 1* statement\.', parse_mode ='MarkdownV2')
         bot.register_next_step_handler(msg, set_truth1_new)
 
@@ -1215,9 +1218,9 @@ def echo(call):
                     bot.send_poll(chat_info[1], '2Truths1Lie™. Select the Lie!', options = statements2, correct_option_id=ans2, type = 'quiz', is_anonymous= False)
                     bot.send_poll(call.message.chat.id, '2Truths1Lie™. Select the Lie!', options = statements1, correct_option_id=ans1, type = 'quiz', is_anonymous= False)
                     #bot.send_message(message.chat.id, '2 Truths 1 Lie sent! You will be notified when user picks an answer.')
-            #except:
-            #    sent = bot.send_message(call.message.chat.id, '2Truths1Lie™ submitted. Waiting for user to submit theirs...')
-            #    userMessage[call.message.chat.id]=sent.message_id
+            except:
+                sent = bot.send_message(call.message.chat.id, '2Truths1Lie™ submitted. Waiting for user to submit theirs...')
+                userMessage[call.message.chat.id]=sent.message_id
         else:
             bot.send_message(call.message.chat.id, '❗ You have not set an ice breaker!')
 

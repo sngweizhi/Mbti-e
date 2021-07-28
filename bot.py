@@ -1192,9 +1192,9 @@ def echo(call):
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
         if get_icebreaker(call.message.chat.id) == 'Set':
-            try:
+            #try:
                 if userMessage[chat_info[1]] != None:
-                    bot.delete_message(chat_id=chat_info[1], message_id = userMessage[chat_info[1]])
+                    #bot.delete_message(chat_id=chat_info[1], message_id = userMessage[chat_info[1]])
                     userMessage.pop(chat_info[1],None)
                     truth1_1 = get_truth1(chat_info[1])
                     truth2_1 = get_truth2(chat_info[1])
@@ -1215,9 +1215,9 @@ def echo(call):
                     bot.send_poll(chat_info[1], '2Truths1Lie™. Select the Lie!', options = statements2, correct_option_id=ans2, type = 'quiz', is_anonymous= False)
                     bot.send_poll(call.message.chat.id, '2Truths1Lie™. Select the Lie!', options = statements1, correct_option_id=ans1, type = 'quiz', is_anonymous= False)
                     #bot.send_message(message.chat.id, '2 Truths 1 Lie sent! You will be notified when user picks an answer.')
-            except:
-                sent = bot.send_message(call.message.chat.id, '2Truths1Lie™ submitted. Waiting for user to submit theirs...')
-                userMessage[call.message.chat.id]=sent.message_id
+            #except:
+            #    sent = bot.send_message(call.message.chat.id, '2Truths1Lie™ submitted. Waiting for user to submit theirs...')
+            #    userMessage[call.message.chat.id]=sent.message_id
         else:
             bot.send_message(call.message.chat.id, '❗ You have not set an ice breaker!')
 

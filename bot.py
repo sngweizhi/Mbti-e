@@ -151,11 +151,11 @@ def icebreaker_first():
 
 def icebreaker_setup_menu():
   markup = types.InlineKeyboardMarkup()
-  button1 = types.InlineKeyboardButton(text='✏ Truth 1',
+  button1 = types.InlineKeyboardButton(text='Truth 1',
                                           callback_data='truth1')
-  button2 = types.InlineKeyboardButton(text='✏ Truth 2',
+  button2 = types.InlineKeyboardButton(text='Truth 2',
                                           callback_data='truth2')
-  button3 = types.InlineKeyboardButton(text='✏ Lie',
+  button3 = types.InlineKeyboardButton(text='Lie',
                                           callback_data='lie')
   button4 = types.InlineKeyboardButton(text='Confirm and Submit »',
                                           callback_data='ttol_quiz')
@@ -1202,7 +1202,7 @@ def echo(call):
                     statements1 = [truth1_1 ,truth2_1,lie_1]
                     random.shuffle(statements1)
                     ans1 = statements1.index(lie_1)
-                    userPoll[message.chat.id] = [ans1,statements1]
+                    userPoll[call.message.chat.id] = [ans1,statements1]
 
                     truth1_2 = get_truth1(call.message.chat.id)
                     truth2_2 = get_truth2(call.message.chat.id)

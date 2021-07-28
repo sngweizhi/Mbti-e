@@ -104,22 +104,20 @@ def setup_menu():
                                           callback_data='Purpose')
   button6 = types.InlineKeyboardButton(text='Edit MBTI',
                                           callback_data='MBTI')
-  button7 = types.InlineKeyboardButton(text='Edit Ice Breaker',
-                                          callback_data='icebreaker')
-  button8 = types.InlineKeyboardButton(text='« Back to Bot',
+  button7 = types.InlineKeyboardButton(text='« Back to Bot',
                                           callback_data='Bot')
-  markup = types.InlineKeyboardMarkup([[button1,button2],[button3,button4],[button5,button6],[button7,button8]])                                   
+  markup = types.InlineKeyboardMarkup([[button1,button2],[button3,button4],[button5,button6],[button7]])                                   
   return markup
 
-def icebreaker_menu():
-  markup = types.InlineKeyboardMarkup()
-  button1 = types.InlineKeyboardButton(text='2Truth1Lie',
-                                          callback_data='icebreaker_setup')
-  button2 = types.InlineKeyboardButton(text='Skip »',
-                                          callback_data='complete')
-  markup.add(button1,button2)
+#def icebreaker_menu():
+#  markup = types.InlineKeyboardMarkup()
+#  button1 = types.InlineKeyboardButton(text='2Truth1Lie',
+#                                          callback_data='icebreaker_setup')
+#  button2 = types.InlineKeyboardButton(text='Skip »',
+#                                          callback_data='complete')
+#  markup.add(button1,button2)
 
-  return markup
+#  return markup
 
 def report_confirm():
   markup = types.InlineKeyboardMarkup()
@@ -139,15 +137,15 @@ def report_make():
   markup.add(button1,button2)
   return markup
 
-def icebreaker_first():
-  markup = types.InlineKeyboardMarkup()
-  button1 = types.InlineKeyboardButton(text='✏ Edit',
-                                          callback_data='icebreaker')
-  button2 = types.InlineKeyboardButton(text='Complete »',
-                                          callback_data='complete')
-  markup.add(button1,button2)
+#def icebreaker_first():
+#  markup = types.InlineKeyboardMarkup()
+#  button1 = types.InlineKeyboardButton(text='✏ Edit',
+#                                          callback_data='icebreaker')
+#  button2 = types.InlineKeyboardButton(text='Complete »',
+#                                          callback_data='complete')
+#  markup.add(button1,button2)
 
-  return markup
+#  return markup
 
 def icebreaker_setup_menu():
   markup = types.InlineKeyboardMarkup()
@@ -648,11 +646,6 @@ def set_lie_new(message):
     if set_lie(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Lie set!')
         end_icebreaker_setup(message.chat.id)
-    #mess = "Your 2 Truth 1 Lie is set!\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
-    #truth1 = get_truth1(message.chat.id)
-    #truth2 = get_truth2(message.chat.id)
-    #lie = get_lie(message.chat.id)
-    #bot.send_message(message.chat.id, mess.format(truth1, truth2, lie),reply_markup=icebreaker_first())
 
 def end_icebreaker_setup(id):
     mess = "Edit your 2 Truth 1 Lie.\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
@@ -896,9 +889,9 @@ def echo(message):
         
 
         if message.text != '/start' and message.text != '/stop' and \
-                    message.text != '/setup' and message.text != '/icebreaker' and message.text != '/help'\
+                    message.text != '/setup' and message.text != '/ttol' and message.text != '/help'\
                     and message.text != '/ban' and message.text != '/unban' and message.text != '/broadcast' \
-                    and message.text != '/report' and message.text != '/feedback':
+                    and message.text != '/report' and message.text != '/feedback' and message.text != '/tiktok' and message.text != '/topic':
 
             if get_active_chat(message.chat.id) != None:
               chat_info = get_active_chat(message.chat.id)
@@ -917,15 +910,14 @@ def echo(message):
               bot.send_message(message.chat.id, '❗ You are not currently in a chat with anyone!')
 
 def mbtinder_settings(id):
-    mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Age*: {}\n*Age filter*: {}\n*Purpose*: {}\n*MBTI*: {}\n*Ice breaker*: {}"
+    mess = "Edit your MBTInder profile\.\n \n*Gender*: {}\n*Match Gender*: {}\n*Age*: {}\n*Age filter*: {}\n*Purpose*: {}\n*MBTI*: {}"
     gender = get_gender(id)
     gendermatch = get_gender_match(id)
     age = get_age(id)
     agefilter = ' to '.join([str(x) for x in get_agefilter(id)])
     seeking = get_seeking(id)
     mbti = get_mbti(id)
-    iceb = get_icebreaker(id)
-    return mess.format(gender, gendermatch, age, agefilter, seeking, mbti, iceb)
+    return mess.format(gender, gendermatch, age, agefilter, seeking, mbti)
 
 @bot.callback_query_handler(func=lambda call: True)
 def echo(call):
@@ -1056,16 +1048,16 @@ def echo(call):
       msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = "Enter Age Filter in the form 'XX-XX':")
       bot.register_next_step_handler(msg, set_agefilter_step)
 
-    elif call.data == 'icebreaker':
-      bot.answer_callback_query(call.id)
-      mess = "Edit your 2 Truth 1 Lie.\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
-      truth1 = get_truth1(call.message.chat.id)
-      truth2 = get_truth2(call.message.chat.id)
-      lie = get_lie(call.message.chat.id)
-      if bool(get_truth1(call.message.chat.id)):
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu())
-      else:
-        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Setup your 2 Truths and 1 Lie!', reply_markup=icebreaker_setup_menu())
+    #elif call.data == 'icebreaker':
+    #  bot.answer_callback_query(call.id)
+    #  mess = "Edit your 2 Truth 1 Lie.\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
+    #  truth1 = get_truth1(call.message.chat.id)
+    #  truth2 = get_truth2(call.message.chat.id)
+    #  lie = get_lie(call.message.chat.id)
+    #  if bool(get_truth1(call.message.chat.id)):
+    #    bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = mess.format(truth1, truth2, lie), reply_markup=icebreaker_setup_menu())
+    #  else:
+    #    bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Setup your 2 Truths and 1 Lie!', reply_markup=icebreaker_setup_menu())
 
     elif call.data in ['truth1','truth2','lie']:
         bot.answer_callback_query(call.id)
@@ -1079,15 +1071,15 @@ def echo(call):
           msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *Lie* statement\.', parse_mode ='MarkdownV2')
           bot.register_next_step_handler(msg, set_lie_step)
 
-    elif call.data == 'icebreaker_setup':
-        bot.answer_callback_query(call.id)
-        msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *Truth 1* statement\.', parse_mode ='MarkdownV2')
-        bot.register_next_step_handler(msg, set_truth1_new)
+    #elif call.data == 'icebreaker_setup':
+    #    bot.answer_callback_query(call.id)
+    #    msg = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Send me your *Truth 1* statement\.', parse_mode ='MarkdownV2')
+    #    bot.register_next_step_handler(msg, set_truth1_new)
 
-    elif call.data == 'complete':
-      bot.answer_callback_query(call.id)
-      bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Your icebreaker has been *set*\!', parse_mode='MarkdownV2')
-      bot.send_message(call.message.chat.id,'Your profile is complete! Press the button below to start matching!',reply_markup=main_menu())
+    #elif call.data == 'complete':
+    #  bot.answer_callback_query(call.id)
+    #  bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Your icebreaker has been *set*\!', parse_mode='MarkdownV2')
+    #  bot.send_message(call.message.chat.id,'Your profile is complete! Press the button below to start matching!',reply_markup=main_menu())
 
     elif call.data == 'Bot':
       bot.answer_callback_query(call.id)
@@ -1121,12 +1113,12 @@ def echo(call):
       elif call.data == 'mbti_skip':
           set_mbti(call.message.chat.id, 'Not set')
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You chose to skip setting of MBTI type'.format(call.data))
-          bot.send_message(call.message.chat.id, 'You may choose to set an ice breaker!', reply_markup = icebreaker_menu())
+          bot.send_message(call.message.chat.id,'Your profile is complete! Press the button below to start matching!',reply_markup=main_menu())
 
       else:
         if set_mbti(call.message.chat.id, call.data):
           bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'You selected *{}* as your MBTI type\.'.format(call.data),  parse_mode = 'MarkdownV2')
-          bot.send_message(call.message.chat.id, 'You may choose to set an ice breaker!', reply_markup = icebreaker_menu())
+          bot.send_message(call.message.chat.id,'Your profile is complete! Press the button below to start matching!',reply_markup=main_menu())
         else:
           return
 

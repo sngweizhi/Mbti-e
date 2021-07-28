@@ -151,13 +151,13 @@ def icebreaker_first():
 
 def icebreaker_setup_menu():
   markup = types.InlineKeyboardMarkup()
-  button1 = types.InlineKeyboardButton(text='Truth 1',
+  button1 = types.InlineKeyboardButton(text='✏ Truth 1',
                                           callback_data='truth1')
-  button2 = types.InlineKeyboardButton(text='Truth 2',
+  button2 = types.InlineKeyboardButton(text='✏ Truth 2',
                                           callback_data='truth2')
-  button3 = types.InlineKeyboardButton(text='Lie',
+  button3 = types.InlineKeyboardButton(text='✏ Lie',
                                           callback_data='lie')
-  button4 = types.InlineKeyboardButton(text='Send quiz »',
+  button4 = types.InlineKeyboardButton(text='Confirm and Submit »',
                                           callback_data='ttol_quiz')
   
   markup.add(button1,button2,button3,button4)
@@ -630,11 +630,12 @@ def set_truth2_new(message):
 def set_lie_new(message):
     if set_lie(message.chat.id,message.text):
         bot.send_message(message.chat.id,'Lie set!')
-    mess = "Your 2 Truth 1 Lie is set!\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
-    truth1 = get_truth1(message.chat.id)
-    truth2 = get_truth2(message.chat.id)
-    lie = get_lie(message.chat.id)
-    bot.send_message(message.chat.id, mess.format(truth1, truth2, lie),reply_markup=icebreaker_first())
+        end_icebreaker_setup(message.chat.id)
+    #mess = "Your 2 Truth 1 Lie is set!\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
+    #truth1 = get_truth1(message.chat.id)
+    #truth2 = get_truth2(message.chat.id)
+    #lie = get_lie(message.chat.id)
+    #bot.send_message(message.chat.id, mess.format(truth1, truth2, lie),reply_markup=icebreaker_first())
 
 def end_icebreaker_setup(id):
     mess = "Edit your 2 Truth 1 Lie.\n \nTruth 1: {}\nTruth 2: {}\nLie: {}"
@@ -1203,22 +1204,22 @@ def echo(call):
                     ans1 = statements1.index(lie_1)
                     userPoll[message.chat.id] = [ans1,statements1]
 
-                    truth1_2 = get_truth1(message.chat.id)
-                    truth2_2 = get_truth2(message.chat.id)
-                    lie_2 = get_lie(message.chat.id)
+                    truth1_2 = get_truth1(call.message.chat.id)
+                    truth2_2 = get_truth2(call.message.chat.id)
+                    lie_2 = get_lie(call.message.chat.id)
                     statements2 = [truth1_2 ,truth2_2,lie_2]
                     random.shuffle(statements2)
                     ans2 = statements2.index(lie_2)
                     userPoll[chat_info[1]] = [ans2,statements2]
 
                     bot.send_poll(chat_info[1], '2Truths1Lie™. Select the Lie!', options = statements2, correct_option_id=ans2, type = 'quiz', is_anonymous= False)
-                    bot.send_poll(message.chat.id, '2Truths1Lie™. Select the Lie!', options = statements1, correct_option_id=ans1, type = 'quiz', is_anonymous= False)
+                    bot.send_poll(call.message.chat.id, '2Truths1Lie™. Select the Lie!', options = statements1, correct_option_id=ans1, type = 'quiz', is_anonymous= False)
                     #bot.send_message(message.chat.id, '2 Truths 1 Lie sent! You will be notified when user picks an answer.')
             except:
-                sent = bot.send_message(message.chat.id, '2Truths1Lie™ submitted. Waiting for user to submit theirs...')
-                userMessage[message.chat.id]=sent.message_id
+                sent = bot.send_message(call.message.chat.id, '2Truths1Lie™ submitted. Waiting for user to submit theirs...')
+                userMessage[call.message.chat.id]=sent.message_id
         else:
-            bot.send_message(message.chat.id, '❗ You have not set an ice breaker!')
+            bot.send_message(call.message.chat.id, '❗ You have not set an ice breaker!')
 
     elif call.data == 'ttol_decline':
         bot.answer_callback_query(call.id)

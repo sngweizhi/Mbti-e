@@ -266,9 +266,8 @@ def tiktok_url_menu(url):
 def tiktok_tutorial(number):
     markup = types.InlineKeyboardMarkup()
     if number == 1:
-        button1 = types.InlineKeyboardButton(text="Submit URL!", callback_data = 'tiktok_submit')
-        button2 = types.InlineKeyboardButton(text="How to play »", callback_data = 'tiktok_step1')
-        markup.add(button1, button2)
+        button1 = types.InlineKeyboardButton(text="How to play »", callback_data = 'tiktok_step1')
+        markup.add(button1)
     elif number == 2:
         button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'tiktok_step0')
         button2 = types.InlineKeyboardButton(text="Next step »", callback_data = 'tiktok_step2')
@@ -279,8 +278,7 @@ def tiktok_tutorial(number):
         markup.add(button1, button2)
     elif number == 4:
         button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'tiktok_step2')
-        button2 = types.InlineKeyboardButton(text="Submit URL!", callback_data = 'tiktok_submit')
-        markup.add(button1, button2)
+        markup.add(button1)
     #elif number == 5: # When player press submit url button
     #    button1 = types.InlineKeyboardButton(text="How to play »", callback_data = 'tiktok_step10')
     #    markup.add(button1)
@@ -1122,61 +1120,61 @@ def echo(call):
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step1), reply_markup = tiktok_tutorial(2))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step1, caption = 'Go to your tiktok video and press on the share button. Copy the link and paste it in this chat. Should you encounter improper material, please make a /report.'), reply_markup = tiktok_tutorial(2))
 
     elif call.data == 'tiktok_step2':
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step2), reply_markup = tiktok_tutorial(3))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step2, caption = "Click the button to watch your opponent's TikTok."), reply_markup = tiktok_tutorial(3))
 
     elif call.data == 'tiktok_step3':
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step3), reply_markup = tiktok_tutorial(4))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step3,  caption = "Finally, rate your opponent's TikTok on a scale of 1-10. If their TikTok is exceptionally good you may select 😂💯❤️"), reply_markup = tiktok_tutorial(4))
 
-    elif call.data == 'tiktok_step00': # When URL button pressed
-        bot.answer_callback_query(call.id)
-        message_id = call.message.message_id
-        chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle), reply_markup = tiktok_tutorial(5))
+    #elif call.data == 'tiktok_step00': # When URL button pressed
+    #    bot.answer_callback_query(call.id)
+    #    message_id = call.message.message_id
+    #    chat_id = call.message.chat.id
+    #    bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle), reply_markup = tiktok_tutorial(5))
 
-    elif call.data == 'tiktok_step10':  # When URL button pressed
-        bot.answer_callback_query(call.id)
-        message_id = call.message.message_id
-        chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step1), reply_markup = tiktok_tutorial(6))
+    #elif call.data == 'tiktok_step10':  # When URL button pressed
+    #    bot.answer_callback_query(call.id)
+    #    message_id = call.message.message_id
+    #    chat_id = call.message.chat.id
+    #    bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step1), reply_markup = tiktok_tutorial(6))
 
-    elif call.data == 'tiktok_step20':  # When URL button pressed
-        bot.answer_callback_query(call.id)
-        message_id = call.message.message_id
-        chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step2), reply_markup = tiktok_tutorial(7))
+    #elif call.data == 'tiktok_step20':  # When URL button pressed
+    #    bot.answer_callback_query(call.id)
+    #    message_id = call.message.message_id
+    #    chat_id = call.message.chat.id
+    #    bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step2), reply_markup = tiktok_tutorial(7))
 
-    elif call.data == 'tiktok_step30':  # When URL button pressed
-        bot.answer_callback_query(call.id)
-        message_id = call.message.message_id
-        chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step3), reply_markup = tiktok_tutorial(8))
+    #elif call.data == 'tiktok_step30':  # When URL button pressed
+    #    bot.answer_callback_query(call.id)
+    #    message_id = call.message.message_id
+    #    chat_id = call.message.chat.id
+    #    bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktok_step3), reply_markup = tiktok_tutorial(8))
 
-    elif call.data == 'tiktok_submit':
-        bot.answer_callback_query(call.id)
-        message_id = call.message.message_id
-        chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle), reply_markup = tiktok_tutorial(5))
-        msg1 = bot.send_message(call.message.chat.id, "Submit your TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
-        bot.register_next_step_handler(msg1, tiktok_url_step)
-        #msg2 = bot.send_message(chat_info[1], "Submit your TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
-        #bot.register_next_step_handler(msg2, tiktok_url_step)
+    #elif call.data == 'tiktok_submit':
+    #    bot.answer_callback_query(call.id)
+    #    message_id = call.message.message_id
+    #    chat_id = call.message.chat.id
+    #    bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle), reply_markup = tiktok_tutorial(5))
+    #    msg1 = bot.send_message(call.message.chat.id, "Submit your TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
+    #    bot.register_next_step_handler(msg1, tiktok_url_step)
+    #    #msg2 = bot.send_message(chat_info[1], "Submit your TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
+    #    #bot.register_next_step_handler(msg2, tiktok_url_step)
 
     elif call.data == 'tiktok_accept':
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
         bot.delete_message(chat_id = call.message.chat.id, message_id = call.message.message_id)
         bot.delete_message(chat_id = chat_info[1], message_id = userMessage[chat_info[1]])
-        bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2', reply_markup = tiktok_tutorial(1))
-        bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2', reply_markup = tiktok_tutorial(1))
+        bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*\nSubmit your TikTok URL for battle\.\nType '_cancel_' to exit\.", parse_mode='markdownv2', reply_markup = tiktok_tutorial(1))
+        bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*\nSubmit your TikTok URL for battle\.\nType '_cancel_' to exit\.", parse_mode='markdownv2', reply_markup = tiktok_tutorial(1))
         userMessage.pop(chat_info[1],None)
         msg1 = bot.send_message(call.message.chat.id, "Submit your TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
         bot.register_next_step_handler(msg1, tiktok_url_step)

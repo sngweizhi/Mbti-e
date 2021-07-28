@@ -399,22 +399,21 @@ def echo(message):
     else:
         bot.send_message(message.chat.id, '❗ You have not started a chat!')
 
-@bot.message_handler(commands=['icebreakers'])
-def echo(message):
-    if bool(get_active_chat(message.chat.id)):
-      chat_info = get_active_chat(message.chat.id)
-      if get_icebreaker(message.chat.id) == 'Set':
-          if get_icebreaker()
-          statements = [get_truth1(message.chat.id),get_truth2(message.chat.id),get_lie(message.chat.id)]
-          random.shuffle(statements)
-          ans = statements.index(get_lie(message.chat.id))
-          userPoll[chat_info[1]] = [ans,statements]
-          bot.send_poll(chat_info[1], '2 Truths 1 Lie. Select the Lie!', options = statements, correct_option_id=ans, type = 'quiz', is_anonymous= False)
-          bot.send_message(message.chat.id, '2 Truths 1 Lie sent! You will be notified when user picks an answer.')
-      else:
-          bot.send_message(message.chat.id, '❗ Your 2 Truths 1 Lie is incomplete!')
-    else:
-      bot.send_message(message.chat.id, '❗ You have not started a chat!')
+#@bot.message_handler(commands=['icebreakers'])
+#def echo(message):
+#    if bool(get_active_chat(message.chat.id)):
+#      chat_info = get_active_chat(message.chat.id)
+#      if get_icebreaker(message.chat.id) == 'Set':
+#          statements = [get_truth1(message.chat.id),get_truth2(message.chat.id),get_lie(message.chat.id)]
+#          random.shuffle(statements)
+#          ans = statements.index(get_lie(message.chat.id))
+#          userPoll[chat_info[1]] = [ans,statements]
+#          bot.send_poll(chat_info[1], '2 Truths 1 Lie. Select the Lie!', options = statements, correct_option_id=ans, type = 'quiz', is_anonymous= False)
+#          bot.send_message(message.chat.id, '2 Truths 1 Lie sent! You will be notified when user picks an answer.')
+#      else:
+#          bot.send_message(message.chat.id, '❗ Your 2 Truths 1 Lie is incomplete!')
+#    else:
+#      bot.send_message(message.chat.id, '❗ You have not started a chat!')
 
 def mbti_cognitive_match(mbti1,mbti2): # Check for match in cognitive functions btw 2 MBTI types
     if mbti1 == 'Not set':

@@ -1236,7 +1236,7 @@ def echo(call):
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
         bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id = call.message.message_id)
-        if get_icebreaker(call.message.chat.id) == 'Set':
+        if get_icebreaker(call.message.chat.id):
             try:
                 if userMessage[chat_info[1]] != None:
                     bot.delete_message(chat_id=chat_info[1], message_id = userMessage[chat_info[1]])

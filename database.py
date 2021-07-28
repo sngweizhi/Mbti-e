@@ -119,44 +119,42 @@ def set_mbti(chat_id, mbti):
 
 
 def set_truth1(chat_id, truth1):
-    user = Chats.query.filter_by(chat_id=chat_id).first()
+    user = Chats.query.filter_by(chat_one=chat_id).first()
     if user != None:
-        user.truth1 = truth1
+        user.truth1_1 = truth1
         db.session.commit()
         return True
     else:
-        return False
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        user.truth1_2 = truth1
+        db.session.commit()
+        return True
 
 
 def set_truth2(chat_id, truth2):
-    user = Chats.query.filter_by(chat_id=chat_id).first()
+    user = Chats.query.filter_by(chat_one=chat_id).first()
     if user != None:
-        user.truth2 = truth2
+        user.truth2_1 = truth2
         db.session.commit()
         return True
     else:
-        return False
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        user.truth2_2 = truth2
+        db.session.commit()
+        return True
 
 def set_lie(chat_id, lie):
-    user = Chats.query.filter_by(chat_id=chat_id).first()
+    user = Chats.query.filter_by(chat_one=chat_id).first()
     if user != None:
-        user.lie = lie
+        user.lie_1 = lie
         db.session.commit()
         return True
     else:
-        return False
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        user.lie_2 = lie
+        db.session.commit()
+        return True
 
-def get_icebreaker(chat_id):
-    user = Chats.query.filter_by(chat_id=chat_id).first()
-    if user != None:
-        if bool(user.truth1) and bool(user.truth2) and bool(user.lie):
-            return 'Set'
-        elif bool(user.truth1) | bool(user.truth2) | bool(user.lie):
-            return 'Incomplete'
-        else:
-            return 'Not set'
-    else:
-        return
 
 def get_message_id(chat_id):
     user = Queue.query.filter_by(chat_id=chat_id).first()
@@ -176,36 +174,62 @@ def get_seeking(chat_id):
     else:
         return
 
- 
-def get_truth1(chat_id):
-    user = Chats.query.filter_by(chat_id=chat_id).first()
+
+def get_icebreaker(chat_id):
+    user = Chats.query.filter_by(chat_one=chat_id).first()
     if user != None:
-        if user.truth1 != None:
-            return user.truth1
+        if bool(user.truth1_1) and bool(user.truth2_1) and bool(user.lie_1):
+            return True
         else:
             return
     else:
-        return
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        if bool(user.truth1_2) and bool(user.truth2_2) and bool(user.lie_2):
+            return True
+        else:
+            return
+
+def get_truth1(chat_id):
+    user = Chats.query.filter_by(chat_one=chat_id).first()
+    if user != None:
+        if user.truth1_1 != None:
+            return user.truth1_1
+        else:
+            return
+    else:
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        if user.truth1_2 != None:
+            return user.truth1_2
+        else:
+            return
   
 def get_truth2(chat_id):
-    user = Chats.query.filter_by(chat_id=chat_id).first()
+    user = Chats.query.filter_by(chat_one=chat_id).first()
     if user != None:
-        if user.truth2 != None:
-            return user.truth2
+        if user.truth2_1 != None:
+            return user.truth2_1
         else:
             return
     else:
-        return
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        if user.truth2_2 != None:
+            return user.truth2_2
+        else:
+            return
 
 def get_lie(chat_id):
-    user = Chats.query.filter_by(chat_id=chat_id).first()
+    user = Chats.query.filter_by(chat_one=chat_id).first()
     if user != None:
-        if user.lie != None:
-            return user.lie
+        if user.lie_1 != None:
+            return user.lie_1
         else:
             return
     else:
-        return
+        user = Chats.query.filter_by(chat_two=chat_id).first()
+        if user.lie_2 != None:
+            return user.lie_2
+        else:
+            return
 
 
 
@@ -454,10 +478,14 @@ class Chats(db.Model):
     tiktok_one = db.Column(db.Integer)
     tiktok_two = db.Column(db.Integer)
     tiktok_round = db.Column(db.Integer)
-    truth1 = db.Column(db.String(500))
-    truth2 = db.Column(db.String(500))
-    lie = db.Column(db.String(500))
-    message_id = db.Column(db.String(255))
+    truth1_1 = db.Column(db.String(500))
+    truth2_1 = db.Column(db.String(500))
+    lie_1 = db.Column(db.String(500))
+    truth1_2 = db.Column(db.String(500))
+    truth2_2 = db.Column(db.String(500))
+    lie_2 = db.Column(db.String(500))
+    message_id_1 = db.Column(db.String(255))
+    message_id_2 = db.Column(db.String(255))
     
 class Lastchat(db.Model):
     id = db.Column(db.Integer, primary_key=True)

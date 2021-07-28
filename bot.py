@@ -394,18 +394,15 @@ def echo(message):
 def echo(message):
     if bool(get_active_chat(message.chat.id)):
         chat_info = get_active_chat(message.chat.id)
-        try:
-            if get_game_message(message.chat.id) != None:
-                bot.send_message(message.chat.id, '❗ You have already sent a request for a game!', parse_mode='MarkdownV2')
-                return
-        except:
-            pass
-        try:
-            if get_game_message(chat_info[1]) != None:
-                bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game!.', parse_mode='MarkdownV2')
-                return
-        except:
-            pass
+       
+        if get_game_message(message.chat.id) != None:
+            bot.send_message(message.chat.id, '❗ You have already sent a request for a game!', parse_mode='MarkdownV2')
+            return
+      
+        if get_game_message(chat_info[1]) != None:
+            bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game!.', parse_mode='MarkdownV2')
+            return
+       
         bot.send_message(chat_info[1], 'User has sent you a request for a game of *2Truths1Lie™*\.', reply_markup=ttol_menu(), parse_mode='MarkdownV2')
         sent = bot.send_message(message.chat.id, 'You have sent a request for a *2Truths1Lie™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
         set_game_message(message.chat.id,sent.message_id)
@@ -471,32 +468,26 @@ def echo(message):
 def echo(message):
     if bool(get_active_chat(message.chat.id)):
         chat_info = get_active_chat(message.chat.id)
-        try:
-            if get_game_message(message.chat.id) != None:
-                bot.send_message(message.chat.id, '❗ You have already sent a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
-                return
-        except:
-            pass
-        try:
-            if get_game_message(chat_info[1]) != None:
-                bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
-                return
-        except:
-            pass
-        try:
-            if userTiktok[chat_info[1]] != None:
-                bot.send_message(message.chat.id, '❗ You are already in a TikTokBattle™!')
-                return
-        except:
-            pass
-        try:
-            if userTiktok[message.chat.id] != None:
-                bot.send_message(message.chat.id, '❗ You are already in a TikTokBattle™!')
-                return
-        except:
-            bot.send_message(chat_info[1], 'User has sent you a request for a *TikTokBattle™*\.', reply_markup=tiktok_menu(), parse_mode='MarkdownV2')
-            sent = bot.send_message(message.chat.id, 'You have sent a request for a *TikTokBattle™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
-            set_game_message(message.chat.id,sent.message_id)
+        
+        if get_game_message(message.chat.id) != None:
+            bot.send_message(message.chat.id, '❗ You have already sent a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
+            return
+        
+        if get_game_message(chat_info[1]) != None:
+            bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a *TikTokBattle™*\.', parse_mode='MarkdownV2')
+            return
+        
+        if userTiktok[chat_info[1]] != None:
+            bot.send_message(message.chat.id, '❗ You are already in a TikTokBattle™!')
+            return
+        
+        if userTiktok[message.chat.id] != None:
+            bot.send_message(message.chat.id, '❗ You are already in a TikTokBattle™!')
+            return
+        
+        bot.send_message(chat_info[1], 'User has sent you a request for a *TikTokBattle™*\.', reply_markup=tiktok_menu(), parse_mode='MarkdownV2')
+        sent = bot.send_message(message.chat.id, 'You have sent a request for a *TikTokBattle™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
+        set_game_message(message.chat.id,sent.message_id)
     else:
         bot.send_message(message.chat.id, '❗ You have not started a chat!')
 
@@ -1227,30 +1218,30 @@ def echo(call):
         chat_info = get_active_chat(call.message.chat.id)
         bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id = call.message.message_id)
         if get_icebreaker(call.message.chat.id):
-            try:
-                if get_game_message(chat_info[1]) != None:
-                    bot.delete_message(chat_id=chat_info[1], message_id = get_game_message(chat_info[1]))
-                    set_game_message(chat_info[1],None)
-                    truth1_1 = get_truth1(chat_info[1])
-                    truth2_1 = get_truth2(chat_info[1])
-                    lie_1 = get_lie(chat_info[1])
-                    statements1 = [truth1_1 ,truth2_1,lie_1]
-                    random.shuffle(statements1)
-                    ans1 = statements1.index(lie_1)
-                    userPoll[call.message.chat.id] = [ans1,statements1]
+            
+            if get_game_message(chat_info[1]) != None:
+                bot.delete_message(chat_id=chat_info[1], message_id = get_game_message(chat_info[1]))
+                set_game_message(chat_info[1],None)
+                truth1_1 = get_truth1(chat_info[1])
+                truth2_1 = get_truth2(chat_info[1])
+                lie_1 = get_lie(chat_info[1])
+                statements1 = [truth1_1 ,truth2_1,lie_1]
+                random.shuffle(statements1)
+                ans1 = statements1.index(lie_1)
+                userPoll[call.message.chat.id] = [ans1,statements1]
 
-                    truth1_2 = get_truth1(call.message.chat.id)
-                    truth2_2 = get_truth2(call.message.chat.id)
-                    lie_2 = get_lie(call.message.chat.id)
-                    statements2 = [truth1_2 ,truth2_2,lie_2]
-                    random.shuffle(statements2)
-                    ans2 = statements2.index(lie_2)
-                    userPoll[chat_info[1]] = [ans2,statements2]
+                truth1_2 = get_truth1(call.message.chat.id)
+                truth2_2 = get_truth2(call.message.chat.id)
+                lie_2 = get_lie(call.message.chat.id)
+                statements2 = [truth1_2 ,truth2_2,lie_2]
+                random.shuffle(statements2)
+                ans2 = statements2.index(lie_2)
+                userPoll[chat_info[1]] = [ans2,statements2]
 
-                    bot.send_poll(chat_info[1], '2Truths1Lie™. Select the Lie!', options = statements2, correct_option_id=ans2, type = 'quiz', is_anonymous= False)
-                    bot.send_poll(call.message.chat.id, '2Truths1Lie™. Select the Lie!', options = statements1, correct_option_id=ans1, type = 'quiz', is_anonymous= False)
+                bot.send_poll(chat_info[1], '2Truths1Lie™. Select the Lie!', options = statements2, correct_option_id=ans2, type = 'quiz', is_anonymous= False)
+                bot.send_poll(call.message.chat.id, '2Truths1Lie™. Select the Lie!', options = statements1, correct_option_id=ans1, type = 'quiz', is_anonymous= False)
  
-            except:
+            else:
                 sent = bot.send_message(call.message.chat.id, '2Truths1Lie™ submitted. Waiting for user to submit theirs...')
                 set_game_message(call.message.chat.id,sent.message_id)
         else:
@@ -1307,19 +1298,21 @@ def echo(call):
         bot.answer_callback_query(call.id)
         bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
         chat_info = get_active_chat(call.message.chat.id)
-        try:
-            if get_game_message(chat_info[1]) == 'cancel':
-                bot.send_message(call.message.chat.id, 'User did not want another round.')
-                set_game_message(chat_info[1],None)
-                set_game_message(call.message.chat.id,None)
-            else:
-                msg1 = bot.send_message(call.message.chat.id,  "Yay another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
-                bot.register_next_step_handler(msg1, tiktok_url_step)
-                msg2 = bot.edit_message_text(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]), text = "Another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
-                bot.register_next_step_handler(msg2, tiktok_url_step)
-                set_game_message(chat_info[1],None)
-                set_game_message(call.message.chat.id,None)
-        except:
+       
+        if get_game_message(chat_info[1]) == 'cancel':
+            bot.send_message(call.message.chat.id, 'User did not want another round.')
+            set_game_message(chat_info[1],None)
+            set_game_message(call.message.chat.id,None)
+
+        elif get_game_message(chat_info[1]) != None:
+            msg1 = bot.send_message(call.message.chat.id,  "Yay another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
+            bot.register_next_step_handler(msg1, tiktok_url_step)
+            msg2 = bot.edit_message_text(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]), text = "Another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
+            bot.register_next_step_handler(msg2, tiktok_url_step)
+            set_game_message(chat_info[1],None)
+            set_game_message(call.message.chat.id,None)
+
+        else:
             sent = bot.send_message(call.message.chat.id, 'You have asked for another round. Waiting for user to reply...')
             set_game_message(call.message.chat.id, sent.message_id)
         
@@ -1328,17 +1321,18 @@ def echo(call):
         bot.answer_callback_query(call.id)
         bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
         chat_info = get_active_chat(call.message.chat.id)
-        try:
-            if get_game_message(chat_info[1]) == 'cancel':
-                bot.send_message(call.message.chat.id, 'User also did not want another round.')
-                set_game_message(chat_info[1],None)
-                set_game_message(call.message.chat.id,None)
-            else:
-                bot.send_message(call.message.chat.id, 'You chose not to have another round.')
-                bot.edit_message_text(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]), text = 'User did not want another round.')
-                set_game_message(chat_info[1],None)
-                set_game_message(call.message.chat.id,None)
-        except:
+        
+        if get_game_message(chat_info[1]) == 'cancel':
+            bot.send_message(call.message.chat.id, 'User also did not want another round.')
+            set_game_message(chat_info[1],None)
+            set_game_message(call.message.chat.id,None)
+
+        elif get_game_message(chat_info[1]) != None:
+            bot.send_message(call.message.chat.id, 'You chose not to have another round.')
+            bot.edit_message_text(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]), text = 'User did not want another round.')
+            set_game_message(chat_info[1],None)
+            set_game_message(call.message.chat.id,None)
+        else:
             bot.send_message(call.message.chat.id, 'You chose not to have another round.')
             set_game_message(call.message.chat.id,'cancel')
 

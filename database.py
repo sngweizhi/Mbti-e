@@ -119,7 +119,7 @@ def set_mbti(chat_id, mbti):
 
 
 def set_truth1(chat_id, truth1):
-    user = Users.query.filter_by(chat_id=chat_id).first()
+    user = Chats.query.filter_by(chat_id=chat_id).first()
     if user != None:
         user.truth1 = truth1
         db.session.commit()
@@ -129,7 +129,7 @@ def set_truth1(chat_id, truth1):
 
 
 def set_truth2(chat_id, truth2):
-    user = Users.query.filter_by(chat_id=chat_id).first()
+    user = Chats.query.filter_by(chat_id=chat_id).first()
     if user != None:
         user.truth2 = truth2
         db.session.commit()
@@ -138,7 +138,7 @@ def set_truth2(chat_id, truth2):
         return False
 
 def set_lie(chat_id, lie):
-    user = Users.query.filter_by(chat_id=chat_id).first()
+    user = Chats.query.filter_by(chat_id=chat_id).first()
     if user != None:
         user.lie = lie
         db.session.commit()
@@ -147,7 +147,7 @@ def set_lie(chat_id, lie):
         return False
 
 def get_icebreaker(chat_id):
-    user = Users.query.filter_by(chat_id=chat_id).first()
+    user = Chats.query.filter_by(chat_id=chat_id).first()
     if user != None:
         if bool(user.truth1) and bool(user.truth2) and bool(user.lie):
             return 'Set'
@@ -178,7 +178,7 @@ def get_seeking(chat_id):
 
  
 def get_truth1(chat_id):
-    user = Users.query.filter_by(chat_id=chat_id).first()
+    user = Chats.query.filter_by(chat_id=chat_id).first()
     if user != None:
         if user.truth1 != None:
             return user.truth1
@@ -188,7 +188,7 @@ def get_truth1(chat_id):
         return
   
 def get_truth2(chat_id):
-    user = Users.query.filter_by(chat_id=chat_id).first()
+    user = Chats.query.filter_by(chat_id=chat_id).first()
     if user != None:
         if user.truth2 != None:
             return user.truth2
@@ -198,7 +198,7 @@ def get_truth2(chat_id):
         return
 
 def get_lie(chat_id):
-    user = Users.query.filter_by(chat_id=chat_id).first()
+    user = Chats.query.filter_by(chat_id=chat_id).first()
     if user != None:
         if user.lie != None:
             return user.lie
@@ -285,7 +285,6 @@ def get_gender_chat(gender, gendermatch, age, agefilter_ll, agefilter_ul, seekin
             return [0,0,0,0,0]
     elif gendermatch == 'Any':
         user = Queue.query.filter(Queue.seeking==seeking, Queue.age>=agefilter_ll, Queue.age<=agefilter_ul, Queue.agefilter_ll<=age, Queue.agefilter_ul>=age).filter(or_(Queue.gendermatch==gender, Queue.gendermatch==gendermatch)).first()
-        #Queue.query.filter(Queue.seeking==seeking).filter(or_(Queue.gendermatch==gender, Queue.gendermatch==gendermatch)).first()
         if user != None:
             user_info = [user.chat_id,user.gender,user.age,user.seeking,user.mbti]
             return user_info
@@ -361,14 +360,6 @@ def set_tiktok_round(chat_id):
         user.tiktok_round = 1
     db.session.commit()
     return user.tiktok_round
-
-
-#def reset_tiktok(chat_id):
-#    user = Chats.query.filter(or_(Chats.chat_one==chat_id, Chats.chat_two==chat_id)).first()
-#    user.tiktok_round = 0
-#    user.tiktok_one = 0
-#    user.tiktok_two = 0
-#    db.session.commit()
 
 def get_tiktok_win(chat_id):
     user = Chats.query.filter_by(chat_one=chat_id).first()
@@ -463,7 +454,10 @@ class Chats(db.Model):
     tiktok_one = db.Column(db.Integer)
     tiktok_two = db.Column(db.Integer)
     tiktok_round = db.Column(db.Integer)
-
+    truth1 = db.Column(db.String(500))
+    truth2 = db.Column(db.String(500))
+    lie = db.Column(db.String(500))
+    message_id = db.Column(db.String(255))
     
 class Lastchat(db.Model):
     id = db.Column(db.Integer, primary_key=True)

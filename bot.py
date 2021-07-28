@@ -264,26 +264,23 @@ def tiktok_url_menu(url):
     return markup
 
 def tiktok_tutorial(number):
+    markup = types.InlineKeyboardMarkup()
     if number == 1:
         button1 = types.InlineKeyboardButton(text="Submit URL!", callback_data = 'tiktok_submit')
         button2 = types.InlineKeyboardButton(text="How to play »", callback_data = 'tiktok_step1')
         markup.add(button1, button2)
     elif number == 2:
-        markup = types.InlineKeyboardMarkup()
         button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'tiktok_step0')
         button2 = types.InlineKeyboardButton(text="Next step »", callback_data = 'tiktok_step2')
         markup.add(button1, button2)
     elif number == 3:
-        markup = types.InlineKeyboardMarkup()
         button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'tiktok_step1')
         button2 = types.InlineKeyboardButton(text="Next step »", callback_data = 'tiktok_step3')
         markup.add(button1, button2)
     elif number == 4:
-        markup = types.InlineKeyboardMarkup()
         button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'tiktok_step2')
         button2 = types.InlineKeyboardButton(text="Submit URL!", callback_data = 'tiktok_submit')
         markup.add(button1, button2)
-
     elif number == 0: # When player press submit url button
         button1 = types.InlineKeyboardButton(text="How to play »", callback_data = 'tiktok_step1')
         markup.add(button1)

@@ -1348,7 +1348,7 @@ def echo(call):
         set_tiktok_url(player_id,score)
       
         
-        if isinstance(get_tiktok_url(call.message.chat.id), int):
+        if isdigit(get_tiktok_url(call.message.chat.id)):
             bot.delete_message(chat_id=player_id, message_id=get_game_message(player_id))
             bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
             set_game_message(player_id,None)

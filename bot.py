@@ -1193,7 +1193,7 @@ def echo(call):
         chat_info = get_active_chat(call.message.chat.id)
         if get_icebreaker(call.message.chat.id) == 'Set':
             #try:
-                if userMessage[chat_info[1]] != None:
+                #if userMessage[chat_info[1]] != None:
                     #bot.delete_message(chat_id=chat_info[1], message_id = userMessage[chat_info[1]])
                     userMessage.pop(chat_info[1],None)
                     truth1_1 = get_truth1(chat_info[1])

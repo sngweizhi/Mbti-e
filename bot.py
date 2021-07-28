@@ -67,7 +67,7 @@ def mbti_menu():
   mbti_list = ['ISFP', 'ISFJ', 'ISTP', 'ISTJ','ESFP', 'ESFJ', 'ESTP', 'ESTJ', 'INFP', 'INFJ', 'INTP', 'INTJ', 'ENFP', 'ENFJ', 'ENTP', 'ENTJ']
   button_list = []
   row_list = []
-  button1 = types.InlineKeyboardButton(text='» Skip',
+  button1 = types.InlineKeyboardButton(text='Skip »',
                                           callback_data='mbti_skip')
   i = 0
   for mbti in mbti_list:
@@ -115,7 +115,7 @@ def icebreaker_menu():
   markup = types.InlineKeyboardMarkup()
   button1 = types.InlineKeyboardButton(text='2Truth1Lie',
                                           callback_data='icebreaker_setup')
-  button2 = types.InlineKeyboardButton(text='» Skip ',
+  button2 = types.InlineKeyboardButton(text='Skip »',
                                           callback_data='complete')
   markup.add(button1,button2)
 
@@ -125,7 +125,7 @@ def report_confirm():
   markup = types.InlineKeyboardMarkup()
   button1 = types.InlineKeyboardButton(text='✏ Re-type reason',
                                           callback_data='retype_report')
-  button2 = types.InlineKeyboardButton(text='» Submit ',
+  button2 = types.InlineKeyboardButton(text='Submit »',
                                           callback_data='confirm_report')
   markup.add(button1,button2)
   return markup
@@ -143,7 +143,7 @@ def icebreaker_first():
   markup = types.InlineKeyboardMarkup()
   button1 = types.InlineKeyboardButton(text='✏ Edit',
                                           callback_data='icebreaker')
-  button2 = types.InlineKeyboardButton(text='» Complete ',
+  button2 = types.InlineKeyboardButton(text='Complete »',
                                           callback_data='complete')
   markup.add(button1,button2)
 
@@ -262,6 +262,27 @@ def tiktok_url_menu(url):
                                           url=url)
     markup.add(button1)
     return markup
+
+def tiktok_tutorial(number):
+    if number == 1:
+        markup = types.InlineKeyboardMarkup()
+        button1 = types.InlineKeyboardButton(text="How to play »", callback_data = 'tiktok_step1')
+        markup.add(button1)
+    elif number == 2:
+        markup = types.InlineKeyboardMarkup()
+        button1 = types.InlineKeyboardButton(text="Next step »", callback_data = 'tiktok_step2')
+        markup.add(button1)
+    elif number == 3:
+        markup = types.InlineKeyboardMarkup()
+        button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'tiktok_step1')
+        button2 = types.InlineKeyboardButton(text="Next step »", callback_data = 'tiktok_step3')
+        markup.add(button1, button2)
+    elif number == 4:
+        markup = types.InlineKeyboardMarkup()
+        button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'tiktok_step2')
+        markup.add(button1)
+    return markup
+
 ######## BASIC COMMANDS #########
 
 @bot.message_handler(commands = ['start'])
@@ -678,10 +699,6 @@ def direct_message_step(message):
       else:
           bot.send_message(message.chat.id, 'User does not exist!')
 
-#def tiktok_cancel(message):
-#    bot.send_message(message.chat.id,'User has cancelled the TikTokBattle™')
-#    return
-
 def tiktok_url_step(message):
     chat_info = get_active_chat(message.chat.id)
     try:
@@ -761,8 +778,8 @@ def echo(message):
           file_id = None
 
           for item in message.photo:
-            file_id = item.file_id
-
+            file_id = item.file_id # remove later
+            print(file_id)
           bot.send_photo(chat_info[1],
                        file_id,
                        caption=message.caption)
@@ -1080,13 +1097,29 @@ def echo(call):
             bot.delete_message(call.message.chat.id, call.message.message_id)
             bot.send_message(call.message.chat.id, 'You have ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
 
+    elif call.data == 'tiktok_step1':
+        message_id = call.message.message_id
+        chat_id = call.message.chat.id
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle), reply_markup = tiktok_tutorial(2))
+
+    elif call.data == 'tiktok_step2':
+        message_id = call.message.message_id
+        chat_id = call.message.chat.id
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle), reply_markup = tiktok_tutorial(3))
+
+    elif call.data == 'tiktok_step3':
+        message_id = call.message.message_id
+        chat_id = call.message.chat.id
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle), reply_markup = tiktok_tutorial(4))
+
+
     elif call.data == 'tiktok_accept':
         bot.answer_callback_query(call.id)
         chat_info = get_active_chat(call.message.chat.id)
         bot.delete_message(chat_id = call.message.chat.id, message_id = call.message.message_id)
         bot.delete_message(chat_id = chat_info[1], message_id = userMessage[chat_info[1]])
-        bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2' )
-        bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2' )
+        bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2', reply_markup = tiktok_tutorial(1))
+        bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*", parse_mode='markdownv2', reply_markup = tiktok_tutorial(1))
         userMessage.pop(chat_info[1],None)
         msg1 = bot.send_message(call.message.chat.id, "Submit your TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
         bot.register_next_step_handler(msg1, tiktok_url_step)

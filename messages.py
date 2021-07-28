@@ -16,9 +16,9 @@ Lie game to your match\!\n/topic \- Roll a dice for a random topic during a chat
 search_sticker = 'CAACAgUAAxkBAAIJxmDyqgXaYH7ZcxzHGZbOjwtaEqMAA54CAAKJ_JBXZilybC94gzggBA'
 match_sticker ='CAACAgUAAxkBAAIJ7WDyykDX_M8j0z3TCKanMmuDUt2tAAKOAwACPyqZV1g5tYcaYUa6IAQ'
 tiktokbattle = 'AgACAgUAAxkBAAIdE2EBaI9ql9dtivB-wZjM6sxe7nRUAAJ4sDEbDJUJVBk-3oEkhEqUAQADAgADeQADIAQ'
-tiktok_step1 = 'AgACAgUAAxkDAAIdF2EBaMWnrzCfqhanjzxBnPk_zdyRAAJ5sDEbDJUJVE35b6I4cmJRAQADAgADcwADIAQ'
+tiktok_step1 = 'AgACAgUAAxkDAAIdN2EBcWdsXecLust3DcmKhl87b_JVAAKBsDEbDJUJVPQWSwkkjHROAQADAgADcwADIAQ'
 tiktok_step2 = 'AgACAgUAAxkBAAIdGGEBaRqqnjmbWoGzD5qUIvDbVhDGAAJ7sDEbDJUJVEe3dsv2QzHaAQADAgADeQADIAQ'
-tiktok_step3 = 'AgACAgUAAxkBAAIdGmEBaTCrTAE2bDKbHfkNk1dOVhYJAAJ8sDEbDJUJVBX1sbeT7PFHAQADAgADeQADIAQ'
+tiktok_step3 = 'AgACAgUAAxkDAAIdOWEBcZDQPTr4cJxPQVA0bAShnSJZAAKCsDEbDJUJVO47X3uezXSdAQADAgADcwADIAQ'
 
 mbti_cf = {'ISFP': ['Fi','Se','Ni','Te'],'ISFJ': ['Si','Fe','Ti','Ne'], 'ISTP': ['Ti','Se','Ni','Fe'], 'ISTJ': ['Si','Te','Fi','Ne'], 'ESFP': ['Se','Fi','Te','Ni'], 'ESFJ': ['Fe','Si','Ne','Ti'], 'ESTP': ['Se','Ti','Fe','Ni'], 'ESTJ': ['Te','Si','Ne','Fi'], 'INFP': ['Fi','Ne','Si','Te'], 'INFJ': ['Ni','Fe','Ti','Se'], 'INTP': ['Ti','Ne','Si','Fe'], 'INTJ': ['Ni','Te','Fi','Se'], 'ENFP': ['Ne','Fi','Te','Si'], 'ENFJ': ['Fe','Ni','Se','Ti'], 'ENTP': ['Ne','Ti','Fe','Si'], 'ENTJ': ['Te','Ni','Se','Fi']}
 

@@ -1101,7 +1101,7 @@ def echo(call):
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*\nSubmit your TikTok URL for battle\.\nType '_cancel_' to exit\."),parse_mode='MarkdownV2', reply_markup = tiktok_tutorial(1))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*\nSubmit your TikTok URL for battle\.\nType '_cancel_' to exit\.",parse_mode='MarkdownV2'), reply_markup = tiktok_tutorial(1))
 
     elif call.data == 'tiktok_step1':
         bot.answer_callback_query(call.id)

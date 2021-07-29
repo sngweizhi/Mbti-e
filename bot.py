@@ -395,11 +395,11 @@ def echo(message):
         chat_info = get_active_chat(message.chat.id)
        
         if get_game_message(message.chat.id) != None:
-            bot.send_message(message.chat.id, '❗ You have already sent a request for a game!', parse_mode='MarkdownV2')
+            bot.send_message(message.chat.id, '❗ You have already sent a request for a game!')
             return
       
         if get_game_message(chat_info[1]) != None:
-            bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game!.', parse_mode='MarkdownV2')
+            bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game!.')
             return
        
         bot.send_message(chat_info[1], 'User has sent you a request for a game of *2Truths1Lie™*\.', reply_markup=ttol_menu(), parse_mode='MarkdownV2')

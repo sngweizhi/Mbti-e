@@ -1314,13 +1314,15 @@ def echo(call):
             set_game_message(chat_info[1],None)
             set_game_message(call.message.chat.id,None)
 
-        elif get_game_message(chat_info[1]).isdigit():
-            msg1 = bot.send_message(call.message.chat.id,  "Yay another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
-            bot.register_next_step_handler(msg1, tiktok_url_step)
-            msg2 = bot.edit_message_text(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]), text = "Another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
-            bot.register_next_step_handler(msg2, tiktok_url_step)
-            set_game_message(chat_info[1],'game')
-            set_game_message(call.message.chat.id,'game')
+        elif get_game_message(chat_info[1]) != None:
+
+            if get_game_message(chat_info[1]).isdigit():
+                msg1 = bot.send_message(call.message.chat.id,  "Yay another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
+                bot.register_next_step_handler(msg1, tiktok_url_step)
+                msg2 = bot.edit_message_text(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]), text = "Another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
+                bot.register_next_step_handler(msg2, tiktok_url_step)
+                set_game_message(chat_info[1],'game')
+                set_game_message(call.message.chat.id,'game')
 
         else:
             sent = bot.send_message(call.message.chat.id, 'You have asked for another round. Waiting for user to reply...')

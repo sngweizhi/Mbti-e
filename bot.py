@@ -1163,7 +1163,7 @@ def echo(call):
         msg1 = bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *2Truths1Lie™\!*\nPress 'start' to play\!", parse_mode='MarkdownV2', reply_markup = ttol_tutorial(1))
         msg2 = bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *2Truths1Lie™\!*\nPress 'start' to play\!", parse_mode='MarkdownV2', reply_markup = ttol_tutorial(1))
         set_game_message(chat_info[1],'game')
-        set_game_message(call.message.chat.id,'game')#In-game identifier
+        set_game_message(call.message.chat.id,'game') #In-game identifier
 
     elif call.data == 'ttol_start':
         bot.answer_callback_query(call.id)
@@ -1230,6 +1230,7 @@ def echo(call):
             if get_game_message(chat_info[1]).isdigit():
                 bot.delete_message(chat_id=chat_info[1], message_id = get_game_message(chat_info[1]))
                 set_game_message(chat_info[1],None)
+                set_game_message(call.message.chat.id,None)
                 truth1_1 = get_truth1(chat_info[1])
                 truth2_1 = get_truth2(chat_info[1])
                 lie_1 = get_lie(chat_info[1])
@@ -1246,8 +1247,8 @@ def echo(call):
                 ans2 = statements2.index(lie_2)
                 userPoll[chat_info[1]] = [ans2,statements2]
 
-                bot.send_poll(chat_info[1], '2Truths1Lie™. Select the Lie!', options = statements2, correct_option_id=ans2, type = 'quiz', is_anonymous= False)
-                bot.send_poll(call.message.chat.id, '2Truths1Lie™. Select the Lie!', options = statements1, correct_option_id=ans1, type = 'quiz', is_anonymous= False)
+                bot.send_poll(chat_info[1], '2Truths1Lie™. Select the Lie! 🙊', options = statements2, correct_option_id=ans2, type = 'quiz', is_anonymous= False)
+                bot.send_poll(call.message.chat.id, '2Truths1Lie™. Select the Lie! 🙊', options = statements1, correct_option_id=ans1, type = 'quiz', is_anonymous= False)
  
             else:
                 sent = bot.send_message(call.message.chat.id, '2Truths1Lie™ submitted. Waiting for user to submit theirs...')

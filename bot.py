@@ -1152,7 +1152,7 @@ def echo(call):
         bot.delete_message(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]))
         msg1 = bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *2Truths1Lie™\!*\nPress 'start' to play\!", parse_mode='MarkdownV2', reply_markup = ttol_tutorial(1))
         msg2 = bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *2Truths1Lie™\!*\nPress 'start' to play\!", parse_mode='MarkdownV2', reply_markup = ttol_tutorial(1))
-        set_game_message(chat_info[1],None)
+        set_game_message(chat_info[1],'game') #In-game identifier
 
     elif call.data == 'ttol_start':
         bot.answer_callback_query(call.id)
@@ -1216,9 +1216,9 @@ def echo(call):
         bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id = call.message.message_id)
         if get_icebreaker(call.message.chat.id):
             
-            if get_game_message(chat_info[1]) != None:
+            if get_game_message(chat_info[1]).isdigit():
                 bot.delete_message(chat_id=chat_info[1], message_id = get_game_message(chat_info[1]))
-                set_game_message(chat_info[1],None)
+                set_game_message(chat_info[1],'game')
                 truth1_1 = get_truth1(chat_info[1])
                 truth2_1 = get_truth2(chat_info[1])
                 lie_1 = get_lie(chat_info[1])
@@ -1283,7 +1283,7 @@ def echo(call):
         bot.delete_message(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]))
         msg1 = bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*\nSubmit your TikTok URL for battle\.\nType '_cancel_' to exit\.", parse_mode='MarkdownV2', reply_markup = tiktok_tutorial(1))
         msg2 = bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*\nSubmit your TikTok URL for battle\.\nType '_cancel_' to exit\.", parse_mode='MarkdownV2', reply_markup = tiktok_tutorial(1))
-        set_game_message(chat_info[1],None)
+        set_game_message(chat_info[1],'game')
         bot.register_next_step_handler(msg1, tiktok_url_step)
         bot.register_next_step_handler(msg2, tiktok_url_step)
 
@@ -1301,13 +1301,13 @@ def echo(call):
             set_game_message(chat_info[1],None)
             set_game_message(call.message.chat.id,None)
 
-        elif get_game_message(chat_info[1]) != None:
+        elif get_game_message(chat_info[1]).isdigit():
             msg1 = bot.send_message(call.message.chat.id,  "Yay another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\." ,parse_mode='markdownv2')
             bot.register_next_step_handler(msg1, tiktok_url_step)
             msg2 = bot.edit_message_text(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]), text = "Another round\!\nSubmit your next TikTok URL for battle:\nType '_cancel_' to exit\.",parse_mode='markdownv2')
             bot.register_next_step_handler(msg2, tiktok_url_step)
-            set_game_message(chat_info[1],None)
-            set_game_message(call.message.chat.id,None)
+            set_game_message(chat_info[1],'game')
+            set_game_message(call.message.chat.id,'game')
 
         else:
             sent = bot.send_message(call.message.chat.id, 'You have asked for another round. Waiting for user to reply...')
@@ -1324,7 +1324,7 @@ def echo(call):
             set_game_message(chat_info[1],None)
             set_game_message(call.message.chat.id,None)
 
-        elif get_game_message(chat_info[1]) != None:
+        elif get_game_message(chat_info[1]).isdigit():
             bot.send_message(call.message.chat.id, 'You chose not to have another round.')
             bot.edit_message_text(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]), text = 'User did not want another round.')
             set_game_message(chat_info[1],None)
@@ -1346,7 +1346,6 @@ def echo(call):
         player_id = int(info.split('-')[1])
         score = int(info.split('-')[2])
         set_tiktok_url(player_id,score)
-      
         
         if get_tiktok_url(call.message.chat.id).isdigit():
             bot.delete_message(chat_id=player_id, message_id=get_game_message(player_id))

@@ -393,18 +393,28 @@ def echo(message):
 def echo(message):
     if bool(get_active_chat(message.chat.id)):
         chat_info = get_active_chat(message.chat.id)
-       
+
         if get_game_message(message.chat.id) != None:
-            bot.send_message(message.chat.id, '❗ You have already sent a request for a game!')
-            return
-      
-        if get_game_message(chat_info[1]) != None:
-            bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game!.')
-            return
        
-        bot.send_message(chat_info[1], 'User has sent you a request for a game of *2Truths1Lie™*\.', reply_markup=ttol_menu(), parse_mode='MarkdownV2')
-        sent = bot.send_message(message.chat.id, 'You have sent a request for a *2Truths1Lie™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
-        set_game_message(message.chat.id,sent.message_id)
+            if get_game_message(message.chat.id).isdigit():
+                bot.send_message(message.chat.id, '❗ You have already sent a request for a game!')
+                return
+
+            else:
+                bot.send_message(message.chat.id, '❗ You are already in a game!')
+
+        elif get_game_message(chat_info[1]) != None:
+
+                if get_game_message(chat_info[1]).isdigit():
+                    bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game!.')
+                    return
+
+                else:
+                    bot.send_message(message.chat.id, '❗ You are already in a game!')
+        else:
+            bot.send_message(chat_info[1], 'User has sent you a request for a game of *2Truths1Lie™*\.', reply_markup=ttol_menu(), parse_mode='MarkdownV2')
+            sent = bot.send_message(message.chat.id, 'You have sent a request for a *2Truths1Lie™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
+            set_game_message(message.chat.id,sent.message_id)
 
     else:
         bot.send_message(message.chat.id, '❗ You have not started a chat!')
@@ -1152,7 +1162,8 @@ def echo(call):
         bot.delete_message(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]))
         msg1 = bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *2Truths1Lie™\!*\nPress 'start' to play\!", parse_mode='MarkdownV2', reply_markup = ttol_tutorial(1))
         msg2 = bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *2Truths1Lie™\!*\nPress 'start' to play\!", parse_mode='MarkdownV2', reply_markup = ttol_tutorial(1))
-        set_game_message(chat_info[1],'game') #In-game identifier
+        set_game_message(chat_info[1],'game')
+        set_game_message(call.message.chat.id,'game')#In-game identifier
 
     elif call.data == 'ttol_start':
         bot.answer_callback_query(call.id)
@@ -1218,7 +1229,7 @@ def echo(call):
             
             if get_game_message(chat_info[1]).isdigit():
                 bot.delete_message(chat_id=chat_info[1], message_id = get_game_message(chat_info[1]))
-                set_game_message(chat_info[1],'game')
+                set_game_message(chat_info[1],None)
                 truth1_1 = get_truth1(chat_info[1])
                 truth2_1 = get_truth2(chat_info[1])
                 lie_1 = get_lie(chat_info[1])
@@ -1284,6 +1295,7 @@ def echo(call):
         msg1 = bot.send_photo(chat_id = call.message.chat.id, photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*\nSubmit your TikTok URL for battle\.\nType '_cancel_' to exit\.", parse_mode='MarkdownV2', reply_markup = tiktok_tutorial(1))
         msg2 = bot.send_photo(chat_id = chat_info[1], photo = messages.tiktokbattle, caption = "Welcome to *TikTokBattle™\!*\nSubmit your TikTok URL for battle\.\nType '_cancel_' to exit\.", parse_mode='MarkdownV2', reply_markup = tiktok_tutorial(1))
         set_game_message(chat_info[1],'game')
+        set_game_message(call.message.chat.id,'game')
         bot.register_next_step_handler(msg1, tiktok_url_step)
         bot.register_next_step_handler(msg2, tiktok_url_step)
 

@@ -1318,6 +1318,8 @@ def echo(call):
         bot.answer_callback_query(call.id)
         bot.edit_message_reply_markup(chat_id = call.message.chat.id, message_id = call.message.message_id)
         chat_info = get_active_chat(call.message.chat.id)
+        bot.send_message(call.message.chat.id, 'You chose not to have another round.')
+        set_game_message(call.message.chat.id,'cancel')
         
         if get_game_message(chat_info[1]) == 'cancel':
             bot.send_message(call.message.chat.id, 'User also did not want another round.')
@@ -1325,13 +1327,10 @@ def echo(call):
             set_game_message(call.message.chat.id,None)
 
         elif get_game_message(chat_info[1]).isdigit():
-            bot.send_message(call.message.chat.id, 'You chose not to have another round.')
             bot.edit_message_text(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]), text = 'User did not want another round.')
             set_game_message(chat_info[1],None)
             set_game_message(call.message.chat.id,None)
-        else:
-            bot.send_message(call.message.chat.id, 'You chose not to have another round.')
-            set_game_message(call.message.chat.id,'cancel')
+            
 
     elif call.data == 'tiktok_decline':
         bot.answer_callback_query(call.id)

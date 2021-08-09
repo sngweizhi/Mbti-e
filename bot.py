@@ -325,6 +325,53 @@ def tiktok_tutorial(number):
   
     return markup
 
+def topics_menu():
+  markup = types.InlineKeyboardMarkup()
+  button1 = types.InlineKeyboardButton(text="Let's play! ☺",
+                                          callback_data='topics_accept')
+  button2 = types.InlineKeyboardButton(text='Decline',
+                                          callback_data='topics_decline')
+  markup.add(button1,button2)
+  return markup
+
+def topics_tutorial(number):
+    markup = types.InlineKeyboardMarkup()
+    if number == 1:
+        button1 = types.InlineKeyboardButton(text="Generate Topic", callback_data = 'topics_start')
+        button2 = types.InlineKeyboardButton(text="How to play »", callback_data = 'topics_step1')
+        markup.add(button1, button2)
+    elif number == 2:
+        button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'topics_step0')
+        button2 = types.InlineKeyboardButton(text="Next step »", callback_data = 'topics_step2')
+        markup.add(button1, button2)
+    elif number == 3:
+        button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'topics_step1')
+        button2 = types.InlineKeyboardButton(text="Next step »", callback_data = 'topics_step3')
+        markup.add(button1, button2)
+    elif number == 4:
+        button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'topics_step2')
+        button2 = types.InlineKeyboardButton(text="« Back to start", callback_data = 'topics_step0')
+        markup.add(button1, button2)
+
+    elif number == 11:
+        button1 = types.InlineKeyboardButton(text="How to play »", callback_data = 'topics_step11')
+        markup.add(button1)
+  
+    elif number == 12:
+        button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'topics_step10')
+        button2 = types.InlineKeyboardButton(text="Next step »", callback_data = 'topics_step12')
+        markup.add(button1, button2)
+    elif number == 13:
+        button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'topics_step11')
+        button2 = types.InlineKeyboardButton(text="Next step »", callback_data = 'topics_step13')
+        markup.add(button1, button2)
+    elif number == 14:
+        button1 = types.InlineKeyboardButton(text="« Back", callback_data = 'topics_step12')
+        button2 = types.InlineKeyboardButton(text="« Back to start", callback_data = 'topics_step10')
+        markup.add(button1, button2)
+
+    return markup
+
 ######## BASIC COMMANDS #########
 
 @bot.message_handler(commands = ['start'])
@@ -452,26 +499,45 @@ def mbti_cognitive_match(mbti1,mbti2): # Check for match in cognitive functions 
 
 @bot.message_handler(commands=['topic'])
 def echo(message):
-   if bool(get_active_chat(message.chat.id)):
-     chat_info = get_active_chat(message.chat.id)
-     bot.send_message(message.chat.id, 'You have rolled the dice for a random topic.')
-     bot.send_message(chat_info[1], 'User has rolled the dice for a random topic.')
-     mbti1 = get_mbti(message.chat.id)
-     mbti2 = get_mbti(chat_info[1])
-     match = mbti_cognitive_match(mbti1,mbti2)
-     if len(match) == 0:
-         if mbti1 == 'Not set':
-             match = ['Ni','Ne','Si','Se','Ti','Te','Fi','Fe']
-         else:
-             match = messages.mbti_cf[mbti1]
-     cognitive_func = random.choice(match)
-     msg = bot.send_dice(message.chat.id)
-     topic = messages.topics[cognitive_func][msg.dice.value]
-     sleep(3)
-     bot.send_message(message.chat.id, 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
-     bot.send_message(chat_info[1], 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
-   else:
-     bot.send_message(message.chat.id, '❗ You have not started a chat!')
+    if bool(get_active_chat(message.chat.id)):
+        chat_info = get_active_chat(message.chat.id)
+        
+        if get_game_message(message.chat.id) != None:
+            bot.send_message(message.chat.id, '❗ You have already sent a request for a game.')
+            return
+        
+        if get_game_message(chat_info[1]) != None:
+            bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game.')
+            return
+
+        bot.send_message(chat_info[1], 'User has sent you a request for *MBTI Topics™*\.', reply_markup=topics_menu(), parse_mode='MarkdownV2')
+        sent = bot.send_message(message.chat.id, 'You have sent a request for a *MBTI Topics™*\. You will be notified when user accepts or declines your request\.', parse_mode='MarkdownV2')
+        set_game_message(message.chat.id,sent.message_id)
+
+    else:
+        bot.send_message(message.chat.id, '❗ You have not started a chat!')
+
+
+   #if bool(get_active_chat(message.chat.id)):
+   #  chat_info = get_active_chat(message.chat.id)
+   #  bot.send_message(message.chat.id, 'You have rolled the dice for a random topic.')
+   #  bot.send_message(chat_info[1], 'User has rolled the dice for a random topic.')
+   #  mbti1 = get_mbti(message.chat.id)
+   #  mbti2 = get_mbti(chat_info[1])
+   #  match = mbti_cognitive_match(mbti1,mbti2)
+   #  if len(match) == 0:
+   #      if mbti1 == 'Not set':
+   #          match = ['Ni','Ne','Si','Se','Ti','Te','Fi','Fe']
+   #      else:
+   #          match = messages.mbti_cf[mbti1]
+   #  cognitive_func = random.choice(match)
+   #  msg = bot.send_dice(message.chat.id)
+   #  topic = messages.topics[cognitive_func][msg.dice.value]
+   #  sleep(3)
+   #  bot.send_message(message.chat.id, 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
+   #  bot.send_message(chat_info[1], 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
+   #else:
+   #  bot.send_message(message.chat.id, '❗ You have not started a chat!')
 
 @bot.message_handler(commands=['tiktok'])
 def echo(message):
@@ -1154,6 +1220,60 @@ def echo(call):
             bot.send_message(chat_info[1], 'Your match has ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
             bot.delete_message(call.message.chat.id, call.message.message_id)
             bot.send_message(call.message.chat.id, 'You have ended the chat. Input /start to start searching for another match!', reply_markup = types.ReplyKeyboardRemove())
+
+    elif call.data == 'topics_accept':
+        bot.answer_callback_query(call.id)
+        chat_info = get_active_chat(call.message.chat.id)
+        bot.delete_message(chat_id = call.message.chat.id, message_id = call.message.message_id)
+        bot.delete_message(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]))
+        msg1 = bot.send_photo(chat_id = call.message.chat.id, photo = messages.ttol, caption = "Welcome to *MBTI Topics™\!*", parse_mode='MarkdownV2', reply_markup = topics_tutorial(1))
+        msg2 = bot.send_photo(chat_id = chat_info[1], photo = messages.ttol, caption = "Welcome to *MBTI Topics™\!*", parse_mode='MarkdownV2', reply_markup = topics_tutorial(1))
+        set_game_message(chat_info[1],'game')
+        set_game_message(call.message.chat.id,'game') #In-game identifier
+
+    elif call.data == 'topics_start':
+         bot.answer_callback_query(call.id)
+         chat_info = get_active_chat(call.message.chat.id)
+         bot.send_message(call.message.chat.id, 'You have rolled the dice for a random topic.')
+         bot.send_message(chat_info[1], 'User has rolled the dice for a random topic.')
+         mbti1 = get_mbti(call.message.chat.id)
+         mbti2 = get_mbti(chat_info[1])
+         match = mbti_cognitive_match(mbti1,mbti2)
+         if len(match) == 0:
+             if mbti1 == 'Not set':
+                 match = ['Ni','Ne','Si','Se','Ti','Te','Fi','Fe']
+             else:
+                 match = messages.mbti_cf[mbti1]
+         cognitive_func = random.choice(match)
+         msg = bot.send_dice(call.message.chat.id)
+         topic = messages.topics[cognitive_func][msg.dice.value]
+         sleep(3)
+         bot.send_message(call.message.chat.id, 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
+         bot.send_message(chat_info[1], 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
+
+    elif call.data == 'topics_step0':
+        bot.answer_callback_query(call.id)
+        message_id = call.message.message_id
+        chat_id = call.message.chat.id
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.ttol, caption = "Welcome to *MBTI Topics™\!*", parse_mode='MarkdownV2'), reply_markup = topics_tutorial(1))
+
+    elif call.data == 'topics_step1':
+        bot.answer_callback_query(call.id)
+        message_id = call.message.message_id
+        chat_id = call.message.chat.id
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.ttol_step1, caption = 'Send your truth and lie statements to the bot, one by one.'), reply_markup = topics_tutorial(2))
+
+    elif call.data == 'topics_step2':
+        bot.answer_callback_query(call.id)
+        message_id = call.message.message_id
+        chat_id = call.message.chat.id
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.ttol_step2, caption = "Check if your statements are correct. Edit them if necessary. Hit 'Confirm and Submit' when you're done."), reply_markup = topics_tutorial(3))
+
+    elif call.data == 'topics_step3':
+        bot.answer_callback_query(call.id)
+        message_id = call.message.message_id
+        chat_id = call.message.chat.id
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.ttol_step3,  caption = "Finally, you will be sent a quiz. Try to guess your match's lie statement! Chat about your guesses and get to know one another!"), reply_markup = topics_tutorial(4))
 
     elif call.data == 'ttol_accept':
         bot.answer_callback_query(call.id)

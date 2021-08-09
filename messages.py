@@ -19,6 +19,11 @@ tiktokbattle = 'AgACAgUAAxkBAAIdUmEBgeUNk0p__Fp6_NxioxP-wqx3AAKMsDEbDJUJVG4thTbv
 tiktok_step1 = 'AgACAgUAAxkDAAIdN2EBcWdsXecLust3DcmKhl87b_JVAAKBsDEbDJUJVPQWSwkkjHROAQADAgADcwADIAQ'
 tiktok_step2 = 'AgACAgUAAxkBAAIdGGEBaRqqnjmbWoGzD5qUIvDbVhDGAAJ7sDEbDJUJVEe3dsv2QzHaAQADAgADeQADIAQ'
 tiktok_step3 = 'AgACAgUAAxkDAAIdOWEBcZDQPTr4cJxPQVA0bAShnSJZAAKCsDEbDJUJVO47X3uezXSdAQADAgADcwADIAQ'
+ttol = 'AgACAgUAAxkBAAIhs2EQ_AABWoRqMjhHyAJuxIZT7VYR2wACOK0xG9fziFSyBITg2Qq4CwEAAwIAA3kAAyAE'
+ttol_step1 = 'AgACAgUAAxkBAAIhtWEQ_BanlCQeCMQJBhCA4UoW58PcAAI5rTEb1_OIVBhz5txBtl8AAQEAAwIAA3MAAyAE'
+ttol_step2 = 'AgACAgUAAxkBAAIht2EQ_C3n_3FTe9EyQRUnzBQl-M52AAI6rTEb1_OIVMVo86rzUYggAQADAgADcwADIAQ'
+ttol_step3 = 'AgACAgUAAxkBAAIhuWEQ_EGb_zI6sHNR3H8baWzXUg6JAAI7rTEb1_OIVKiu7irF0dzqAQADAgADcwADIAQ'
+
 
 mbti_cf = {'ISFP': ['Fi','Se','Ni','Te'],'ISFJ': ['Si','Fe','Ti','Ne'], 'ISTP': ['Ti','Se','Ni','Fe'], 'ISTJ': ['Si','Te','Fi','Ne'], 'ESFP': ['Se','Fi','Te','Ni'], 'ESFJ': ['Fe','Si','Ne','Ti'], 'ESTP': ['Se','Ti','Fe','Ni'], 'ESTJ': ['Te','Si','Ne','Fi'], 'INFP': ['Fi','Ne','Si','Te'], 'INFJ': ['Ni','Fe','Ti','Se'], 'INTP': ['Ti','Ne','Si','Fe'], 'INTJ': ['Ni','Te','Fi','Se'], 'ENFP': ['Ne','Fi','Te','Si'], 'ENFJ': ['Fe','Ni','Se','Ti'], 'ENTP': ['Ne','Ti','Fe','Si'], 'ENTJ': ['Te','Ni','Se','Fi']}
 

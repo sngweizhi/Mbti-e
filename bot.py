@@ -372,6 +372,13 @@ def topics_tutorial(number):
 
     return markup
 
+def topics_reroll():
+  markup = types.InlineKeyboardMarkup()
+  button1 = types.InlineKeyboardButton(text="Change topic!",
+                                          callback_data='topics_start')
+  markup.add(button1)
+  return markup
+
 ######## BASIC COMMANDS #########
 
 @bot.message_handler(commands = ['start'])
@@ -503,6 +510,26 @@ def echo(message):
         chat_info = get_active_chat(message.chat.id)
         
         if get_game_message(message.chat.id) != None:
+
+            if get_game_message(message.chat.id) == 'topics':
+                 chat_info = get_active_chat(message.chat.id)
+                 bot.send_message(message.chat.id, 'You have rolled the dice for a random topic.')
+                 bot.send_message(chat_info[1], 'User has rolled the dice for a random topic.')
+                 mbti1 = get_mbti(message.chat.id)
+                 mbti2 = get_mbti(chat_info[1])
+                 match = mbti_cognitive_match(mbti1,mbti2)
+                 if len(match) == 0:
+                     if mbti1 == 'Not set':
+                         match = ['Ni','Ne','Si','Se','Ti','Te','Fi','Fe']
+                     else:
+                         match = messages.mbti_cf[mbti1]
+                 cognitive_func = random.choice(match)
+                 msg = bot.send_dice(message.chat.id)
+                 topic = messages.topics[cognitive_func][msg.dice.value]
+                 sleep(3)
+                 bot.send_message(message.chat.id, 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2', reply_markup = topics_reroll())
+                 bot.send_message(chat_info[1], 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
+
             bot.send_message(message.chat.id, '❗ You have already sent a request for a game.')
             return
         
@@ -1226,10 +1253,10 @@ def echo(call):
         chat_info = get_active_chat(call.message.chat.id)
         bot.delete_message(chat_id = call.message.chat.id, message_id = call.message.message_id)
         bot.delete_message(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]))
-        msg1 = bot.send_photo(chat_id = call.message.chat.id, photo = messages.ttol, caption = "Welcome to *MBTI Topics™\!*", parse_mode='MarkdownV2', reply_markup = topics_tutorial(1))
-        msg2 = bot.send_photo(chat_id = chat_info[1], photo = messages.ttol, caption = "Welcome to *MBTI Topics™\!*", parse_mode='MarkdownV2', reply_markup = topics_tutorial(1))
-        set_game_message(chat_info[1],'game')
-        set_game_message(call.message.chat.id,'game') #In-game identifier
+        msg1 = bot.send_photo(chat_id = call.message.chat.id, photo = messages.ttol, caption = "Welcome to *MBTI Topics™\!* Press 'Generate Topic' button or use \/topic to generate a random MBTI Topic.", parse_mode='MarkdownV2', reply_markup = topics_tutorial(1))
+        msg2 = bot.send_photo(chat_id = chat_info[1], photo = messages.ttol, caption = "Welcome to *MBTI Topics™\!* Press 'Generate Topic' button or use \/topic to generate a random MBTI Topic.", parse_mode='MarkdownV2', reply_markup = topics_tutorial(1))
+        set_game_message(chat_info[1],'topics')
+        set_game_message(call.message.chat.id,'topics') #In-game identifier
 
     elif call.data == 'topics_start':
          bot.answer_callback_query(call.id)
@@ -1248,14 +1275,14 @@ def echo(call):
          msg = bot.send_dice(call.message.chat.id)
          topic = messages.topics[cognitive_func][msg.dice.value]
          sleep(3)
-         bot.send_message(call.message.chat.id, 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
+         bot.send_message(call.message.chat.id, 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2', reply_markup = topics_reroll())
          bot.send_message(chat_info[1], 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
 
     elif call.data == 'topics_step0':
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.ttol, caption = "Welcome to *MBTI Topics™\!*", parse_mode='MarkdownV2'), reply_markup = topics_tutorial(1))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.ttol, caption = "Welcome to *MBTI Topics™\!* Press 'Generate Topic' button or use \/topic to generate a random MBTI Topic.", parse_mode='MarkdownV2'), reply_markup = topics_tutorial(1))
 
     elif call.data == 'topics_step1':
         bot.answer_callback_query(call.id)

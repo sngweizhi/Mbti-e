@@ -529,9 +529,10 @@ def echo(message):
                  sleep(3)
                  bot.send_message(message.chat.id, 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2', reply_markup = topics_reroll())
                  bot.send_message(chat_info[1], 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
-
-            bot.send_message(message.chat.id, '❗ You have already sent a request for a game.')
-            return
+                 
+            else:
+                bot.send_message(message.chat.id, '❗ You have already sent a request for a game.')
+                return
         
         if get_game_message(chat_info[1]) != None:
             bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game.')
@@ -1282,7 +1283,7 @@ def echo(call):
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.ttol, caption = "Welcome to *MBTI Topics™\!* Press 'Generate Topic' button or use \/topic to generate a random MBTI Topic.", parse_mode='MarkdownV2'), reply_markup = topics_tutorial(1))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.ttol, caption = "Welcome to *MBTI Topics™\!* Press 'Generate Topic' button or use \/topic to generate a random MBTI Topic\.", parse_mode='MarkdownV2'), reply_markup = topics_tutorial(1))
 
     elif call.data == 'topics_step1':
         bot.answer_callback_query(call.id)

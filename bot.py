@@ -448,7 +448,7 @@ def echo(message):
     if bool(get_active_chat(message.chat.id)):
         chat_info = get_active_chat(message.chat.id)
 
-        if get_game_message(message.chat.id) != None:
+        if get_game_message(message.chat.id) != None and get_game_message(message.chat.id) != 'topics':
        
             if get_game_message(message.chat.id).isdigit():
                 bot.send_message(message.chat.id, '❗ You have already sent a request for a game!')
@@ -457,7 +457,7 @@ def echo(message):
             else:
                 bot.send_message(message.chat.id, '❗ You are already in a game!')
 
-        elif get_game_message(chat_info[1]) != None:
+        elif get_game_message(chat_info[1]) != None and get_game_message(message.chat.id) != 'topics':
 
                 if get_game_message(chat_info[1]).isdigit():
                     bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game!.')
@@ -573,11 +573,11 @@ def echo(message):
     if bool(get_active_chat(message.chat.id)):
         chat_info = get_active_chat(message.chat.id)
         
-        if get_game_message(message.chat.id) != None:
+        if get_game_message(message.chat.id) != None and get_game_message(message.chat.id) != 'topics':
             bot.send_message(message.chat.id, '❗ You have already sent a request for a game.')
             return
         
-        if get_game_message(chat_info[1]) != None:
+        if get_game_message(chat_info[1]) != None and get_game_message(message.chat.id) != 'topics':
             bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game.')
             return
         

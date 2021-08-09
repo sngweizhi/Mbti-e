@@ -529,7 +529,8 @@ def echo(message):
                  sleep(3)
                  bot.send_message(message.chat.id, 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2', reply_markup = topics_reroll())
                  bot.send_message(chat_info[1], 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
-                 
+                 return
+
             else:
                 bot.send_message(message.chat.id, '❗ You have already sent a request for a game.')
                 return

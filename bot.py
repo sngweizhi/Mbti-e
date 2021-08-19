@@ -527,8 +527,8 @@ def echo(message):
                  msg = bot.send_dice(message.chat.id)
                  topic = messages.topics[cognitive_func][msg.dice.value]
                  sleep(3)
-                 bot.send_message(message.chat.id, 'Cognitive function: _{}_\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2', reply_markup = topics_reroll())
-                 bot.send_message(chat_info[1], 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
+                 bot.send_message(message.chat.id, '__Cognitive function: {}__\nTopic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2', reply_markup = topics_reroll())
+                 bot.send_message(chat_info[1], '__Cognitive function: {}__\nTopic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
                  return
 
             else:

@@ -1277,8 +1277,8 @@ def echo(call):
          msg = bot.send_dice(call.message.chat.id)
          topic = messages.topics[cognitive_func][msg.dice.value]
          sleep(3)
-         bot.send_message(call.message.chat.id, '__Cognitive function:{}__\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2', reply_markup = topics_reroll())
-         bot.send_message(chat_info[1], 'Cognitive function: *{}*\nRandom topic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
+         bot.send_message(call.message.chat.id, '__Cognitive function: {}__\nTopic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2', reply_markup = topics_reroll())
+         bot.send_message(chat_info[1], '__Cognitive function: {}__\nTopic: *{}*'.format(messages.cf[cognitive_func],topic), parse_mode='MarkdownV2')
 
     elif call.data == 'topics_step0':
         bot.answer_callback_query(call.id)

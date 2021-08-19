@@ -65,8 +65,16 @@ Updates:
   - Settings instead of setup
   - add submit URL button beside how to play
   - edit poll to quiz
+
+  - Cards against humanity battle. 30 seconds to think of a matching word to the given card. Funniest answer wins? 
+  - Fix already sent game but want to cancel.
 =  
 
   Add that 2truth1lie™, MBTITopics™ and TikTokBattle™ are games that are unique to this bot. This bot is not only for MBTI people but for anyone too.
   Add to Help: For reporting make sure that either report during active chat or report before starting a new chat.
   Purpose (add to start): purpose of the bot is to increase exposure of ppl to MBTI and see how well MBTI ties in. get feedback whether it works. if it does, create a real mobile app and promote MBTI matching for relationships/friendships
+
+  Why MBTI? I started looking at the dichotomies of Introversion/Extroversion, Thinking/Feeling, Intuition/Sensing, Judging/Perceiving as a tool to explore and learn about other people and myself. I learned that recognizing and balancing these dichotomies and recognizing them in others makes you a better communicator as well as more in tune to needs of others.
+  While there is an MBTI component to the bot, there is no need to use it. Its mainly a side experiment. the main goal of the bot is to transform the way dating is done. More games and quizzes will be introduced to facilitate better matches that hopefully turn into a long-lasting relationship.
+
+  Re:type means "about [personality] type" but also about correcting the errors in our relationships.

@@ -327,7 +327,7 @@ def tiktok_tutorial(number):
 
 def topics_menu():
   markup = types.InlineKeyboardMarkup()
-  button1 = types.InlineKeyboardButton(text="Let's play! ☺",
+  button1 = types.InlineKeyboardButton(text="Let's go! ☺",
                                           callback_data='topics_accept')
   button2 = types.InlineKeyboardButton(text='Decline',
                                           callback_data='topics_decline')
@@ -374,7 +374,7 @@ def topics_tutorial(number):
 
 def topics_reroll():
   markup = types.InlineKeyboardMarkup()
-  button1 = types.InlineKeyboardButton(text="Change topic!",
+  button1 = types.InlineKeyboardButton(text="Generate another topic!",
                                           callback_data='topics_start')
   markup.add(button1)
   return markup

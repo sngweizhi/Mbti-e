@@ -202,9 +202,11 @@ def help_menu():
   return markup
 
 def about_menu():
+    markup = types.InlineKeyboardMarkup()
     button1 = types.InlineKeyboardButton(text='« Back to Help',
                                           callback_data='backtohelp')
     markup.add(button1)
+    return markup
 
 def ttol_menu():
   markup = types.InlineKeyboardMarkup()

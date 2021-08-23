@@ -24,9 +24,9 @@ ttol_step1 = 'AgACAgUAAxkBAAIiB2ERCclRYP2b36qar-qfPxqzcL4YAAJMrTEb1_OIVGxmTSK5RL
 ttol_step2 = 'AgACAgUAAxkBAAIht2EQ_C3n_3FTe9EyQRUnzBQl-M52AAI6rTEb1_OIVMVo86rzUYggAQADAgADcwADIAQ'
 ttol_step3 = 'AgACAgUAAxkBAAIhuWEQ_EGb_zI6sHNR3H8baWzXUg6JAAI7rTEb1_OIVKiu7irF0dzqAQADAgADcwADIAQ'
 topics = 'AgACAgUAAxkBAAIkQWEjXeyvYyWbeuIGNkN_m33l5vFyAALKrTEb7o4hVdjIO13sgA65AQADAgADbQADIAQ'
-topics_step1
-topics_step2
-topics_step3
+topics_step1 =''
+topics_step2 = ''
+topics_step3 = ''
 
 
 

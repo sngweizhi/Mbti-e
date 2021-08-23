@@ -1290,19 +1290,19 @@ def echo(call):
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.topics_step1, caption = 'Send your truth and lie statements to the bot, one by one.'), reply_markup = topics_tutorial(2))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.topics_step1, caption = 'Click the button below to generate a topic. Topics are generated based on the MBTI cognitive functions that you and your match have in common.'), reply_markup = topics_tutorial(2))
 
     elif call.data == 'topics_step2':
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.topics_step2, caption = "Check if your statements are correct. Edit them if necessary. Hit 'Confirm and Submit' when you're done."), reply_markup = topics_tutorial(3))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.topics_step2, caption = "You may generate another topic using /topic."), reply_markup = topics_tutorial(3))
 
     elif call.data == 'topics_step3':
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.topics_step3,  caption = "Finally, you will be sent a quiz. Try to guess your match's lie statement! Chat about your guesses and get to know one another!"), reply_markup = topics_tutorial(4))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.topics_step3,  caption = "For more information about the 8 cognitive functions visit https://www.psychologyjunkie.com/2018/02/23/introduction-cognitive-functions-myers-briggs-theory/"), reply_markup = topics_tutorial(4))
 
     elif call.data == 'ttol_accept':
         bot.answer_callback_query(call.id)

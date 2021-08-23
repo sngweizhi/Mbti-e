@@ -1255,8 +1255,8 @@ def echo(call):
         chat_info = get_active_chat(call.message.chat.id)
         bot.delete_message(chat_id = call.message.chat.id, message_id = call.message.message_id)
         bot.delete_message(chat_id = chat_info[1], message_id = get_game_message(chat_info[1]))
-        msg1 = bot.send_photo(chat_id = call.message.chat.id, photo = messages.ttol, caption = "Welcome to *MBTI Topics™\!* Press 'Generate Topic' button or use \/topic to generate a random MBTI Topic\.", parse_mode='MarkdownV2', reply_markup = topics_tutorial(1))
-        msg2 = bot.send_photo(chat_id = chat_info[1], photo = messages.ttol, caption = "Welcome to *MBTI Topics™\!* Press 'Generate Topic' button or use \/topic to generate a random MBTI Topic\.", parse_mode='MarkdownV2', reply_markup = topics_tutorial(1))
+        msg1 = bot.send_photo(chat_id = call.message.chat.id, photo = messages.topics, caption = "Welcome to *MBTI Topics™\!* Press 'Generate Topic' button or use \/topic to generate a random MBTI Topic\.", parse_mode='MarkdownV2', reply_markup = topics_tutorial(1))
+        msg2 = bot.send_photo(chat_id = chat_info[1], photo = messages.topics, caption = "Welcome to *MBTI Topics™\!* Press 'Generate Topic' button or use \/topic to generate a random MBTI Topic\.", parse_mode='MarkdownV2', reply_markup = topics_tutorial(1))
         set_game_message(chat_info[1],'topics')
         set_game_message(call.message.chat.id,'topics') #In-game identifier
 

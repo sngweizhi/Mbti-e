@@ -10,8 +10,10 @@ types based on how they perceive the world and make decisions\. The bot will mat
 type\.\n\n*Use these commands control the bot:*\n/setup \- Setup or configure your profile\n/start \- Start matching\!\n/stop \- End the chat\n/icebreaker \- Send a 2 Truth 1 \
 Lie game to your match\!\n/topic \- Roll a dice for a random topic during a chat\!\n/report \- Report a user for any misconduct\.\n/feedback \- tell us how we can improve the bot\!"
 
-help = '*Help*\n\nThis section is being updated\. If you need help, contact the admin through the feedback function\!\n\n*List of commands:*\n/setup \- Setup or configure your profile\n/start \- Start matching\!\n/stop \- End the chat\n/icebreaker \- Send a 2 Truth 1 \
-Lie game to your match\!\n/topic \- Roll a dice for a random topic during a chat\!\n/report \- Report a user for any misconduct\.\n/feedback \- tell us how we can improve the bot\!'
+help = '*Re:Type Bot Help*\n\nIf the information you require is not listed below or if you need additional help, contact the admin through the feedback button\.\n\n*List of commands:*\n/setup \- Setup or configure your profile\n/start \- Start matching\!\n/stop \- End the chat\n/ttol \- Send a request to your match for a 2 Truth 1 \
+Lie game\!\n/tiktok \- Send a request to your match for a game of TikTokBattle\!\n/topic \- Roll a dice for a random MBTI topic during a chat\!\n/report \- Report a user for any misconduct\.\n/feedback \- Tell us how we can improve the bot\!'
+
+about = 'This bot was created because...'
 
 search_sticker = 'CAACAgUAAxkBAAIJxmDyqgXaYH7ZcxzHGZbOjwtaEqMAA54CAAKJ_JBXZilybC94gzggBA'
 match_sticker ='CAACAgUAAxkBAAIJ7WDyykDX_M8j0z3TCKanMmuDUt2tAAKOAwACPyqZV1g5tYcaYUa6IAQ'

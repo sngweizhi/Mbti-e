@@ -194,10 +194,17 @@ def help_menu():
                                               callback_data='make_feedback')
   button2 = types.InlineKeyboardButton(text='⚠ Report user',
                                           callback_data='make_report')
-  button3 = types.InlineKeyboardButton(text='« Back to Bot',
+  button3 = types.InlineKeyboardButton(text='About Re:Type Bot',
+                                          callback_data='about')
+  button4 = types.InlineKeyboardButton(text='« Back to Bot',
                                           callback_data='cancel_report')
-  markup = types.InlineKeyboardMarkup([[button1,button2],[button3]])
+  markup = types.InlineKeyboardMarkup([[button1,button2],[button3],[button4]])
   return markup
+
+def about_menu():
+    button1 = types.InlineKeyboardButton(text='« Back to Help',
+                                          callback_data='backtohelp')
+    markup.add(button1)
 
 def ttol_menu():
   markup = types.InlineKeyboardMarkup()
@@ -1544,7 +1551,12 @@ def echo(call):
             sent = bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = 'Waiting for user to rate your TikTok...')
             set_game_message(call.message.chat.id, sent.message_id)
 
-            
+    elif call.data == 'about':
+        bot.answer_callback_query(call.id)
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = messages.about, reply_markup = about_menu())
+
+    elif call.data == 'backtohelp':
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = messages.help, reply_markup=help_menu() ,parse_mode = 'MarkdownV2')
 
     elif call.data == 'NewChat':
 

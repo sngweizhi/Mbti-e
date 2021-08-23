@@ -23,6 +23,11 @@ ttol = 'AgACAgUAAxkBAAIh12ERAeUcX2cI9JJUjsfLEzLHgwABagACQ60xG9fziFQduMk7tA2-4AEA
 ttol_step1 = 'AgACAgUAAxkBAAIiB2ERCclRYP2b36qar-qfPxqzcL4YAAJMrTEb1_OIVGxmTSK5RLYiAQADAgADeAADIAQ'
 ttol_step2 = 'AgACAgUAAxkBAAIht2EQ_C3n_3FTe9EyQRUnzBQl-M52AAI6rTEb1_OIVMVo86rzUYggAQADAgADcwADIAQ'
 ttol_step3 = 'AgACAgUAAxkBAAIhuWEQ_EGb_zI6sHNR3H8baWzXUg6JAAI7rTEb1_OIVKiu7irF0dzqAQADAgADcwADIAQ'
+topics = 'AgACAgUAAxkBAAIkQWEjXeyvYyWbeuIGNkN_m33l5vFyAALKrTEb7o4hVdjIO13sgA65AQADAgADbQADIAQ'
+topics_step1
+topics_step2
+topics_step3
+
 
 
 mbti_cf = {'ISFP': ['Fi','Se','Ni','Te'],'ISFJ': ['Si','Fe','Ti','Ne'], 'ISTP': ['Ti','Se','Ni','Fe'], 'ISTJ': ['Si','Te','Fi','Ne'], 'ESFP': ['Se','Fi','Te','Ni'], 'ESFJ': ['Fe','Si','Ne','Ti'], 'ESTP': ['Se','Ti','Fe','Ni'], 'ESTJ': ['Te','Si','Ne','Fi'], 'INFP': ['Fi','Ne','Si','Te'], 'INFJ': ['Ni','Fe','Ti','Se'], 'INTP': ['Ti','Ne','Si','Fe'], 'INTJ': ['Ni','Te','Fi','Se'], 'ENFP': ['Ne','Fi','Te','Si'], 'ENFJ': ['Fe','Ni','Se','Ti'], 'ENTP': ['Ne','Ti','Fe','Si'], 'ENTJ': ['Te','Ni','Se','Fi']}

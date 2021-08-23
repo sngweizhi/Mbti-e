@@ -1284,25 +1284,25 @@ def echo(call):
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.ttol, caption = "Welcome to *MBTI Topics™\!* Press 'Generate Topic' button or use \/topic to generate a random MBTI Topic\.", parse_mode='MarkdownV2'), reply_markup = topics_tutorial(1))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.topics_step0, caption = "Welcome to *MBTI Topics™\!* Press 'Generate Topic' button or use \/topic to generate a random MBTI Topic\.", parse_mode='MarkdownV2'), reply_markup = topics_tutorial(1))
 
     elif call.data == 'topics_step1':
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.ttol_step1, caption = 'Send your truth and lie statements to the bot, one by one.'), reply_markup = topics_tutorial(2))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.topics_step1, caption = 'Send your truth and lie statements to the bot, one by one.'), reply_markup = topics_tutorial(2))
 
     elif call.data == 'topics_step2':
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.ttol_step2, caption = "Check if your statements are correct. Edit them if necessary. Hit 'Confirm and Submit' when you're done."), reply_markup = topics_tutorial(3))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.topics_step2, caption = "Check if your statements are correct. Edit them if necessary. Hit 'Confirm and Submit' when you're done."), reply_markup = topics_tutorial(3))
 
     elif call.data == 'topics_step3':
         bot.answer_callback_query(call.id)
         message_id = call.message.message_id
         chat_id = call.message.chat.id
-        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.ttol_step3,  caption = "Finally, you will be sent a quiz. Try to guess your match's lie statement! Chat about your guesses and get to know one another!"), reply_markup = topics_tutorial(4))
+        bot.edit_message_media(chat_id = chat_id, message_id = message_id, media = types.InputMediaPhoto(messages.topics_step3,  caption = "Finally, you will be sent a quiz. Try to guess your match's lie statement! Chat about your guesses and get to know one another!"), reply_markup = topics_tutorial(4))
 
     elif call.data == 'ttol_accept':
         bot.answer_callback_query(call.id)

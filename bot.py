@@ -194,7 +194,7 @@ def help_menu():
                                               callback_data='make_feedback')
   button2 = types.InlineKeyboardButton(text='⚠ Report user',
                                           callback_data='make_report')
-  button3 = types.InlineKeyboardButton(text='About Re:Type Bot',
+  button3 = types.InlineKeyboardButton(text='About Mbtie Bot',
                                           callback_data='about')
   button4 = types.InlineKeyboardButton(text='« Back to Bot',
                                           callback_data='cancel_report')

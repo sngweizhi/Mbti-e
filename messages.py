@@ -1,7 +1,7 @@
 
 
-welcome = "Welcome to *MBTInder Bot*, an anonymous chatbot for dating and making friends based on an MBTI matching algorithm\. \
-While MBTInder is a portmanteau of MBTI and Tinder, it seeks to address what tinder fails to do \
+welcome = "Welcome to *Mbtie*, an anonymous chatbot for dating and making friends based on an MBTI matching algorithm\. \
+This bot seeks to address what tinder fails to do \
 — *forge meaningful relationships*\. It does so in three ways:\n\n*1\. Anonymous chat*: \
 Users do not get to see each others' profile pictures, hence allowing conversations to be more genuine and less shallow\.\n\n*2\. \
 One chat at a time*: The bot only permits each person to have one conversation at a time, thereby allowing users to focus their attention on their one match\.\n\n*3\.\
@@ -10,7 +10,7 @@ types based on how they perceive the world and make decisions\. The bot will mat
 type\.\n\n*Use these commands control the bot:*\n/setup \- Setup or configure your profile\n/start \- Start matching\!\n/stop \- End the chat\n/icebreaker \- Send a 2 Truth 1 \
 Lie game to your match\!\n/topic \- Roll a dice for a random topic during a chat\!\n/report \- Report a user for any misconduct\.\n/feedback \- tell us how we can improve the bot\!"
 
-help = '*Re:Type Bot Help*\n\nIf the information you require is not listed below or if you need additional help, contact the admin through the feedback button\.\n\n*List of commands:*\n/setup \- Setup or configure your profile\n/start \- Start matching\!\n/stop \- End the chat\n/ttol \- Send a request to your match for a 2 Truth 1 \
+help = '*Mbtie Bot Help*\n\nIf the information you require is not listed below or if you need additional help, contact the admin through the feedback button\.\n\n*List of commands:*\n/setup \- Setup or configure your profile\n/start \- Start matching\!\n/stop \- End the chat\n/ttol \- Send a request to your match for a 2 Truth 1 \
 Lie game\!\n/tiktok \- Send a request to your match for a game of TikTokBattle\!\n/topic \- Roll a dice for a random MBTI topic during a chat\!\n/report \- Report a user for any misconduct\.\n/feedback \- Tell us how we can improve the bot\!'
 
 about = 'This bot was created because...'

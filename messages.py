@@ -13,7 +13,7 @@ Lie game to your match\!\n/topic \- Roll a dice for a random topic during a chat
 help = '*Mbtie Bot Help*\n\nIf the information you require is not listed below or if you need additional help, contact the admin through the feedback button\.\n\n*List of commands:*\n/setup \- Setup or configure your profile\n/start \- Start matching\!\n/stop \- End the chat\n/ttol \- Send a request to your match for a 2 Truth 1 \
 Lie game\!\n/tiktok \- Send a request to your match for a game of TikTokBattle\!\n/topic \- Roll a dice for a random MBTI topic during a chat\!\n/report \- Report a user for any misconduct\.\n/feedback \- Tell us how we can improve the bot\!'
 
-about = 'This bot was created because...'
+about = 'This bot was by @designsynergy to help improve the dating experience.'
 
 search_sticker = 'CAACAgUAAxkBAAIJxmDyqgXaYH7ZcxzHGZbOjwtaEqMAA54CAAKJ_JBXZilybC94gzggBA'
 match_sticker ='CAACAgUAAxkBAAIJ7WDyykDX_M8j0z3TCKanMmuDUt2tAAKOAwACPyqZV1g5tYcaYUa6IAQ'

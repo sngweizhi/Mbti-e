@@ -894,8 +894,8 @@ def tiktok_url_step(message):
         bot.send_message(message.chat.id,'You have cancelled the TikTokBattle™')
         set_game_message(chat_info[1],'cancel')
         set_tiktok_url(chat_info[1],None)
-        set_game_message(chat_info[0],'cancel')
-        set_tiktok_url(chat_info[0],None)
+        set_game_message(message.chat.id,'cancel')
+        set_tiktok_url(message.chat.id,None)
         return
     url = re.match(r'^https://vt.tiktok.com/' ,message.text)
     if url == None:

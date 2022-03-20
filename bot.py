@@ -583,7 +583,7 @@ def echo(message):
     if bool(get_active_chat(message.chat.id)):
         chat_info = get_active_chat(message.chat.id)
         
-        if get_game_message(message.chat.id) != None and get_game_message(message.chat.id) != 'topics':
+        if get_game_message(message.chat.id) != None and get_game_message(message.chat.id) != 'topics' and get_game_message(message.chat.id) != 'cancel':
             bot.send_message(message.chat.id, '❗ You have already sent a request for a game.')
             return
         

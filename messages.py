@@ -11,7 +11,7 @@ type\.\n\n*Use these commands to control the bot:*\n/setup \- Setup or configure
 !\n/tiktok \- Play TikTok Battle\!\n/topic \- Play MBTI Topics\!\n/report \- Report a user for any misconduct\.\n/feedback \- tell us how we can improve the bot\!"
 
 help = '*Mbtie Bot Help*\n\nIf the information you require is not listed below or if you need additional help, contact the admin through the feedback button\.\n\n*List of commands:*\n/setup \- Setup or configure your profile\n/start \- Start matching\!\n/stop \- End the chat\n/ttol \- Send a request to your match for a 2 Truth 1 \
-Lie game\!\n/tiktok \- Send a request to your match for a game of TikTokBattle\!\n/topic \- Roll a dice for a random MBTI topic during a chat\!\n/UserID \- Check your Mbtie User ID for direct messaging\.\n/directmessage \- Directly match with someone you know with their Mbtie User ID\.\n/report \- Report a user for any misconduct\.\n/feedback \- Tell us how we can improve the bot\!'
+Lie game\!\n/tiktok \- Send a request to your match for a game of TikTokBattle\!\n/topic \- Roll a dice for a random MBTI topic during a chat\!\n/userid \- Check your Mbtie User ID for direct messaging\.\n/directmessage \- Directly match with someone you know with their Mbtie User ID\.\n/report \- Report a user for any misconduct\.\n/feedback \- Tell us how we can improve the bot\!'
 
 about = 'This bot was created by @designsynergy to imagine a different kind of dating experience. Unfortunately, it is no longer under development.'
 

@@ -716,7 +716,7 @@ def echo(message):
     #else:
         #return
 
-@bot.message_handler(commands=['UserID'])
+@bot.message_handler(commands=['userid'])
 def echo(message):
     bot.send_message(message.chat.id,'Your Mbtie User ID is:{}'.format(message.chat.id))
   

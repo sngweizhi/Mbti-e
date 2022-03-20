@@ -505,7 +505,7 @@ def del_banned(chat_id):
 #Create a model
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    chat_id = db.Column(db.Integer, unique=True) 
+    chat_id = db.Column(db.Integer, unique=True) #change to bigint to support larger chat_id 
     gender = db.Column(db.String(60))
     gendermatch = db.Column(db.String(60))
     seeking = db.Column(db.String(60))

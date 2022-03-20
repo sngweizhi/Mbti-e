@@ -54,11 +54,11 @@ Updates:
   - Add admin direct message function [Done]
   - Use register next step handler check pytelegrambotapi step example [Done]
   - Prompt users to share contact after a certain time during chat?
-  - Add image for 2truth1Lie, MBTITopics, TikTokBattle
-
+  - Add image for 2truth1Lie, MBTITopics, TikTokBattle [Done]
+  - Add directmessage for matching friends directly [Done]
 
   - include a tutorial?
-  - add respin dice for /topic
+  - add respin dice for /topic [Done]
   - add profile pic for settings page? Animated character? Paid users can get better
   - delete last sent message in case accidental sent
   - Roulette for funny things to do.

@@ -7,13 +7,13 @@ Users do not get to see each others' profile pictures, hence allowing conversati
 One chat at a time*: The bot only permits each person to have one conversation at a time, thereby allowing users to focus their attention on their one match\.\n\n*3\.\
 MBTI matching algorithm*: The Myers Briggs Type Indicator is a well\-known personality profiling instrument that categorizes people into 16 different personality\
 types based on how they perceive the world and make decisions\. The bot will match you with others who have a compatible personality \
-type\.\n\n*Use these commands control the bot:*\n/setup \- Setup or configure your profile\n/start \- Start matching\!\n/stop \- End the chat\n/icebreaker \- Send a 2 Truth 1 \
-Lie game to your match\!\n/topic \- Roll a dice for a random topic during a chat\!\n/report \- Report a user for any misconduct\.\n/feedback \- tell us how we can improve the bot\!"
+type\.\n\n*Use these commands to control the bot:*\n/setup \- Setup or configure your profile\n/start \- Start matching\!\n/stop \- End the chat\n/ttol \- Play 2 Truth 1 Lie \
+!\n/tiktok \- Play TikTok Battle\!\n/topic \- Play MBTI Topics\!\n/report \- Report a user for any misconduct\.\n/feedback \- tell us how we can improve the bot\!"
 
 help = '*Mbtie Bot Help*\n\nIf the information you require is not listed below or if you need additional help, contact the admin through the feedback button\.\n\n*List of commands:*\n/setup \- Setup or configure your profile\n/start \- Start matching\!\n/stop \- End the chat\n/ttol \- Send a request to your match for a 2 Truth 1 \
-Lie game\!\n/tiktok \- Send a request to your match for a game of TikTokBattle\!\n/topic \- Roll a dice for a random MBTI topic during a chat\!\n/report \- Report a user for any misconduct\.\n/feedback \- Tell us how we can improve the bot\!'
+Lie game\!\n/tiktok \- Send a request to your match for a game of TikTokBattle\!\n/topic \- Roll a dice for a random MBTI topic during a chat\!\n/UserID \- Check your Mbtie User ID for direct messaging\.\n/directmessage \- Directly match with someone you know with their Mbtie User ID\.\n/report \- Report a user for any misconduct\.\n/feedback \- Tell us how we can improve the bot\!'
 
-about = 'This bot was by @designsynergy to help improve the dating experience.'
+about = 'This bot was created by @designsynergy to imagine a different kind of dating experience. Unfortunately, it is no longer under development.'
 
 search_sticker = 'CAACAgUAAxkBAAIJxmDyqgXaYH7ZcxzHGZbOjwtaEqMAA54CAAKJ_JBXZilybC94gzggBA'
 match_sticker ='CAACAgUAAxkBAAIJ7WDyykDX_M8j0z3TCKanMmuDUt2tAAKOAwACPyqZV1g5tYcaYUa6IAQ'

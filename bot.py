@@ -561,6 +561,7 @@ def echo(message):
    #  bot.send_message(message.chat.id, 'You have rolled the dice for a random topic.')
    #  bot.send_message(chat_info[1], 'User has rolled the dice for a random topic.')
    #  mbti1 = get_mbti(message.chat.id)
+   #  mbti1 = get_mbti(message.chat.id)
    #  mbti2 = get_mbti(chat_info[1])
    #  match = mbti_cognitive_match(mbti1,mbti2)
    #  if len(match) == 0:
@@ -612,7 +613,7 @@ def echo(message):
     elif get_last_chat(message.chat.id) != None:
         bot.send_message(message.chat.id, 'Do you wish to make a report\? You will be asked to enter your reason for reporting \(e\.g\. harassment, impersonation, advertising services\)\.\n\n*Misuse of the reporting system will result in a ban*\.', reply_markup=report_make(),parse_mode='MarkdownV2')
     else:
-        bot.send_message(message.chat.id, '❗ Chat history not found! Please contact the admin @zeigarnik for assistance.')
+        bot.send_message(message.chat.id, '❗ Chat history not found! Please contact the admin @designsynergy for assistance.')
 
 
 @bot.message_handler(commands=['feedback'])
@@ -703,13 +704,22 @@ def echo(message):
     else:
         return
 
-@bot.message_handler(commands=['directmessage'])
+@bot.message_handler(commands=['directmessage']) #allows users to direct message friends
 def echo(message):
-    if message.chat.id in admins:
-        msg = bot.send_message(message.chat.id,'Send chat_id to create chat with:')
-        bot.register_next_step_handler(msg, direct_message_step)
+    #if message.chat.id in admins:
+    if setup_complete(message.chat.id) == False:
+      bot.send_message(message.chat.id, '❗ Please setup your profile first! /setup')
+      return
     else:
-        return
+        msg = bot.send_message(message.chat.id,'Send Mbtie user id to create chat with:')
+        bot.register_next_step_handler(msg, direct_message_step)
+    #else:
+        #return
+
+@bot.message_handler(commands=['UserID'])
+def echo(message):
+    bot.send_message(message.chat.id,'Your Mbtie User ID is:{}'.format(message.chat.id))
+  
 
 #### Next Step Handlers ####
 def set_truth1_step(message):
@@ -850,20 +860,26 @@ def give_feedback_step(message):
 
 def direct_message_step(message):
       user = int(message.text)
-      if bool(get_user(user)):
-          if get_active_chat(user) == None:
-              if get_queue(user) != None:
-                  msg = get_message_id(user)
-                  bot.delete_message(user, msg)
-                  bot.delete_message(user, int(msg)-1)
-              create_chat(message.chat.id, user)
-              bot.send_message(user, '*You have entered a chat with an admin\.*', parse_mode='MarkdownV2')
-              bot.send_message(message.chat.id, '*You have entered a chat with {}\.*'.format(message.text), parse_mode='MarkdownV2')
+      if get_active_chat(user) == None:
+          if user != message.chat.id:
+              if bool(get_user(user)):
+                  if get_active_chat(user) == None:
+                      if get_queue(user) != None:
+                          msg = get_message_id(user)
+                          bot.delete_message(user, msg)
+                          bot.delete_message(user, int(msg)-1)
+                      create_chat(message.chat.id, user)
+                      bot.send_message(user, '*You have entered a chat with {}\.*'.format(message.chat.id), parse_mode='MarkdownV2')
+                      bot.send_message(message.chat.id, '*You have entered a chat with {}\.*'.format(message.text), parse_mode='MarkdownV2')
           
+                  else:
+                      bot.send_message(message.chat.id, 'User is currently in a chat!')
+              else:
+                  bot.send_message(message.chat.id, 'User does not exist!')
           else:
-              bot.send_message(message.chat.id, 'User is currently in a chat!')
+              bot.send_message(message.chat.id, 'You cannot message yourself!')
       else:
-          bot.send_message(message.chat.id, 'User does not exist!')
+          bot.send_message(message.chat.id, 'You are already in a chat!')
 
 def tiktok_url_step(message):
     chat_info = get_active_chat(message.chat.id)
@@ -1558,6 +1574,7 @@ def echo(call):
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = messages.about, reply_markup = about_menu())
 
     elif call.data == 'backtohelp':
+        bot.answer_callback_query(call.id)
         bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = messages.help, reply_markup=help_menu() ,parse_mode = 'MarkdownV2')
 
     elif call.data == 'NewChat':

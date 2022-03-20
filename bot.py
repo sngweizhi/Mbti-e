@@ -587,7 +587,7 @@ def echo(message):
             bot.send_message(message.chat.id, '❗ You have already sent a request for a game.')
             return
         
-        if get_game_message(chat_info[1]) != None and get_game_message(message.chat.id) != 'topics':
+        if get_game_message(chat_info[1]) != None and get_game_message(chat_info[1]) != 'topics' and get_game_message(chat_info[1]) != 'cancel':
             bot.send_message(message.chat.id, '❗ Other user has already sent you a request for a game.')
             return
         
@@ -894,6 +894,8 @@ def tiktok_url_step(message):
         bot.send_message(message.chat.id,'You have cancelled the TikTokBattle™')
         set_game_message(chat_info[1],'cancel')
         set_tiktok_url(chat_info[1],None)
+        set_game_message(chat_info[0],'cancel')
+        set_tiktok_url(chat_info[0],None)
         return
     url = re.match(r'^https://vt.tiktok.com/' ,message.text)
     if url == None:

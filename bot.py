@@ -718,7 +718,8 @@ def echo(message):
 
 @bot.message_handler(commands=['userid'])
 def echo(message):
-    bot.send_message(message.chat.id,'Your Mbtie User ID is:{}'.format(message.chat.id))
+    bot.send_message(message.chat.id,'Your Mbtie User ID is:')
+    bot.send_message(message.chat.id, '{}'.format(message.chat.id))
   
 
 #### Next Step Handlers ####

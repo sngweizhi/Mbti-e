@@ -932,7 +932,7 @@ def tiktok_url_step(message):
             sent = bot.send_message(message.chat.id, 'TikTok submitted. Waiting for user to submit theirs...')
             set_game_message(message.chat.id,sent.message_id)
     else:
-        msg =bot.send_message(message.chat.id, 'Invalid URL! Please ensure it is in the format of vt.tiktok.com or tiktok.com')
+        msg =bot.send_message(message.chat.id, "Invalid URL\! Please ensure it is in the format of vt\.tiktok\.com or tiktok\.com\. Type '_cancel_' to exit game\.",parse_mode = 'MarkdownV2')
         bot.register_next_step_handler(msg, tiktok_url_step)
 
 @bot.message_handler(content_types=['location'])

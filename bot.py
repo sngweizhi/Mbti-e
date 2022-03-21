@@ -301,9 +301,9 @@ def tiktok_rating(chat_id):
     button9 = types.InlineKeyboardButton(text='9',
                                           callback_data='ttbattle-{}-9'.format(chat_id))
     button10 = types.InlineKeyboardButton(text='10',
-                                          callback_data='ttbattle-{}-10'.format(chat_id))
+                                          callback_data='ttbattle-{}-91'.format(chat_id))
     button11 = types.InlineKeyboardButton(text='😂💯❤️',
-                                          callback_data='ttbattle-{}-100'.format(chat_id))
+                                          callback_data='ttbattle-{}-92'.format(chat_id))
     markup = types.InlineKeyboardMarkup([[button1,button2,button3,button4,button5],[button6,button7,button8,button9,button10],[button11]])
     return markup
 
@@ -1546,17 +1546,24 @@ def echo(call):
             set_game_message(call.message.chat.id,None)
             user = get_tiktok_url(call.message.chat.id)
             other = get_tiktok_url(player_id)
+            scoreconversion = {"1":"1","2":"2","3":"3","4":"4","5":"5","6":"6","7":"7","8":"8","9":"9","91":"10","92":"100"} #this is because database of score is str based, 10 and 100 needs to be converted to 91 and 92 respectively
             if other > user:
                 set_tiktok_win(player_id)
+                user = scoreconversion[user]
+                other = scoreconversion[other]
                 bot.send_message(call.message.chat.id, 'User rated your TikTok *{}*\.\nYou rated their TikTok *{}*\.\n\n*🙊 User won the battle\!*'.format(user,other), parse_mode='MarkdownV2')
                 bot.send_message(player_id, 'User rated your TikTok *{}*\.\nYou rated their TikTok *{}*\.\n\n*🏆 You won the battle\!*'.format(other,user), parse_mode='MarkdownV2')
 
             elif user > other:
                 set_tiktok_win(call.message.chat.id)
+                user = scoreconversion[user]
+                other = scoreconversion[other]
                 bot.send_message(call.message.chat.id, 'User rated your TikTok *{}*\.\nYou rated their TikTok *{}*\.\n\n*🏆 You won the battle\!*'.format(user,other), parse_mode='MarkdownV2')
                 bot.send_message(player_id, 'User rated your TikTok *{}*\.\nYou rated their TikTok *{}*\.\n\n*🙊 User won the battle\!*'.format(other,user), parse_mode='MarkdownV2')
 
             elif user == other:
+                user = scoreconversion[user]
+                other = scoreconversion[other]
                 bot.send_message(call.message.chat.id, "User rated your TikTok *{}*\.\nYou rated their TikTok *{}*\.\n\n*👔 It\'s a tie\!*".format(user,other), parse_mode='MarkdownV2')
                 bot.send_message(player_id, "User rated your TikTok *{}*\.\nYou rated their TikTok *{}*\.\n\n*👔 It\'s a tie\!*".format(other,user), parse_mode='MarkdownV2')
 

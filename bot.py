@@ -888,6 +888,7 @@ def tiktok_url_step(message):
     if get_game_message(message.chat.id)=='cancel':
         bot.send_message(message.chat.id, 'User has cancelled the TikTokBattle™')
         set_game_message(message.chat.id,None)
+        set_game_message(chat_info[1],None)
         return
 
     if message.text == 'cancel' or message.text == 'Cancel':
